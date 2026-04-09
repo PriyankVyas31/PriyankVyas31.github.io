@@ -663,6 +663,103 @@
             transform: translateY(0);
         }
 
+        /* --- Photo Gallery --- */
+        .photo-gallery {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+        .photo-gallery img {
+            width: 220px;
+            height: 290px;
+            object-fit: cover;
+            border-radius: 16px;
+            border: 2px solid var(--border);
+            transition: all 0.3s;
+        }
+        .photo-gallery img:hover {
+            border-color: var(--accent);
+            transform: scale(1.03);
+            box-shadow: 0 8px 30px rgba(59,130,246,0.2);
+        }
+
+        /* --- Company Logos Marquee --- */
+        .companies-section {
+            padding: 3rem 0;
+            overflow: hidden;
+            background: var(--bg-card);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+        .companies-section .section-label,
+        .companies-section .section-title {
+            text-align: center;
+        }
+        .companies-section .section-title {
+            margin-bottom: 2rem;
+        }
+        .marquee-wrapper {
+            overflow: hidden;
+            position: relative;
+            mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+            -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+        }
+        .marquee-track {
+            display: flex;
+            gap: 3rem;
+            animation: marquee 30s linear infinite;
+            width: max-content;
+        }
+        .marquee-track:hover { animation-play-state: paused; }
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .company-chip {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.6rem 1.25rem;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            white-space: nowrap;
+            flex-shrink: 0;
+            transition: border-color 0.3s;
+        }
+        .company-chip:hover { border-color: var(--accent); }
+        .company-chip img {
+            width: 22px;
+            height: 22px;
+            border-radius: 4px;
+            object-fit: contain;
+        }
+        .company-chip span {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        /* --- YouTube Section --- */
+        .youtube-section {
+            text-align: center;
+        }
+        .youtube-embed {
+            max-width: 640px;
+            margin: 0 auto;
+            border-radius: 14px;
+            overflow: hidden;
+            border: 2px solid var(--border);
+        }
+        .youtube-embed iframe {
+            width: 100%;
+            aspect-ratio: 16/9;
+            border: none;
+            display: block;
+        }
+
         /* --- Responsive --- */
         @media (max-width: 768px) {
             .nav-links { display: none; }
@@ -713,6 +810,13 @@
             <a href="#sessions" class="btn btn-primary">Book a Session</a>
             <a href="#experience" class="btn btn-outline">View Experience</a>
         </div>
+
+        <!-- Photo Gallery -->
+        <div class="photo-gallery" style="margin-top:3rem;">
+            <img src="images/priyank-office.jpg" alt="Priyank at Microsoft office" loading="lazy">
+            <img src="images/priyank-microsoft.jpg" alt="Priyank at Microsoft campus" loading="lazy">
+            <img src="images/priyank-building.jpg" alt="Priyank at Microsoft Bengaluru" loading="lazy">
+        </div>
     </div>
 </section>
 
@@ -749,6 +853,51 @@
         </div>
     </div>
 </section>
+
+<!-- Companies I've Interviewed With -->
+<div class="companies-section">
+    <div class="container">
+        <p class="section-label" style="text-align:center;">Interviews Cleared</p>
+        <h2 class="section-title" style="text-align:center;">25+ Companies I've Interviewed With</h2>
+    </div>
+    <div class="marquee-wrapper">
+        <div class="marquee-track">
+            <div class="company-chip"><img src="https://logo.clearbit.com/google.com" alt="Google"><span>Google</span></div>
+            <div class="company-chip"><img src="https://logo.clearbit.com/microsoft.com" alt="Microsoft"><span>Microsoft</span></div>
+            <div class="company-chip"><img src="https://logo.clearbit.com/amazon.com" alt="Amazon"><span>Amazon</span></div>
+            <div class="company-chip"><img src="https://logo.clearbit.com/netflix.com" alt="Netflix"><span>Netflix</span></div>
+            <div class="company-chip"><img src="https://logo.clearbit.com/nvidia.com" alt="Nvidia"><span>Nvidia</span></div>
+            <div class="company-chip"><img src="https://logo.clearbit.com/cisco.com" alt="Cisco"><span>Cisco</span></div>
+            <div class="company-chip"><img src="https://logo.clearbit.com/arista.com" alt="Arista"><span>Arista Networks</span></div>
+            <div class="company-chip"><img src="https://logo.clearbit.com/juniper.net" alt="Juniper"><span>Juniper Networks</span></div>
+            <div class="company-chip"><img src="https://logo.clearbit.com/intel.com" alt="Intel"><span>Intel</span></div>
+            <div class="company-chip"><img src="https://logo.clearbit.com/oracle.com" alt="Oracle"><span>Oracle</span></div>
+            <div class="company-chip"><img src="https://logo.clearbit.com/qualcomm.com" alt="Qualcomm"><span>Qualcomm</span></div>
+            <div class="company-chip"><img src="https://logo.clearbit.com/openai.com" alt="OpenAI"><span>OpenAI</span></div>
+            <div class="company-chip"><img src="https://logo.clearbit.com/anthropic.com" alt="Anthropic"><span>Anthropic</span></div>
+            <div class="company-chip"><img src="https://logo.clearbit.com/rubrik.com" alt="Rubrik"><span>Rubrik</span></div>
+            <div class="company-chip"><img src="https://logo.clearbit.com/thoughtspot.com" alt="ThoughtSpot"><span>ThoughtSpot</span></div>
+            <div class="company-chip"><img src="https://logo.clearbit.com/broadcom.com" alt="Broadcom"><span>Broadcom</span></div>
+            <!-- Duplicate for seamless loop -->
+            <div class="company-chip"><img src="https://logo.clearbit.com/google.com" alt="Google"><span>Google</span></div>
+            <div class="company-chip"><img src="https://logo.clearbit.com/microsoft.com" alt="Microsoft"><span>Microsoft</span></div>
+            <div class="company-chip"><img src="https://logo.clearbit.com/amazon.com" alt="Amazon"><span>Amazon</span></div>
+            <div class="company-chip"><img src="https://logo.clearbit.com/netflix.com" alt="Netflix"><span>Netflix</span></div>
+            <div class="company-chip"><img src="https://logo.clearbit.com/nvidia.com" alt="Nvidia"><span>Nvidia</span></div>
+            <div class="company-chip"><img src="https://logo.clearbit.com/cisco.com" alt="Cisco"><span>Cisco</span></div>
+            <div class="company-chip"><img src="https://logo.clearbit.com/arista.com" alt="Arista"><span>Arista Networks</span></div>
+            <div class="company-chip"><img src="https://logo.clearbit.com/juniper.net" alt="Juniper"><span>Juniper Networks</span></div>
+            <div class="company-chip"><img src="https://logo.clearbit.com/intel.com" alt="Intel"><span>Intel</span></div>
+            <div class="company-chip"><img src="https://logo.clearbit.com/oracle.com" alt="Oracle"><span>Oracle</span></div>
+            <div class="company-chip"><img src="https://logo.clearbit.com/qualcomm.com" alt="Qualcomm"><span>Qualcomm</span></div>
+            <div class="company-chip"><img src="https://logo.clearbit.com/openai.com" alt="OpenAI"><span>OpenAI</span></div>
+            <div class="company-chip"><img src="https://logo.clearbit.com/anthropic.com" alt="Anthropic"><span>Anthropic</span></div>
+            <div class="company-chip"><img src="https://logo.clearbit.com/rubrik.com" alt="Rubrik"><span>Rubrik</span></div>
+            <div class="company-chip"><img src="https://logo.clearbit.com/thoughtspot.com" alt="ThoughtSpot"><span>ThoughtSpot</span></div>
+            <div class="company-chip"><img src="https://logo.clearbit.com/broadcom.com" alt="Broadcom"><span>Broadcom</span></div>
+        </div>
+    </div>
+</div>
 
 <!-- Skills -->
 <section id="skills">
@@ -1099,7 +1248,68 @@
                 </div>
             </div>
 
+            <div class="testimonial-card fade-up">
+                <div class="testimonial-stars">★★★★★</div>
+                <blockquote>"Had a wonderful and insightful conversation with Priyank Bhai through Topmate. He is extremely approachable, knowledgeable, and provides practical advice that truly helps in career planning and interview preparation. The session gave me great clarity and confidence about my next steps. I genuinely appreciate his guidance and would highly recommend connecting with him to anyone seeking professional growth and direction."</blockquote>
+                <div class="testimonial-author">
+                    <div class="author-avatar">HM</div>
+                    <div>
+                        <div class="author-name">Harsh Mehta</div>
+                        <div class="author-date">12th Nov, 2025</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-card fade-up">
+                <div class="testimonial-stars">★★★★★</div>
+                <blockquote>"The advice helped me improve clarity, structure, and alignment with industry standards."</blockquote>
+                <div class="testimonial-author">
+                    <div class="author-avatar">BV</div>
+                    <div>
+                        <div class="author-name">Bhupendra Vyas</div>
+                        <div class="author-date">31st Aug, 2025</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-card fade-up">
+                <div class="testimonial-stars">★★★★★</div>
+                <blockquote>"Priyank provided me with confidence, clearly addressed my doubts, and even extended a few extra minutes to resolve my queries. Thank you for the support."</blockquote>
+                <div class="testimonial-author">
+                    <div class="author-avatar">AT</div>
+                    <div>
+                        <div class="author-name">Anjali Thakur</div>
+                        <div class="author-date">18th Dec, 2025</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-card fade-up">
+                <div class="testimonial-stars">★★★★★</div>
+                <blockquote>"Priyank is very helpful &amp; knowledgeable. Got a lot of clarity &amp; interview insights after having a discussion with him."</blockquote>
+                <div class="testimonial-author">
+                    <div class="author-avatar">MS</div>
+                    <div>
+                        <div class="author-name">Mohit Sharma</div>
+                        <div class="author-date">22nd Nov, 2025</div>
+                    </div>
+                </div>
+            </div>
+
         </div>
+    </div>
+</section>
+
+<!-- YouTube Podcast -->
+<section id="youtube" class="youtube-section">
+    <div class="container">
+        <p class="section-label">Podcast</p>
+        <h2 class="section-title">Watch My YouTube</h2>
+        <div class="youtube-embed fade-up">
+            <!-- Replace VIDEO_ID with your actual YouTube video/channel ID -->
+            <iframe src="https://www.youtube.com/embed/VIDEO_ID" title="Priyank Vyas Podcast" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <p style="margin-top:1.25rem;"><a href="https://www.youtube.com/@YOUR_CHANNEL" target="_blank" rel="noopener noreferrer" style="color:var(--accent);font-weight:600;text-decoration:none;">Subscribe on YouTube →</a></p>
     </div>
 </section>
 
