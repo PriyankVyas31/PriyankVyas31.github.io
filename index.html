@@ -1697,7 +1697,7 @@
     }
 
     // ── UPI helpers ──
-    function buildUpiUrl(amount, note) {
+    function buildUpiUrl(amount, note, scheme) {
         const params = new URLSearchParams({
             pa: UPI_ID,
             pn: PAYEE_NAME,
@@ -1705,7 +1705,20 @@
             cu: 'INR',
             tn: note
         });
-        return 'upi://pay?' + params.toString();
+        const prefix = scheme || 'upi';
+        return prefix + '://pay?' + params.toString();
+    }
+
+    function buildGPayUrl(amount, note) {
+        return buildUpiUrl(amount, note, 'tez');
+    }
+
+    function buildPhonePeUrl(amount, note) {
+        return buildUpiUrl(amount, note, 'phonepe');
+    }
+
+    function buildPaytmUrl(amount, note) {
+        return buildUpiUrl(amount, note, 'paytmmp');
     }
 
     function getQrCodeUrl(amount, note) {
@@ -1834,6 +1847,9 @@
             const total = s.price;
             const note = s.title + (selectedDate ? ' on ' + selectedDate : '');
             const upiUrl = buildUpiUrl(total, note);
+            const gpayUrl = buildGPayUrl(total, note);
+            const phonepeUrl = buildPhonePeUrl(total, note);
+            const paytmUrl = buildPaytmUrl(total, note);
             const qrUrl = getQrCodeUrl(total, note);
 
             body.innerHTML = `
@@ -1861,15 +1877,15 @@
                     <div class="or-divider">or pay directly via</div>
 
                     <div class="pay-upi-apps">
-                        <a href="${upiUrl}" target="_blank" rel="noopener noreferrer">
+                        <a href="${gpayUrl}">
                             <img class="app-icon" src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Google_Pay_Logo.svg/512px-Google_Pay_Logo.svg.png" alt="GPay">
                             Google Pay
                         </a>
-                        <a href="${upiUrl}" target="_blank" rel="noopener noreferrer">
+                        <a href="${phonepeUrl}">
                             <img class="app-icon" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/PhonePe_Logo.svg/1024px-PhonePe_Logo.svg.png" alt="PhonePe">
                             PhonePe
                         </a>
-                        <a href="${upiUrl}" target="_blank" rel="noopener noreferrer">
+                        <a href="${paytmUrl}">
                             <img class="app-icon" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Paytm_Logo_%28standalone%29.svg/1200px-Paytm_Logo_%28standalone%29.svg.png" alt="Paytm">
                             Paytm
                         </a>
