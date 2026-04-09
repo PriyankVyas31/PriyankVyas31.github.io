@@ -419,6 +419,164 @@
             font-weight: 600;
         }
 
+        /* --- Sessions --- */
+        .sessions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        .session-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 1.75rem;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            text-decoration: none;
+        }
+        .session-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+        }
+        .session-popular {
+            position: absolute;
+            top: -10px; right: 1.25rem;
+            background: linear-gradient(135deg, #f59e0b, #ef4444);
+            color: #fff;
+            font-size: 0.68rem;
+            font-weight: 700;
+            padding: 0.2rem 0.7rem;
+            border-radius: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .session-type {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            margin-bottom: 0.75rem;
+        }
+        .session-type svg { width: 14px; height: 14px; fill: var(--text-dim); flex-shrink: 0; }
+        .session-rating {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.2rem;
+            color: #f59e0b;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .session-card h3 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text-bright);
+            margin-bottom: 0.25rem;
+        }
+        .session-card .session-subtitle {
+            font-size: 0.82rem;
+            color: var(--accent);
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+        .session-pricing {
+            margin-top: auto;
+            display: flex;
+            align-items: baseline;
+            gap: 0.5rem;
+        }
+        .session-price {
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: var(--text-bright);
+        }
+        .session-original {
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            text-decoration: line-through;
+        }
+        .session-book {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 1rem;
+            padding: 0.6rem 1.25rem;
+            background: var(--accent);
+            color: #fff;
+            border-radius: 8px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.25s;
+        }
+        .session-book:hover {
+            background: #2563eb;
+            transform: translateY(-1px);
+        }
+
+        /* --- Testimonials --- */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+        .testimonial-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 2rem;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+        .testimonial-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-3px);
+        }
+        .testimonial-stars {
+            color: #f59e0b;
+            font-size: 0.9rem;
+            margin-bottom: 0.75rem;
+            letter-spacing: 2px;
+        }
+        .testimonial-card blockquote {
+            font-size: 0.88rem;
+            color: var(--text-dim);
+            line-height: 1.7;
+            flex: 1;
+            margin-bottom: 1.25rem;
+            font-style: italic;
+        }
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .author-avatar {
+            width: 38px; height: 38px;
+            border-radius: 50%;
+            background: var(--accent-glow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.8rem;
+            color: var(--accent);
+            flex-shrink: 0;
+        }
+        .author-name {
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--text-bright);
+        }
+        .author-date {
+            font-size: 0.72rem;
+            color: var(--text-dim);
+        }
+
         /* --- Contact --- */
         .contact-grid {
             display: grid;
@@ -535,6 +693,8 @@
             <li><a href="#skills">Skills</a></li>
             <li><a href="#experience">Experience</a></li>
             <li><a href="#education">Education</a></li>
+            <li><a href="#sessions">Sessions</a></li>
+            <li><a href="#testimonials">Reviews</a></li>
             <li><a href="#contact">Contact</a></li>
         </ul>
         <button class="hamburger" id="hamburger" aria-label="Toggle navigation">
@@ -550,8 +710,8 @@
         <h1>Hi, I'm <span class="gradient">Priyank Vyas</span></h1>
         <p>Software Engineer at <strong style="color:#00a4ef">Microsoft Azure</strong> — building bare-metal storage infrastructure on DPUs &amp; SmartNICs. 5+ years deep in systems programming, networking, and high-performance data planes.</p>
         <div class="hero-cta">
-            <a href="#experience" class="btn btn-primary">View Experience</a>
-            <a href="#contact" class="btn btn-outline">Get In Touch</a>
+            <a href="#sessions" class="btn btn-primary">Book a Session</a>
+            <a href="#experience" class="btn btn-outline">View Experience</a>
         </div>
     </div>
 </section>
@@ -563,8 +723,10 @@
             <div class="about-text">
                 <p class="section-label">About Me</p>
                 <h2 class="section-title" style="margin-bottom:1.5rem;">Building infrastructure that powers hyperscale data centers</h2>
-                <p>I specialize in low-level programming (C/C++), device drivers, and high-performance data plane solutions for cloud-scale infrastructure, with deep expertise in RDMA, NVMe-oF, TCP/IP, and bare-metal system bring-up.</p>
-                <p>I am passionate about systems engineering, distributed storage, and networking innovation, and aspire to build next-generation infrastructure solutions that power hyperscale data centers.</p>
+                <p>I'm Priyank Vyas, a Software Engineer with ~5 years of experience at Cisco and Microsoft (Azure team).</p>
+                <p>I've interviewed with 25+ top product companies (Google, Nvidia, Amazon, Qualcomm, Intel, Oracle, etc.) and cleared multiple rounds before joining Microsoft.</p>
+                <p>I help engineers prepare for system-level interviews (C, OS, Networking), FAANG/Big Tech transitions, and career growth strategies. My sessions are practical, focused on real interview patterns, and designed to help you stand out.</p>
+                <p style="color:var(--accent);font-weight:500;">Let's work together to make your next big move happen.</p>
             </div>
             <div class="stats-grid">
                 <div class="stat-card">
@@ -572,8 +734,8 @@
                     <div class="stat-label">Years Experience</div>
                 </div>
                 <div class="stat-card">
-                    <span class="stat-number">3</span>
-                    <div class="stat-label">Top Companies</div>
+                    <span class="stat-number">25+</span>
+                    <div class="stat-label">Companies Interviewed</div>
                 </div>
                 <div class="stat-card">
                     <span class="stat-number">C/C++</span>
@@ -776,6 +938,167 @@
                 <div class="edu-meta">Jun 2013 – Jun 2014</div>
                 <span class="grade">85%</span>
             </div>
+        </div>
+    </div>
+</section>
+
+<!-- Sessions -->
+<section id="sessions">
+    <div class="container">
+        <p class="section-label">Mentorship</p>
+        <h2 class="section-title">Book a Session</h2>
+        <div class="sessions-grid">
+
+            <a href="https://topmate.io/priyank_vyas" target="_blank" rel="noopener noreferrer" class="session-card fade-up">
+                <span class="session-popular">Popular</span>
+                <div class="session-type">
+                    <svg viewBox="0 0 24 24"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>
+                    Video meeting · 60 mins
+                    <span class="session-rating">★ 5</span>
+                </div>
+                <h3>Mock Interview</h3>
+                <div class="session-subtitle">Technical Interview</div>
+                <div class="session-pricing">
+                    <span class="session-price">₹500</span>
+                    <span class="session-original">₹1,500</span>
+                </div>
+                <span class="session-book">Book Now →</span>
+            </a>
+
+            <a href="https://topmate.io/priyank_vyas" target="_blank" rel="noopener noreferrer" class="session-card fade-up">
+                <span class="session-popular">Popular</span>
+                <div class="session-type">
+                    <svg viewBox="0 0 24 24"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>
+                    Video meeting · 15 mins
+                    <span class="session-rating">★ 5</span>
+                </div>
+                <h3>1:1 Call About Career</h3>
+                <div class="session-subtitle">Career Guidance</div>
+                <div class="session-pricing">
+                    <span class="session-price">₹200</span>
+                    <span class="session-original">₹500</span>
+                </div>
+                <span class="session-book">Book Now →</span>
+            </a>
+
+            <a href="https://topmate.io/priyank_vyas" target="_blank" rel="noopener noreferrer" class="session-card fade-up">
+                <div class="session-type">
+                    <svg viewBox="0 0 24 24"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>
+                    Video meeting · 30 mins
+                    <span class="session-rating">★ 5</span>
+                </div>
+                <h3>Interview Prep &amp; Tips</h3>
+                <div class="session-subtitle">Interview Preparation</div>
+                <div class="session-pricing">
+                    <span class="session-price">₹500</span>
+                    <span class="session-original">₹1,500</span>
+                </div>
+                <span class="session-book">Book Now →</span>
+            </a>
+
+            <a href="https://topmate.io/priyank_vyas" target="_blank" rel="noopener noreferrer" class="session-card fade-up">
+                <div class="session-type">
+                    <svg viewBox="0 0 24 24"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>
+                    Video meeting · 20 mins
+                </div>
+                <h3>Quick Chat</h3>
+                <div class="session-subtitle">Quick 1:1 Chat</div>
+                <div class="session-pricing">
+                    <span class="session-price">₹250</span>
+                    <span class="session-original">₹400</span>
+                </div>
+                <span class="session-book">Book Now →</span>
+            </a>
+
+            <a href="https://topmate.io/priyank_vyas" target="_blank" rel="noopener noreferrer" class="session-card fade-up">
+                <div class="session-type">
+                    <svg viewBox="0 0 24 24"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>
+                    Video meeting · 15 mins
+                    <span class="session-rating">★ 5</span>
+                </div>
+                <h3>Resume Review</h3>
+                <div class="session-subtitle">Resume Guidance</div>
+                <div class="session-pricing">
+                    <span class="session-price">₹100</span>
+                    <span class="session-original">₹150</span>
+                </div>
+                <span class="session-book">Book Now →</span>
+            </a>
+
+            <a href="https://topmate.io/priyank_vyas" target="_blank" rel="noopener noreferrer" class="session-card fade-up">
+                <span class="session-popular">Popular</span>
+                <div class="session-type">
+                    <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>
+                    Priority DM · a day reply
+                    <span class="session-rating">★ 4.5</span>
+                </div>
+                <h3>Have a Question?</h3>
+                <div class="session-subtitle">Quick Help</div>
+                <div class="session-pricing">
+                    <span class="session-price">₹100</span>
+                </div>
+                <span class="session-book">Send DM →</span>
+            </a>
+
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials -->
+<section id="testimonials">
+    <div class="container">
+        <p class="section-label">Reviews</p>
+        <h2 class="section-title">What People Say</h2>
+        <div class="testimonials-grid">
+
+            <div class="testimonial-card fade-up">
+                <div class="testimonial-stars">★★★★★</div>
+                <blockquote>"I had both my LLD and HLD rounds with Priyank, and it was a great experience. He explained the concepts very clearly, shared helpful resources, and guided me through the Microsoft interview process in detail. His approach made complex topics easy to understand and boosted my confidence for the actual rounds."</blockquote>
+                <div class="testimonial-author">
+                    <div class="author-avatar">CU</div>
+                    <div>
+                        <div class="author-name">Charan Udayagiri</div>
+                        <div class="author-date">31st Aug, 2025</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-card fade-up">
+                <div class="testimonial-stars">★★★★★</div>
+                <blockquote>"Had a very good discussion with Priyank. He cleared all my doubts and shared his experience which will definitely going to help me in taking career decisions."</blockquote>
+                <div class="testimonial-author">
+                    <div class="author-avatar">SS</div>
+                    <div>
+                        <div class="author-name">Sameer Salunkhe</div>
+                        <div class="author-date">17th Aug, 2025</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-card fade-up">
+                <div class="testimonial-stars">★★★★★</div>
+                <blockquote>"Priyank is a great mentor who has guided me a lot. I can confidently say that if you need guidance or help, he is someone you can truly look up to."</blockquote>
+                <div class="testimonial-author">
+                    <div class="author-avatar">AC</div>
+                    <div>
+                        <div class="author-name">Achintya Chavan</div>
+                        <div class="author-date">25th Aug, 2025</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-card fade-up">
+                <div class="testimonial-stars">★★★★★</div>
+                <blockquote>"Priyank was very helpful in understanding my situation and conveying his thoughts accordingly. He advised me according to the current market situation and gave industry insights. It was an insightful experience talking to him."</blockquote>
+                <div class="testimonial-author">
+                    <div class="author-avatar">A</div>
+                    <div>
+                        <div class="author-name">Aditya</div>
+                        <div class="author-date">11th Aug, 2025</div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </section>
