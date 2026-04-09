@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Priyank Vyas | Software Engineer @ Microsoft</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg: #0a0a0f;
+            --bg-card: #12121a;
+            --bg-card-hover: #1a1a26;
+            --accent: #3b82f6;
+            --accent-glow: rgba(59, 130, 246, 0.15);
+            --text: #e4e4e7;
+            --text-dim: #a1a1aa;
+            --text-bright: #fafafa;
+            --border: #27272a;
+            --microsoft: #00a4ef;
+            --cisco: #049fd9;
+            --tcs: #0072c6;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* --- Navbar --- */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            backdrop-filter: blur(20px);
+            background: rgba(10, 10, 15, 0.8);
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+        }
+        .nav-logo {
+            font-weight: 700;
+            font-size: 1.15rem;
+            color: var(--text-bright);
+            letter-spacing: -0.02em;
+        }
+        .nav-logo span { color: var(--accent); }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a {
+            color: var(--text-dim);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: var(--text-bright); }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 4px;
+        }
+        .hamburger span {
+            width: 24px; height: 2px;
+            background: var(--text);
+            border-radius: 2px;
+            transition: 0.3s;
+        }
+
+        /* --- Hero --- */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 6rem 2rem 4rem;
+            position: relative;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -40%; left: 50%;
+            transform: translateX(-50%);
+            width: 800px; height: 800px;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .hero-content { position: relative; max-width: 760px; }
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.25);
+            padding: 0.4rem 1rem;
+            border-radius: 100px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+        }
+        .hero-badge .dot {
+            width: 6px; height: 6px;
+            background: #22c55e;
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 800;
+            color: var(--text-bright);
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin-bottom: 1.25rem;
+        }
+        .hero h1 .gradient {
+            background: linear-gradient(135deg, var(--accent), #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--text-dim);
+            max-width: 620px;
+            margin: 0 auto 2rem;
+            line-height: 1.8;
+        }
+        .hero-cta {
+            display: inline-flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .btn {
+            padding: 0.75rem 1.75rem;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.25s;
+            cursor: pointer;
+            border: none;
+        }
+        .btn-primary {
+            background: var(--accent);
+            color: #fff;
+            box-shadow: 0 0 24px rgba(59,130,246,0.25);
+        }
+        .btn-primary:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+            box-shadow: 0 0 32px rgba(59,130,246,0.4);
+        }
+        .btn-outline {
+            background: transparent;
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+        .btn-outline:hover {
+            background: var(--bg-card);
+            border-color: var(--text-dim);
+        }
+
+        /* --- Sections --- */
+        section { padding: 5rem 2rem; }
+        .container { max-width: 1100px; margin: 0 auto; }
+        .section-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-bright);
+            letter-spacing: -0.02em;
+            margin-bottom: 3rem;
+        }
+
+        /* --- About --- */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: start;
+        }
+        .about-text p {
+            color: var(--text-dim);
+            margin-bottom: 1.25rem;
+            font-size: 1rem;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: border-color 0.3s;
+        }
+        .stat-card:hover { border-color: var(--accent); }
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--accent);
+            display: block;
+        }
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            margin-top: 0.25rem;
+        }
+
+        /* --- Skills --- */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        .skill-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 2rem;
+            transition: all 0.3s;
+        }
+        .skill-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+        }
+        .skill-icon {
+            width: 44px; height: 44px;
+            background: var(--accent-glow);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+        .skill-card h3 {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--text-bright);
+            margin-bottom: 0.5rem;
+        }
+        .skill-card p {
+            font-size: 0.875rem;
+            color: var(--text-dim);
+        }
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-top: 1rem;
+        }
+        .skill-tag {
+            font-size: 0.72rem;
+            padding: 0.25rem 0.65rem;
+            background: rgba(59,130,246,0.08);
+            border: 1px solid rgba(59,130,246,0.2);
+            border-radius: 6px;
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+        /* --- Experience Timeline --- */
+        .timeline { position: relative; padding-left: 2rem; }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 0; bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--accent), var(--border));
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 3rem;
+            padding-left: 2rem;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2rem;
+            top: 0.5rem;
+            width: 14px; height: 14px;
+            background: var(--bg);
+            border: 3px solid var(--accent);
+            border-radius: 50%;
+            transform: translateX(-6px);
+        }
+        .timeline-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 0.75rem;
+            flex-wrap: wrap;
+        }
+        .company-logo {
+            width: 44px; height: 44px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.75rem;
+            color: #fff;
+            flex-shrink: 0;
+        }
+        .logo-microsoft { background: var(--microsoft); }
+        .logo-cisco { background: var(--cisco); }
+        .logo-tcs { background: var(--tcs); }
+        .timeline-role {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--text-bright);
+        }
+        .timeline-company {
+            font-size: 0.95rem;
+            color: var(--accent);
+            font-weight: 500;
+        }
+        .timeline-meta {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            margin-bottom: 0.75rem;
+        }
+        .timeline-desc {
+            color: var(--text-dim);
+            font-size: 0.92rem;
+            line-height: 1.8;
+        }
+        .timeline-desc li {
+            margin-bottom: 0.4rem;
+            list-style: none;
+            position: relative;
+            padding-left: 1.2rem;
+        }
+        .timeline-desc li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+
+        /* --- Education --- */
+        .edu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+        .edu-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 2rem;
+            transition: all 0.3s;
+        }
+        .edu-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-3px);
+        }
+        .edu-card h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-bright);
+            margin-bottom: 0.25rem;
+        }
+        .edu-card .degree {
+            font-size: 0.88rem;
+            color: var(--accent);
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        .edu-card .edu-meta {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+        }
+        .edu-card .grade {
+            display: inline-block;
+            margin-top: 0.75rem;
+            padding: 0.3rem 0.75rem;
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.25);
+            border-radius: 6px;
+            font-size: 0.78rem;
+            color: #22c55e;
+            font-weight: 600;
+        }
+
+        /* --- Contact --- */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
+        }
+        .contact-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        .contact-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+        }
+        .contact-icon {
+            width: 50px; height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .contact-icon svg { width: 24px; height: 24px; }
+        .icon-linkedin { background: rgba(10,102,194,0.15); }
+        .icon-linkedin svg { fill: #0a66c2; }
+        .icon-gmail { background: rgba(234,67,53,0.12); }
+        .icon-gmail svg { fill: #ea4335; }
+        .icon-topmate { background: rgba(99,102,241,0.12); }
+        .icon-topmate svg { fill: #6366f1; }
+        .icon-github { background: rgba(255,255,255,0.08); }
+        .icon-github svg { fill: #e4e4e7; }
+        .contact-info h3 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-bright);
+            margin-bottom: 0.15rem;
+        }
+        .contact-info p {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+        }
+
+        /* --- Footer --- */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 2.5rem 2rem;
+            text-align: center;
+        }
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .footer-links a {
+            color: var(--text-dim);
+            text-decoration: none;
+            font-size: 0.82rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        .footer-links a:hover { color: var(--accent); }
+        footer p {
+            font-size: 0.82rem;
+            color: var(--text-dim);
+        }
+
+        /* --- Scroll Animations --- */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hamburger { display: flex; }
+            .nav-links.open {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 64px; left: 0; right: 0;
+                background: rgba(10,10,15,0.97);
+                padding: 1.5rem 2rem;
+                gap: 1.25rem;
+                border-bottom: 1px solid var(--border);
+            }
+            .about-grid { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 2.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav>
+    <div class="nav-inner">
+        <div class="nav-logo">PV<span>.</span></div>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#about">About</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#experience">Experience</a></li>
+            <li><a href="#education">Education</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <button class="hamburger" id="hamburger" aria-label="Toggle navigation">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero" id="hero">
+    <div class="hero-content">
+        <div class="hero-badge"><span class="dot"></span> Available for collaboration</div>
+        <h1>Hi, I'm <span class="gradient">Priyank Vyas</span></h1>
+        <p>Software Engineer at <strong style="color:#00a4ef">Microsoft Azure</strong> — building bare-metal storage infrastructure on DPUs &amp; SmartNICs. 5+ years deep in systems programming, networking, and high-performance data planes.</p>
+        <div class="hero-cta">
+            <a href="#experience" class="btn btn-primary">View Experience</a>
+            <a href="#contact" class="btn btn-outline">Get In Touch</a>
+        </div>
+    </div>
+</section>
+
+<!-- About -->
+<section id="about">
+    <div class="container">
+        <div class="about-grid fade-up">
+            <div class="about-text">
+                <p class="section-label">About Me</p>
+                <h2 class="section-title" style="margin-bottom:1.5rem;">Building infrastructure that powers hyperscale data centers</h2>
+                <p>I specialize in low-level programming (C/C++), device drivers, and high-performance data plane solutions for cloud-scale infrastructure, with deep expertise in RDMA, NVMe-oF, TCP/IP, and bare-metal system bring-up.</p>
+                <p>I am passionate about systems engineering, distributed storage, and networking innovation, and aspire to build next-generation infrastructure solutions that power hyperscale data centers.</p>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-number">5+</span>
+                    <div class="stat-label">Years Experience</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">3</span>
+                    <div class="stat-label">Top Companies</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">C/C++</span>
+                    <div class="stat-label">Core Language</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">Azure</span>
+                    <div class="stat-label">Current Team</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Skills -->
+<section id="skills">
+    <div class="container">
+        <p class="section-label">Expertise</p>
+        <h2 class="section-title">Technical Skills</h2>
+        <div class="skills-grid">
+            <div class="skill-card fade-up">
+                <div class="skill-icon">⚙️</div>
+                <h3>Systems Programming</h3>
+                <p>Low-level C/C++ development, device drivers, kernel-level programming, and operating system internals.</p>
+                <div class="skill-tags">
+                    <span class="skill-tag">C</span>
+                    <span class="skill-tag">C++</span>
+                    <span class="skill-tag">Device Drivers</span>
+                    <span class="skill-tag">Kernel</span>
+                    <span class="skill-tag">Data Structures</span>
+                </div>
+            </div>
+            <div class="skill-card fade-up">
+                <div class="skill-icon">🌐</div>
+                <h3>Networking &amp; Protocols</h3>
+                <p>High-performance networking with deep expertise in RDMA, TCP/IP stack, and data plane acceleration.</p>
+                <div class="skill-tags">
+                    <span class="skill-tag">RDMA</span>
+                    <span class="skill-tag">TCP/IP</span>
+                    <span class="skill-tag">NVMe-oF</span>
+                    <span class="skill-tag">SmartNICs</span>
+                    <span class="skill-tag">DPUs</span>
+                </div>
+            </div>
+            <div class="skill-card fade-up">
+                <div class="skill-icon">💾</div>
+                <h3>Storage Infrastructure</h3>
+                <p>Bare-metal storage stack bring-up, NVMe Express, distributed storage systems on virtual processors.</p>
+                <div class="skill-tags">
+                    <span class="skill-tag">NVMe</span>
+                    <span class="skill-tag">Storage Stack</span>
+                    <span class="skill-tag">Bare-Metal</span>
+                    <span class="skill-tag">Low-Latency</span>
+                </div>
+            </div>
+            <div class="skill-card fade-up">
+                <div class="skill-icon">🏗️</div>
+                <h3>Platform &amp; Embedded</h3>
+                <p>FPGA-based hardware communication, router boot processes, and embedded system bring-up.</p>
+                <div class="skill-tags">
+                    <span class="skill-tag">FPGA</span>
+                    <span class="skill-tag">IOS-XR</span>
+                    <span class="skill-tag">Embedded</span>
+                    <span class="skill-tag">Unix</span>
+                </div>
+            </div>
+            <div class="skill-card fade-up">
+                <div class="skill-icon">☁️</div>
+                <h3>Cloud &amp; Scalability</h3>
+                <p>Azure cloud infrastructure, hyperscale data center solutions, and scalable system design.</p>
+                <div class="skill-tags">
+                    <span class="skill-tag">Azure</span>
+                    <span class="skill-tag">Cloud</span>
+                    <span class="skill-tag">Hyperscale</span>
+                    <span class="skill-tag">Scalable Systems</span>
+                </div>
+            </div>
+            <div class="skill-card fade-up">
+                <div class="skill-icon">🛠️</div>
+                <h3>Backend &amp; Tooling</h3>
+                <p>Backend services development, SQL/PLSQL, Java, and trading infrastructure for financial systems.</p>
+                <div class="skill-tags">
+                    <span class="skill-tag">Java</span>
+                    <span class="skill-tag">SQL</span>
+                    <span class="skill-tag">PLSQL</span>
+                    <span class="skill-tag">Pro*C</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Experience -->
+<section id="experience">
+    <div class="container">
+        <p class="section-label">Career</p>
+        <h2 class="section-title">Work Experience</h2>
+        <div class="timeline">
+
+            <!-- Microsoft -->
+            <div class="timeline-item fade-up">
+                <div class="timeline-header">
+                    <div class="company-logo logo-microsoft">MSFT</div>
+                    <div>
+                        <div class="timeline-role">Software Engineer 2</div>
+                        <div class="timeline-company">Microsoft · Full-time</div>
+                    </div>
+                </div>
+                <div class="timeline-meta">Jul 2025 – Present · 10 mos &nbsp;|&nbsp; Bengaluru, India · Remote</div>
+                <ul class="timeline-desc">
+                    <li>Working on bare-metal storage stack bring-up on DPUs and SmartNICs, focusing on high-performance data plane acceleration for Azure cloud.</li>
+                    <li>Designing low-latency, scalable storage solutions on virtual processors within SmartNICs/DPUs.</li>
+                    <li>Core expertise in C programming, RDMA, NVMe-oF, and TCP protocols.</li>
+                </ul>
+                <div class="skill-tags" style="margin-top:1rem;">
+                    <span class="skill-tag">C</span>
+                    <span class="skill-tag">NVMe</span>
+                    <span class="skill-tag">RDMA</span>
+                    <span class="skill-tag">TCP</span>
+                    <span class="skill-tag">SmartNICs</span>
+                    <span class="skill-tag">DPUs</span>
+                </div>
+            </div>
+
+            <!-- Cisco -->
+            <div class="timeline-item fade-up">
+                <div class="timeline-header">
+                    <div class="company-logo logo-cisco">CISCO</div>
+                    <div>
+                        <div class="timeline-role">Software Engineer 2</div>
+                        <div class="timeline-company">Cisco · Full-time</div>
+                    </div>
+                </div>
+                <div class="timeline-meta">Jun 2022 – Jun 2025 · 3 yrs 1 mo &nbsp;|&nbsp; Bengaluru, India · Hybrid</div>
+                <ul class="timeline-desc">
+                    <li>Developed platform infrastructure for Cisco IOS XR, specializing in FPGA-based hardware communication.</li>
+                    <li>Implemented router boot processes and optimized system performance.</li>
+                    <li>Utilized strong expertise in C programming, operating systems, and networking.</li>
+                </ul>
+                <div class="skill-tags" style="margin-top:1rem;">
+                    <span class="skill-tag">C</span>
+                    <span class="skill-tag">Kernel</span>
+                    <span class="skill-tag">FPGA</span>
+                    <span class="skill-tag">IOS-XR</span>
+                    <span class="skill-tag">Data Structures</span>
+                    <span class="skill-tag">Networking</span>
+                </div>
+            </div>
+
+            <!-- TCS -->
+            <div class="timeline-item fade-up">
+                <div class="timeline-header">
+                    <div class="company-logo logo-tcs">TCS</div>
+                    <div>
+                        <div class="timeline-role">Assistant System Engineer</div>
+                        <div class="timeline-company">Tata Consultancy Services · Full-time</div>
+                    </div>
+                </div>
+                <div class="timeline-meta">Feb 2021 – Jun 2022 · 1 yr 5 mos &nbsp;|&nbsp; Mumbai, India · Remote</div>
+                <ul class="timeline-desc">
+                    <li>Developed brand new modules from scratch using C, Pro*C, Unix, Java, SQL, and PLSQL for the National Stock Exchange of India in the Clearing and Settlement Project.</li>
+                    <li>Collaborated with the Collateral team to ensure seamless integration and functionality of backend systems.</li>
+                    <li>Implemented innovative solutions to enhance efficiency and accuracy in project delivery.</li>
+                </ul>
+                <div class="skill-tags" style="margin-top:1rem;">
+                    <span class="skill-tag">Java</span>
+                    <span class="skill-tag">SQL</span>
+                    <span class="skill-tag">PLSQL</span>
+                    <span class="skill-tag">Pro*C</span>
+                    <span class="skill-tag">Unix</span>
+                    <span class="skill-tag">C</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- Education -->
+<section id="education">
+    <div class="container">
+        <p class="section-label">Education</p>
+        <h2 class="section-title">Academic Background</h2>
+        <div class="edu-grid">
+            <div class="edu-card fade-up">
+                <h3>Rajiv Gandhi Prodyogiki Vishwavidyalaya</h3>
+                <div class="degree">Bachelor of Engineering — Information Technology</div>
+                <div class="edu-meta">2016 – 2020</div>
+                <span class="grade">CGPA: 8.56</span>
+            </div>
+            <div class="edu-card fade-up">
+                <h3>Kolping Convent Higher Secondary School</h3>
+                <div class="degree">Higher Secondary School</div>
+                <div class="edu-meta">Jun 2015 – Jun 2016</div>
+                <span class="grade">86.8%</span>
+            </div>
+            <div class="edu-card fade-up">
+                <h3>Kolping Convent Higher Secondary School</h3>
+                <div class="degree">High School</div>
+                <div class="edu-meta">Jun 2013 – Jun 2014</div>
+                <span class="grade">85%</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact -->
+<section id="contact">
+    <div class="container">
+        <p class="section-label">Connect</p>
+        <h2 class="section-title">Get In Touch</h2>
+        <div class="contact-grid">
+            <a href="https://www.linkedin.com/in/priyank-vyas-31march1999/" target="_blank" rel="noopener noreferrer" class="contact-card fade-up">
+                <div class="contact-icon icon-linkedin">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                </div>
+                <div class="contact-info">
+                    <h3>LinkedIn</h3>
+                    <p>priyank-vyas-31march1999</p>
+                </div>
+            </a>
+            <a href="mailto:priyankvyas001@gmail.com" class="contact-card fade-up">
+                <div class="contact-icon icon-gmail">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 010 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z"/></svg>
+                </div>
+                <div class="contact-info">
+                    <h3>Email</h3>
+                    <p>priyankvyas001&#64;gmail.com</p>
+                </div>
+            </a>
+            <a href="https://topmate.io/priyank_vyas" target="_blank" rel="noopener noreferrer" class="contact-card fade-up">
+                <div class="contact-icon icon-topmate">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                </div>
+                <div class="contact-info">
+                    <h3>Topmate</h3>
+                    <p>Book a 1:1 session</p>
+                </div>
+            </a>
+            <a href="https://github.com/PriyankVyas31" target="_blank" rel="noopener noreferrer" class="contact-card fade-up">
+                <div class="contact-icon icon-github">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+                </div>
+                <div class="contact-info">
+                    <h3>GitHub</h3>
+                    <p>PriyankVyas31</p>
+                </div>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <div class="footer-links">
+        <a href="https://www.linkedin.com/in/priyank-vyas-31march1999/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a href="mailto:priyankvyas001@gmail.com">Email</a>
+        <a href="https://topmate.io/priyank_vyas" target="_blank" rel="noopener noreferrer">Topmate</a>
+        <a href="https://github.com/PriyankVyas31" target="_blank" rel="noopener noreferrer">GitHub</a>
+    </div>
+    <p>&copy; 2026 Priyank Vyas. Built with passion for systems engineering.</p>
+</footer>
+
+<script>
+    // Mobile nav toggle
+    document.getElementById('hamburger').addEventListener('click', () => {
+        document.getElementById('navLinks').classList.toggle('open');
+    });
+
+    // Close nav on link click
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', () => {
+            document.getElementById('navLinks').classList.remove('open');
+        });
+    });
+
+    // Scroll-triggered fade-in animations
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
