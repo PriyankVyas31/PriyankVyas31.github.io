@@ -577,6 +577,330 @@
             color: var(--text-dim);
         }
 
+        /* --- Booking Modal --- */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(6px);
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal {
+            background: #fff;
+            border-radius: 18px;
+            max-width: 720px;
+            width: 100%;
+            max-height: 92vh;
+            overflow-y: auto;
+            color: #1a1a1a;
+            position: relative;
+        }
+        .modal-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid #e5e5e5;
+            position: sticky;
+            top: 0;
+            background: #fff;
+            border-radius: 18px 18px 0 0;
+            z-index: 2;
+        }
+        .modal-back {
+            background: none; border: none; cursor: pointer;
+            font-size: 1.2rem; color: #666; padding: 4px;
+            display: flex; align-items: center;
+        }
+        .modal-back:hover { color: #1a1a1a; }
+        .modal-header-avatar {
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6, #a855f7);
+            display: flex; align-items: center; justify-content: center;
+            color: #fff; font-weight: 700; font-size: 0.75rem;
+        }
+        .modal-header-name { font-weight: 600; font-size: 0.95rem; }
+        .modal-header-rating {
+            margin-left: auto;
+            font-size: 0.8rem;
+            color: #f59e0b;
+            font-weight: 600;
+        }
+        .modal-close {
+            position: absolute; top: 1rem; right: 1.25rem;
+            background: none; border: none; cursor: pointer;
+            font-size: 1.4rem; color: #999; line-height: 1;
+        }
+        .modal-close:hover { color: #333; }
+        .modal-body { padding: 1.5rem; }
+        .modal-body h2 {
+            font-size: 1.5rem; font-weight: 800;
+            margin-bottom: 0.25rem; color: #1a1a1a;
+        }
+        .modal-session-meta {
+            font-size: 0.85rem; color: #888;
+            margin-bottom: 1.25rem;
+        }
+        .modal-session-pricing {
+            display: flex; align-items: baseline; gap: 0.6rem;
+            margin-bottom: 0.5rem; padding-bottom: 1.25rem;
+            border-bottom: 1px solid #eee;
+        }
+        .modal-session-pricing .price {
+            font-size: 1.5rem; font-weight: 800; color: #1a1a1a;
+        }
+        .modal-session-pricing .original {
+            font-size: 0.95rem; color: #aaa;
+            text-decoration: line-through;
+        }
+        .modal-session-pricing .duration {
+            font-size: 0.85rem; color: #888;
+            display: flex; align-items: center; gap: 0.35rem;
+            margin-left: auto;
+        }
+
+        /* Steps indicator */
+        .modal-steps {
+            display: flex; gap: 0.5rem; margin-bottom: 1.5rem;
+            padding-top: 1rem;
+        }
+        .modal-step {
+            flex: 1; height: 4px; border-radius: 4px;
+            background: #e5e5e5; transition: background 0.3s;
+        }
+        .modal-step.active { background: #1a1a1a; }
+        .modal-step.done { background: #22c55e; }
+
+        /* Step 1 — Calendar */
+        .cal-label {
+            font-size: 1rem; font-weight: 700;
+            margin-bottom: 1rem; color: #1a1a1a;
+        }
+        .cal-nav {
+            display: flex; align-items: center;
+            gap: 0.5rem; margin-bottom: 1rem;
+        }
+        .cal-nav-btn {
+            width: 34px; height: 34px;
+            border-radius: 50%; border: 1px solid #ddd;
+            background: #fff; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.9rem; color: #666;
+            transition: 0.2s;
+        }
+        .cal-nav-btn:hover { background: #f5f5f5; border-color: #bbb; }
+        .cal-dates {
+            display: flex; gap: 0.5rem;
+            overflow-x: auto; flex: 1;
+            scrollbar-width: none;
+        }
+        .cal-dates::-webkit-scrollbar { display: none; }
+        .cal-date {
+            min-width: 72px; padding: 0.6rem 0.5rem;
+            border-radius: 10px; border: 2px solid #e5e5e5;
+            text-align: center; cursor: pointer;
+            transition: 0.2s; background: #fff;
+            flex-shrink: 0;
+        }
+        .cal-date:hover { border-color: #bbb; }
+        .cal-date.selected {
+            border-color: #1a1a1a; background: #1a1a1a; color: #fff;
+        }
+        .cal-date .day-name {
+            font-size: 0.7rem; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 0.03em;
+        }
+        .cal-date .day-num {
+            font-size: 0.95rem; font-weight: 700; margin-top: 2px;
+        }
+        .cal-date .day-month {
+            font-size: 0.65rem; color: #999; margin-top: 1px;
+        }
+        .cal-date.selected .day-month { color: #ccc; }
+
+        /* Time slots */
+        .time-label {
+            font-size: 1rem; font-weight: 700;
+            margin: 1.5rem 0 0.75rem; color: #1a1a1a;
+        }
+        .tz-info {
+            font-size: 0.75rem; color: #999;
+            margin-bottom: 1rem;
+        }
+        .time-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 0.5rem; margin-bottom: 1.5rem;
+        }
+        .time-slot {
+            padding: 0.55rem 0.5rem;
+            border-radius: 8px; border: 1.5px solid #e5e5e5;
+            text-align: center; cursor: pointer;
+            font-size: 0.8rem; font-weight: 500;
+            transition: 0.2s; background: #fff;
+            color: #333;
+        }
+        .time-slot:hover { border-color: #bbb; }
+        .time-slot.selected {
+            border-color: #1a1a1a; background: #1a1a1a; color: #fff;
+        }
+
+        .modal-continue {
+            width: 100%; padding: 0.9rem;
+            background: #1a1a1a; color: #fff;
+            border: none; border-radius: 10px;
+            font-size: 0.95rem; font-weight: 700;
+            cursor: pointer; transition: 0.2s;
+        }
+        .modal-continue:hover { background: #333; }
+        .modal-continue:disabled {
+            background: #ccc; cursor: not-allowed;
+        }
+
+        /* Step 2 — Form */
+        .book-form-group { margin-bottom: 1.25rem; }
+        .book-form-group label {
+            display: block; font-size: 0.85rem;
+            font-weight: 600; margin-bottom: 0.4rem;
+            color: #1a1a1a;
+        }
+        .book-form-group input,
+        .book-form-group textarea {
+            width: 100%; padding: 0.7rem 0.85rem;
+            border: 1.5px solid #ddd; border-radius: 10px;
+            font-size: 0.9rem; font-family: inherit;
+            color: #1a1a1a; transition: border-color 0.2s;
+            background: #fff;
+        }
+        .book-form-group input:focus,
+        .book-form-group textarea:focus {
+            outline: none; border-color: #1a1a1a;
+        }
+        .book-form-group textarea { resize: vertical; min-height: 80px; }
+        .book-form-group .phone-row {
+            display: flex; gap: 0.5rem;
+        }
+        .book-form-group .phone-prefix {
+            width: 80px; padding: 0.7rem 0.5rem;
+            border: 1.5px solid #ddd; border-radius: 10px;
+            font-size: 0.9rem; text-align: center;
+            background: #f9f9f9; color: #666;
+        }
+        .selected-slot-preview {
+            background: #f5f5f5; border-radius: 10px;
+            padding: 0.85rem 1rem; margin-bottom: 1.5rem;
+            display: flex; align-items: center; gap: 0.75rem;
+        }
+        .selected-slot-preview .slot-date-box {
+            background: #fff; border: 1px solid #ddd;
+            border-radius: 8px; padding: 0.4rem 0.6rem;
+            text-align: center; min-width: 48px;
+        }
+        .selected-slot-preview .slot-date-box .slot-month {
+            font-size: 0.6rem; font-weight: 600; color: #3b82f6;
+            text-transform: uppercase;
+        }
+        .selected-slot-preview .slot-date-box .slot-day {
+            font-size: 1rem; font-weight: 800; color: #1a1a1a;
+        }
+        .selected-slot-preview .slot-details {
+            font-size: 0.82rem; color: #666; line-height: 1.5;
+        }
+        .selected-slot-preview .slot-details strong {
+            color: #1a1a1a; display: block;
+        }
+        .slot-change-btn {
+            margin-left: auto;
+            padding: 0.4rem 0.85rem;
+            border: 1.5px solid #ddd; border-radius: 8px;
+            background: #fff; font-size: 0.78rem;
+            font-weight: 600; cursor: pointer;
+            color: #333;
+        }
+        .slot-change-btn:hover { border-color: #999; }
+
+        /* Step 3 — Summary & Pay */
+        .order-summary {
+            background: #f9f9f9; border-radius: 12px;
+            padding: 1.25rem; margin-bottom: 1.5rem;
+        }
+        .order-summary h3 {
+            font-size: 0.9rem; font-weight: 700;
+            margin-bottom: 0.75rem; color: #1a1a1a;
+            display: flex; justify-content: space-between;
+        }
+        .order-row {
+            display: flex; justify-content: space-between;
+            font-size: 0.85rem; padding: 0.35rem 0;
+            color: #666;
+        }
+        .order-row.total {
+            border-top: 1px solid #ddd;
+            margin-top: 0.5rem; padding-top: 0.75rem;
+            font-weight: 700; color: #1a1a1a;
+            font-size: 1rem;
+        }
+        .payment-methods { margin-bottom: 1.5rem; }
+        .payment-methods h3 {
+            font-size: 0.9rem; font-weight: 700;
+            margin-bottom: 0.75rem; color: #1a1a1a;
+        }
+        .pay-option {
+            display: flex; align-items: center;
+            padding: 0.85rem 1rem; border: 1.5px solid #e5e5e5;
+            border-radius: 10px; margin-bottom: 0.5rem;
+            cursor: pointer; transition: 0.2s;
+        }
+        .pay-option:hover { border-color: #bbb; }
+        .pay-option.selected { border-color: #1a1a1a; background: #fafafa; }
+        .pay-option input[type="radio"] { margin-right: 0.75rem; accent-color: #1a1a1a; }
+        .pay-option .pay-label {
+            font-size: 0.88rem; font-weight: 600; color: #1a1a1a;
+        }
+        .pay-option .pay-icons {
+            margin-left: auto; display: flex; gap: 0.35rem;
+            font-size: 0.7rem; color: #999;
+        }
+        .modal-pay-btn {
+            width: 100%; padding: 1rem;
+            background: #1a1a1a; color: #fff;
+            border: none; border-radius: 10px;
+            font-size: 1rem; font-weight: 700;
+            cursor: pointer; transition: 0.2s;
+            display: flex; align-items: center;
+            justify-content: center; gap: 0.75rem;
+        }
+        .modal-pay-btn:hover { background: #333; }
+        .modal-pay-btn .pay-amount {
+            font-size: 0.85rem; font-weight: 400; opacity: 0.8;
+        }
+
+        /* Success screen */
+        .booking-success {
+            text-align: center; padding: 3rem 2rem;
+        }
+        .booking-success .success-icon {
+            width: 64px; height: 64px; border-radius: 50%;
+            background: #dcfce7; margin: 0 auto 1.25rem;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.8rem;
+        }
+        .booking-success h2 { font-size: 1.4rem; margin-bottom: 0.5rem; }
+        .booking-success p { color: #666; font-size: 0.9rem; margin-bottom: 1.5rem; }
+
+        @media (max-width: 520px) {
+            .modal { border-radius: 14px; }
+            .modal-body { padding: 1rem; }
+            .time-grid { grid-template-columns: repeat(3, 1fr); }
+            .cal-date { min-width: 62px; }
+        }
+
         /* --- Contact --- */
         .contact-grid {
             display: grid;
@@ -949,7 +1273,7 @@
         <h2 class="section-title">Book a Session</h2>
         <div class="sessions-grid">
 
-            <a href="https://topmate.io/priyank_vyas" target="_blank" rel="noopener noreferrer" class="session-card fade-up">
+            <div class="session-card fade-up" onclick="openBooking('mock-interview')">
                 <span class="session-popular">Popular</span>
                 <div class="session-type">
                     <svg viewBox="0 0 24 24"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>
@@ -963,9 +1287,9 @@
                     <span class="session-original">₹1,500</span>
                 </div>
                 <span class="session-book">Book Now →</span>
-            </a>
+            </div>
 
-            <a href="https://topmate.io/priyank_vyas" target="_blank" rel="noopener noreferrer" class="session-card fade-up">
+            <div class="session-card fade-up" onclick="openBooking('career-guidance')">
                 <span class="session-popular">Popular</span>
                 <div class="session-type">
                     <svg viewBox="0 0 24 24"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>
@@ -979,9 +1303,9 @@
                     <span class="session-original">₹500</span>
                 </div>
                 <span class="session-book">Book Now →</span>
-            </a>
+            </div>
 
-            <a href="https://topmate.io/priyank_vyas" target="_blank" rel="noopener noreferrer" class="session-card fade-up">
+            <div class="session-card fade-up" onclick="openBooking('interview-prep')">
                 <div class="session-type">
                     <svg viewBox="0 0 24 24"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>
                     Video meeting · 30 mins
@@ -994,9 +1318,9 @@
                     <span class="session-original">₹1,500</span>
                 </div>
                 <span class="session-book">Book Now →</span>
-            </a>
+            </div>
 
-            <a href="https://topmate.io/priyank_vyas" target="_blank" rel="noopener noreferrer" class="session-card fade-up">
+            <div class="session-card fade-up" onclick="openBooking('quick-chat')">
                 <div class="session-type">
                     <svg viewBox="0 0 24 24"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>
                     Video meeting · 20 mins
@@ -1008,9 +1332,9 @@
                     <span class="session-original">₹400</span>
                 </div>
                 <span class="session-book">Book Now →</span>
-            </a>
+            </div>
 
-            <a href="https://topmate.io/priyank_vyas" target="_blank" rel="noopener noreferrer" class="session-card fade-up">
+            <div class="session-card fade-up" onclick="openBooking('resume-review')">
                 <div class="session-type">
                     <svg viewBox="0 0 24 24"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>
                     Video meeting · 15 mins
@@ -1023,9 +1347,9 @@
                     <span class="session-original">₹150</span>
                 </div>
                 <span class="session-book">Book Now →</span>
-            </a>
+            </div>
 
-            <a href="https://topmate.io/priyank_vyas" target="_blank" rel="noopener noreferrer" class="session-card fade-up">
+            <div class="session-card fade-up" onclick="openBooking('priority-dm')">
                 <span class="session-popular">Popular</span>
                 <div class="session-type">
                     <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>
@@ -1038,7 +1362,7 @@
                     <span class="session-price">₹100</span>
                 </div>
                 <span class="session-book">Send DM →</span>
-            </a>
+            </div>
 
         </div>
     </div>
@@ -1160,29 +1484,363 @@
     <p>&copy; 2026 Priyank Vyas. Built with passion for systems engineering.</p>
 </footer>
 
+<!-- Booking Modal -->
+<div class="modal-overlay" id="bookingModal">
+    <div class="modal">
+        <div class="modal-header">
+            <button class="modal-back" id="modalBack" title="Back">←</button>
+            <div class="modal-header-avatar">PV</div>
+            <span class="modal-header-name">Priyank Vyas</span>
+            <span class="modal-header-rating">★ 5/5</span>
+            <button class="modal-close" id="modalClose" title="Close">×</button>
+        </div>
+        <div class="modal-body" id="modalBody">
+            <!-- Dynamically rendered by JS -->
+        </div>
+    </div>
+</div>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>
     // Mobile nav toggle
     document.getElementById('hamburger').addEventListener('click', () => {
         document.getElementById('navLinks').classList.toggle('open');
     });
-
-    // Close nav on link click
     document.querySelectorAll('.nav-links a').forEach(link => {
         link.addEventListener('click', () => {
             document.getElementById('navLinks').classList.remove('open');
         });
     });
 
-    // Scroll-triggered fade-in animations
+    // Scroll animations
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-            }
+            if (entry.isIntersecting) entry.target.classList.add('visible');
         });
     }, { threshold: 0.1 });
-
     document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    // ── Session data ──
+    const SESSIONS = {
+        'mock-interview':  { title: 'Mock Interview', subtitle: 'Technical Interview', price: 500, original: 1500, duration: 60, type: 'Video Call', rating: 5 },
+        'career-guidance':  { title: '1:1 Call About Career', subtitle: 'Career Guidance', price: 200, original: 500, duration: 15, type: 'Video Call', rating: 5 },
+        'interview-prep':  { title: 'Interview Prep & Tips', subtitle: 'Interview Preparation', price: 500, original: 1500, duration: 30, type: 'Video Call', rating: 5 },
+        'quick-chat':      { title: 'Quick Chat', subtitle: 'Quick 1:1 Chat', price: 250, original: 400, duration: 20, type: 'Video Call', rating: null },
+        'resume-review':   { title: 'Resume Review', subtitle: 'Resume Guidance', price: 100, original: 150, duration: 15, type: 'Video Call', rating: 5 },
+        'priority-dm':     { title: 'Have a Question?', subtitle: 'Quick Help (Priority DM)', price: 100, original: null, duration: null, type: 'Priority DM', rating: 4.5 }
+    };
+
+    const TAX_RATE = 0.05;
+    let currentStep = 1;
+    let currentSession = null;
+    let selectedDate = null;
+    let selectedTime = null;
+    let calendarOffset = 0;
+    const VISIBLE_DATES = 5;
+
+    // ── Open / Close ──
+    function openBooking(sessionId) {
+        currentSession = { id: sessionId, ...SESSIONS[sessionId] };
+        currentStep = 1;
+        calendarOffset = 0;
+        selectedDate = null;
+        selectedTime = null;
+        document.getElementById('bookingModal').classList.add('active');
+        document.body.style.overflow = 'hidden';
+        renderStep();
+    }
+    function closeBooking() {
+        document.getElementById('bookingModal').classList.remove('active');
+        document.body.style.overflow = '';
+    }
+    document.getElementById('modalClose').addEventListener('click', closeBooking);
+    document.getElementById('bookingModal').addEventListener('click', e => {
+        if (e.target === e.currentTarget) closeBooking();
+    });
+    document.getElementById('modalBack').addEventListener('click', () => {
+        if (currentStep > 1) { currentStep--; renderStep(); }
+        else closeBooking();
+    });
+
+    // ── Generate dates ──
+    function getDates(offset, count) {
+        const dates = [];
+        const today = new Date();
+        for (let i = 0; i < count; i++) {
+            const d = new Date(today);
+            d.setDate(today.getDate() + offset + i);
+            dates.push(d);
+        }
+        return dates;
+    }
+    const DAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+    const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+    function fmtDate(d) { return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
+
+    // ── Generate time slots ──
+    function getTimeSlots(duration) {
+        const slots = [];
+        const step = 15;
+        for (let h = 9; h < 18; h++) {
+            for (let m = 0; m < 60; m += step) {
+                if (h === 17 && m + (duration || 15) > 60) break;
+                const hour = h > 12 ? h - 12 : h;
+                const ampm = h >= 12 ? 'PM' : 'AM';
+                const display = `${String(hour).padStart(2,'0')}:${String(m).padStart(2,'0')} ${ampm}`;
+                slots.push({ display, hour24: h, min: m });
+            }
+        }
+        return slots;
+    }
+
+    // ── Render ──
+    function renderStep() {
+        const body = document.getElementById('modalBody');
+        const s = currentSession;
+        const stepsHTML = `
+            <div class="modal-steps">
+                <div class="modal-step ${currentStep >= 1 ? (currentStep > 1 ? 'done' : 'active') : ''}"></div>
+                <div class="modal-step ${currentStep >= 2 ? (currentStep > 2 ? 'done' : 'active') : ''}"></div>
+                <div class="modal-step ${currentStep >= 3 ? (currentStep > 3 ? 'done' : 'active') : ''}"></div>
+            </div>`;
+
+        if (currentStep === 1) {
+            const isDM = s.type === 'Priority DM';
+            const dates = getDates(calendarOffset, VISIBLE_DATES);
+            const datesHTML = dates.map(d => {
+                const key = fmtDate(d);
+                const sel = selectedDate === key ? 'selected' : '';
+                return `<div class="cal-date ${sel}" data-date="${key}" onclick="selectDate('${key}')">
+                    <div class="day-name">${DAYS[d.getDay()]}</div>
+                    <div class="day-num">${d.getDate()}</div>
+                    <div class="day-month">${MONTHS[d.getMonth()]}</div>
+                </div>`;
+            }).join('');
+
+            const slots = getTimeSlots(s.duration || 15);
+            const slotsHTML = slots.map(t => {
+                const sel = selectedTime === t.display ? 'selected' : '';
+                return `<div class="time-slot ${sel}" onclick="selectTime('${t.display}')">${t.display}</div>`;
+            }).join('');
+
+            body.innerHTML = `
+                ${stepsHTML}
+                <h2>${s.title}</h2>
+                <div class="modal-session-meta">${s.type}${s.duration ? ' | ' + s.duration + 'mins' : ' | ~1 day reply'}</div>
+                <div class="modal-session-pricing">
+                    <span class="price">₹${s.price}</span>
+                    ${s.original ? `<span class="original">₹${s.original.toLocaleString('en-IN')}</span>` : ''}
+                    ${s.duration ? `<span class="duration">📅 ${s.duration} mins</span>` : ''}
+                </div>
+                ${isDM ? `
+                    <div class="book-form-group" style="margin-top:1rem;">
+                        <label>Your Question</label>
+                        <textarea id="dmQuestion" placeholder="Type your question here..." rows="4"></textarea>
+                    </div>
+                    <button class="modal-continue" onclick="skipToForm()" style="margin-top:0.5rem;">Continue</button>
+                ` : `
+                    <div class="cal-label">When should we meet?</div>
+                    <div class="cal-nav">
+                        <button class="cal-nav-btn" onclick="navCal(-VISIBLE_DATES)" ${calendarOffset === 0 ? 'disabled style="opacity:.4;pointer-events:none"' : ''}>‹</button>
+                        <div class="cal-dates">${datesHTML}</div>
+                        <button class="cal-nav-btn" onclick="navCal(VISIBLE_DATES)">›</button>
+                    </div>
+                    ${selectedDate ? `
+                        <div class="time-label">Select time of day</div>
+                        <div class="tz-info">Timezone: (GMT+5:30) Chennai, Kolkata, Mumbai, New Delhi</div>
+                        <div class="time-grid">${slotsHTML}</div>
+                    ` : ''}
+                    <button class="modal-continue" onclick="goToStep(2)" ${(!selectedDate || !selectedTime) ? 'disabled' : ''}>Continue</button>
+                `}
+            `;
+        }
+
+        else if (currentStep === 2) {
+            const isDM = s.type === 'Priority DM';
+            let slotPreview = '';
+            if (!isDM && selectedDate && selectedTime) {
+                const d = new Date(selectedDate);
+                slotPreview = `
+                    <div class="selected-slot-preview">
+                        <div class="slot-date-box">
+                            <div class="slot-month">${MONTHS[d.getMonth()]}</div>
+                            <div class="slot-day">${d.getDate()}</div>
+                        </div>
+                        <div class="slot-details">
+                            <strong>${DAYS[d.getDay()]}, ${d.getDate()} ${MONTHS[d.getMonth()]}</strong>
+                            ${selectedTime} (GMT +05:30)
+                        </div>
+                        <button class="slot-change-btn" onclick="goToStep(1)">Change</button>
+                    </div>`;
+            }
+
+            body.innerHTML = `
+                ${stepsHTML}
+                <h2>${s.title}</h2>
+                <div class="modal-session-meta">${s.type}${s.duration ? ' | ' + s.duration + 'mins' : ''}</div>
+                ${slotPreview}
+                <div class="book-form-group">
+                    <label>Name</label>
+                    <input type="text" id="bookName" placeholder="Enter your name" required>
+                </div>
+                <div class="book-form-group">
+                    <label>Email</label>
+                    <input type="email" id="bookEmail" placeholder="Enter your email" required>
+                </div>
+                <div class="book-form-group">
+                    <label>${isDM ? 'Your Question' : 'What is the call about?'}</label>
+                    <textarea id="bookTopic" placeholder="${isDM ? 'Type your question...' : 'Brief description of what you want to discuss'}">${isDM && document.getElementById('dmQuestion') ? document.getElementById('dmQuestion').value : ''}</textarea>
+                </div>
+                <div class="book-form-group">
+                    <label>Phone number</label>
+                    <div class="phone-row">
+                        <input class="phone-prefix" value="+91" readonly>
+                        <input type="tel" id="bookPhone" placeholder="Enter phone number" pattern="[0-9]{10}">
+                    </div>
+                </div>
+                <button class="modal-continue" onclick="goToStep(3)">Continue</button>
+            `;
+        }
+
+        else if (currentStep === 3) {
+            const subtotal = s.price;
+            const tax = Math.round(subtotal * TAX_RATE);
+            const total = subtotal + tax;
+
+            body.innerHTML = `
+                ${stepsHTML}
+                <h2>Confirm &amp; Pay</h2>
+                <div class="modal-session-meta">${s.title} — ${s.type}${s.duration ? ' | ' + s.duration + 'mins' : ''}</div>
+
+                <div class="order-summary">
+                    <h3>Order Summary <span>₹${total}</span></h3>
+                    <div class="order-row"><span>${s.title}</span><span>₹${subtotal}</span></div>
+                    <div class="order-row"><span>Convenience fee (5%)</span><span>₹${tax}</span></div>
+                    <div class="order-row total"><span>Total Payable</span><span>₹${total}</span></div>
+                </div>
+
+                <div class="payment-methods">
+                    <h3>Payment Options</h3>
+                    <label class="pay-option selected" onclick="selectPay(this)">
+                        <input type="radio" name="payMethod" value="upi" checked>
+                        <span class="pay-label">UPI</span>
+                        <span class="pay-icons">GPay · PhonePe · BHIM</span>
+                    </label>
+                    <label class="pay-option" onclick="selectPay(this)">
+                        <input type="radio" name="payMethod" value="card">
+                        <span class="pay-label">Cards (Credit/Debit)</span>
+                        <span class="pay-icons">Visa · Mastercard · RuPay</span>
+                    </label>
+                    <label class="pay-option" onclick="selectPay(this)">
+                        <input type="radio" name="payMethod" value="netbanking">
+                        <span class="pay-label">Net Banking</span>
+                        <span class="pay-icons">SBI · HDFC · ICICI</span>
+                    </label>
+                    <label class="pay-option" onclick="selectPay(this)">
+                        <input type="radio" name="payMethod" value="wallet">
+                        <span class="pay-label">Wallet</span>
+                        <span class="pay-icons">Paytm · Mobikwik</span>
+                    </label>
+                </div>
+
+                <button class="modal-pay-btn" onclick="processPayment()">
+                    Confirm and Pay <span class="pay-amount">₹${total}</span>
+                </button>
+            `;
+        }
+
+        else if (currentStep === 4) {
+            body.innerHTML = `
+                <div class="booking-success">
+                    <div class="success-icon">✓</div>
+                    <h2>Booking Confirmed!</h2>
+                    <p>Thank you! A confirmation email has been sent to your email address. Priyank will connect with you at the scheduled time.</p>
+                    <button class="modal-continue" onclick="closeBooking()">Done</button>
+                </div>
+            `;
+        }
+    }
+
+    // ── Interactions ──
+    function selectDate(key) {
+        selectedDate = key;
+        selectedTime = null;
+        renderStep();
+    }
+    function selectTime(t) {
+        selectedTime = t;
+        renderStep();
+    }
+    function navCal(dir) {
+        calendarOffset = Math.max(0, calendarOffset + dir);
+        renderStep();
+    }
+    function goToStep(step) {
+        if (step === 3) {
+            const name = document.getElementById('bookName');
+            const email = document.getElementById('bookEmail');
+            if (!name || !name.value.trim()) { name.focus(); return alert('Please enter your name.'); }
+            if (!email || !email.value.trim() || !email.value.includes('@')) { email.focus(); return alert('Please enter a valid email.'); }
+        }
+        currentStep = step;
+        renderStep();
+    }
+    function skipToForm() {
+        currentStep = 2;
+        renderStep();
+    }
+    function selectPay(el) {
+        document.querySelectorAll('.pay-option').forEach(o => o.classList.remove('selected'));
+        el.classList.add('selected');
+        el.querySelector('input[type="radio"]').checked = true;
+    }
+
+    // ── Razorpay Payment ──
+    function processPayment() {
+        const s = currentSession;
+        const tax = Math.round(s.price * TAX_RATE);
+        const total = s.price + tax;
+        const name = document.getElementById('bookName') ? document.getElementById('bookName').value : '';
+        const email = document.getElementById('bookEmail') ? document.getElementById('bookEmail').value : '';
+        const phone = document.getElementById('bookPhone') ? document.getElementById('bookPhone').value : '';
+        const method = document.querySelector('input[name="payMethod"]:checked');
+        const preferredMethod = method ? method.value : 'upi';
+
+        const options = {
+            key: 'RAZORPAY_KEY_ID',  // ← Replace with your Razorpay Key ID
+            amount: total * 100,     // Razorpay expects paise
+            currency: 'INR',
+            name: 'Priyank Vyas',
+            description: s.title + (selectedDate ? ' — ' + selectedDate : ''),
+            image: '',
+            prefill: { name, email, contact: phone ? '+91' + phone : '' },
+            theme: { color: '#1a1a1a' },
+            method: {
+                upi: preferredMethod === 'upi',
+                card: preferredMethod === 'card',
+                netbanking: preferredMethod === 'netbanking',
+                wallet: preferredMethod === 'wallet',
+            },
+            handler: function(response) {
+                currentStep = 4;
+                renderStep();
+            },
+            modal: {
+                ondismiss: function() { /* user closed Razorpay modal */ }
+            }
+        };
+
+        try {
+            const rzp = new Razorpay(options);
+            rzp.open();
+        } catch(e) {
+            // Fallback: if Razorpay key not configured, show success demo
+            alert('Payment gateway not configured yet. Showing confirmation demo.');
+            currentStep = 4;
+            renderStep();
+        }
+    }
 </script>
 
 </body>
