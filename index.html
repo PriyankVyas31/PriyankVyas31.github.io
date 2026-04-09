@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -368,7 +368,7 @@
             padding-left: 1.2rem;
         }
         .timeline-desc li::before {
-            content: 'â–¸';
+            content: '▸';
             position: absolute;
             left: 0;
             color: var(--accent);
@@ -577,51 +577,6 @@
             color: var(--text-dim);
         }
 
-        /* --- Booking Modal (Topmate Embed) --- */
-        .topmate-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            z-index: 200;
-            background: rgba(0,0,0,0.7);
-            backdrop-filter: blur(6px);
-            align-items: center;
-            justify-content: center;
-            padding: 1rem;
-        }
-        .topmate-overlay.active { display: flex; }
-        .topmate-modal {
-            background: #fff;
-            border-radius: 18px;
-            max-width: 480px;
-            width: 100%;
-            height: 90vh;
-            max-height: 750px;
-            overflow: hidden;
-            position: relative;
-        }
-        .topmate-modal .tm-close {
-            position: absolute; top: 0.6rem; right: 0.75rem;
-            z-index: 10;
-            width: 32px; height: 32px;
-            border-radius: 50%;
-            background: rgba(0,0,0,0.6);
-            color: #fff;
-            border: none; cursor: pointer;
-            font-size: 1.2rem; line-height: 1;
-            display: flex; align-items: center; justify-content: center;
-            transition: background 0.2s;
-        }
-        .topmate-modal .tm-close:hover { background: rgba(0,0,0,0.8); }
-        .topmate-modal iframe {
-            width: 100%; height: 100%;
-            border: none; border-radius: 18px;
-        }
-        @media (max-width: 520px) {
-            .topmate-modal { max-width: 100%; height: 95vh; border-radius: 14px; }
-            .topmate-modal iframe { border-radius: 14px; }
-        }
-
         /* --- Contact --- */
         .contact-grid {
             display: grid;
@@ -753,7 +708,7 @@
     <div class="hero-content">
         <div class="hero-badge"><span class="dot"></span> Available for collaboration</div>
         <h1>Hi, I'm <span class="gradient">Priyank Vyas</span></h1>
-        <p>Software Engineer at <strong style="color:#00a4ef">Microsoft Azure</strong> â€” building bare-metal storage infrastructure on DPUs &amp; SmartNICs. 5+ years deep in systems programming, networking, and high-performance data planes.</p>
+        <p>Software Engineer at <strong style="color:#00a4ef">Microsoft Azure</strong> — building bare-metal storage infrastructure on DPUs &amp; SmartNICs. 5+ years deep in systems programming, networking, and high-performance data planes.</p>
         <div class="hero-cta">
             <a href="#sessions" class="btn btn-primary">Book a Session</a>
             <a href="#experience" class="btn btn-outline">View Experience</a>
@@ -802,7 +757,7 @@
         <h2 class="section-title">Technical Skills</h2>
         <div class="skills-grid">
             <div class="skill-card fade-up">
-                <div class="skill-icon">âš™ï¸</div>
+                <div class="skill-icon">⚙️</div>
                 <h3>Systems Programming</h3>
                 <p>Low-level C/C++ development, device drivers, kernel-level programming, and operating system internals.</p>
                 <div class="skill-tags">
@@ -814,7 +769,7 @@
                 </div>
             </div>
             <div class="skill-card fade-up">
-                <div class="skill-icon">ðŸŒ</div>
+                <div class="skill-icon">🌐</div>
                 <h3>Networking &amp; Protocols</h3>
                 <p>High-performance networking with deep expertise in RDMA, TCP/IP stack, and data plane acceleration.</p>
                 <div class="skill-tags">
@@ -826,7 +781,7 @@
                 </div>
             </div>
             <div class="skill-card fade-up">
-                <div class="skill-icon">ðŸ’¾</div>
+                <div class="skill-icon">💾</div>
                 <h3>Storage Infrastructure</h3>
                 <p>Bare-metal storage stack bring-up, NVMe Express, distributed storage systems on virtual processors.</p>
                 <div class="skill-tags">
@@ -837,7 +792,7 @@
                 </div>
             </div>
             <div class="skill-card fade-up">
-                <div class="skill-icon">ðŸ—ï¸</div>
+                <div class="skill-icon">🏗️</div>
                 <h3>Platform &amp; Embedded</h3>
                 <p>FPGA-based hardware communication, router boot processes, and embedded system bring-up.</p>
                 <div class="skill-tags">
@@ -848,7 +803,7 @@
                 </div>
             </div>
             <div class="skill-card fade-up">
-                <div class="skill-icon">â˜ï¸</div>
+                <div class="skill-icon">☁️</div>
                 <h3>Cloud &amp; Scalability</h3>
                 <p>Azure cloud infrastructure, hyperscale data center solutions, and scalable system design.</p>
                 <div class="skill-tags">
@@ -859,7 +814,7 @@
                 </div>
             </div>
             <div class="skill-card fade-up">
-                <div class="skill-icon">ðŸ› ï¸</div>
+                <div class="skill-icon">🛠️</div>
                 <h3>Backend &amp; Tooling</h3>
                 <p>Backend services development, SQL/PLSQL, Java, and trading infrastructure for financial systems.</p>
                 <div class="skill-tags">
@@ -886,10 +841,10 @@
                     <div class="company-logo logo-microsoft">MSFT</div>
                     <div>
                         <div class="timeline-role">Software Engineer 2</div>
-                        <div class="timeline-company">Microsoft Â· Full-time</div>
+                        <div class="timeline-company">Microsoft · Full-time</div>
                     </div>
                 </div>
-                <div class="timeline-meta">Jul 2025 â€“ Present Â· 10 mos &nbsp;|&nbsp; Bengaluru, India Â· Remote</div>
+                <div class="timeline-meta">Jul 2025 – Present · 10 mos &nbsp;|&nbsp; Bengaluru, India · Remote</div>
                 <ul class="timeline-desc">
                     <li>Working on bare-metal storage stack bring-up on DPUs and SmartNICs, focusing on high-performance data plane acceleration for Azure cloud.</li>
                     <li>Designing low-latency, scalable storage solutions on virtual processors within SmartNICs/DPUs.</li>
@@ -911,10 +866,10 @@
                     <div class="company-logo logo-cisco">CISCO</div>
                     <div>
                         <div class="timeline-role">Software Engineer 2</div>
-                        <div class="timeline-company">Cisco Â· Full-time</div>
+                        <div class="timeline-company">Cisco · Full-time</div>
                     </div>
                 </div>
-                <div class="timeline-meta">Jun 2022 â€“ Jun 2025 Â· 3 yrs 1 mo &nbsp;|&nbsp; Bengaluru, India Â· Hybrid</div>
+                <div class="timeline-meta">Jun 2022 – Jun 2025 · 3 yrs 1 mo &nbsp;|&nbsp; Bengaluru, India · Hybrid</div>
                 <ul class="timeline-desc">
                     <li>Developed platform infrastructure for Cisco IOS XR, specializing in FPGA-based hardware communication.</li>
                     <li>Implemented router boot processes and optimized system performance.</li>
@@ -936,10 +891,10 @@
                     <div class="company-logo logo-tcs">TCS</div>
                     <div>
                         <div class="timeline-role">Assistant System Engineer</div>
-                        <div class="timeline-company">Tata Consultancy Services Â· Full-time</div>
+                        <div class="timeline-company">Tata Consultancy Services · Full-time</div>
                     </div>
                 </div>
-                <div class="timeline-meta">Feb 2021 â€“ Jun 2022 Â· 1 yr 5 mos &nbsp;|&nbsp; Mumbai, India Â· Remote</div>
+                <div class="timeline-meta">Feb 2021 – Jun 2022 · 1 yr 5 mos &nbsp;|&nbsp; Mumbai, India · Remote</div>
                 <ul class="timeline-desc">
                     <li>Developed brand new modules from scratch using C, Pro*C, Unix, Java, SQL, and PLSQL for the National Stock Exchange of India in the Clearing and Settlement Project.</li>
                     <li>Collaborated with the Collateral team to ensure seamless integration and functionality of backend systems.</li>
@@ -967,20 +922,20 @@
         <div class="edu-grid">
             <div class="edu-card fade-up">
                 <h3>Rajiv Gandhi Prodyogiki Vishwavidyalaya</h3>
-                <div class="degree">Bachelor of Engineering â€” Information Technology</div>
-                <div class="edu-meta">2016 â€“ 2020</div>
+                <div class="degree">Bachelor of Engineering — Information Technology</div>
+                <div class="edu-meta">2016 – 2020</div>
                 <span class="grade">CGPA: 8.56</span>
             </div>
             <div class="edu-card fade-up">
                 <h3>Kolping Convent Higher Secondary School</h3>
                 <div class="degree">Higher Secondary School</div>
-                <div class="edu-meta">Jun 2015 â€“ Jun 2016</div>
+                <div class="edu-meta">Jun 2015 – Jun 2016</div>
                 <span class="grade">86.8%</span>
             </div>
             <div class="edu-card fade-up">
                 <h3>Kolping Convent Higher Secondary School</h3>
                 <div class="degree">High School</div>
-                <div class="edu-meta">Jun 2013 â€“ Jun 2014</div>
+                <div class="edu-meta">Jun 2013 – Jun 2014</div>
                 <span class="grade">85%</span>
             </div>
         </div>
@@ -994,96 +949,96 @@
         <h2 class="section-title">Book a Session</h2>
         <div class="sessions-grid">
 
-            <div class="session-card fade-up" onclick="openBooking('mock-interview')">
+            <a href="https://topmate.io/priyank_vyas" target="_blank" rel="noopener noreferrer" class="session-card fade-up">
                 <span class="session-popular">Popular</span>
                 <div class="session-type">
                     <svg viewBox="0 0 24 24"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>
-                    Video meeting Â· 60 mins
-                    <span class="session-rating">â˜… 5</span>
+                    Video meeting · 60 mins
+                    <span class="session-rating">★ 5</span>
                 </div>
                 <h3>Mock Interview</h3>
                 <div class="session-subtitle">Technical Interview</div>
                 <div class="session-pricing">
-                    <span class="session-price">â‚¹500</span>
-                    <span class="session-original">â‚¹1,500</span>
+                    <span class="session-price">₹500</span>
+                    <span class="session-original">₹1,500</span>
                 </div>
-                <span class="session-book">Book Now â†’</span>
-            </div>
+                <span class="session-book">Book Now →</span>
+            </a>
 
-            <div class="session-card fade-up" onclick="openBooking('career-guidance')">
+            <a href="https://topmate.io/priyank_vyas" target="_blank" rel="noopener noreferrer" class="session-card fade-up">
                 <span class="session-popular">Popular</span>
                 <div class="session-type">
                     <svg viewBox="0 0 24 24"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>
-                    Video meeting Â· 15 mins
-                    <span class="session-rating">â˜… 5</span>
+                    Video meeting · 15 mins
+                    <span class="session-rating">★ 5</span>
                 </div>
                 <h3>1:1 Call About Career</h3>
                 <div class="session-subtitle">Career Guidance</div>
                 <div class="session-pricing">
-                    <span class="session-price">â‚¹200</span>
-                    <span class="session-original">â‚¹500</span>
+                    <span class="session-price">₹200</span>
+                    <span class="session-original">₹500</span>
                 </div>
-                <span class="session-book">Book Now â†’</span>
-            </div>
+                <span class="session-book">Book Now →</span>
+            </a>
 
-            <div class="session-card fade-up" onclick="openBooking('interview-prep')">
+            <a href="https://topmate.io/priyank_vyas" target="_blank" rel="noopener noreferrer" class="session-card fade-up">
                 <div class="session-type">
                     <svg viewBox="0 0 24 24"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>
-                    Video meeting Â· 30 mins
-                    <span class="session-rating">â˜… 5</span>
+                    Video meeting · 30 mins
+                    <span class="session-rating">★ 5</span>
                 </div>
                 <h3>Interview Prep &amp; Tips</h3>
                 <div class="session-subtitle">Interview Preparation</div>
                 <div class="session-pricing">
-                    <span class="session-price">â‚¹500</span>
-                    <span class="session-original">â‚¹1,500</span>
+                    <span class="session-price">₹500</span>
+                    <span class="session-original">₹1,500</span>
                 </div>
-                <span class="session-book">Book Now â†’</span>
-            </div>
+                <span class="session-book">Book Now →</span>
+            </a>
 
-            <div class="session-card fade-up" onclick="openBooking('quick-chat')">
+            <a href="https://topmate.io/priyank_vyas" target="_blank" rel="noopener noreferrer" class="session-card fade-up">
                 <div class="session-type">
                     <svg viewBox="0 0 24 24"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>
-                    Video meeting Â· 20 mins
+                    Video meeting · 20 mins
                 </div>
                 <h3>Quick Chat</h3>
                 <div class="session-subtitle">Quick 1:1 Chat</div>
                 <div class="session-pricing">
-                    <span class="session-price">â‚¹250</span>
-                    <span class="session-original">â‚¹400</span>
+                    <span class="session-price">₹250</span>
+                    <span class="session-original">₹400</span>
                 </div>
-                <span class="session-book">Book Now â†’</span>
-            </div>
+                <span class="session-book">Book Now →</span>
+            </a>
 
-            <div class="session-card fade-up" onclick="openBooking('resume-review')">
+            <a href="https://topmate.io/priyank_vyas" target="_blank" rel="noopener noreferrer" class="session-card fade-up">
                 <div class="session-type">
                     <svg viewBox="0 0 24 24"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>
-                    Video meeting Â· 15 mins
-                    <span class="session-rating">â˜… 5</span>
+                    Video meeting · 15 mins
+                    <span class="session-rating">★ 5</span>
                 </div>
                 <h3>Resume Review</h3>
                 <div class="session-subtitle">Resume Guidance</div>
                 <div class="session-pricing">
-                    <span class="session-price">â‚¹100</span>
-                    <span class="session-original">â‚¹150</span>
+                    <span class="session-price">₹100</span>
+                    <span class="session-original">₹150</span>
                 </div>
-                <span class="session-book">Book Now â†’</span>
-            </div>
+                <span class="session-book">Book Now →</span>
+            </a>
 
-            <div class="session-card fade-up" onclick="openBooking('priority-dm')">
+            <a href="https://topmate.io/priyank_vyas" target="_blank" rel="noopener noreferrer" class="session-card fade-up">
                 <span class="session-popular">Popular</span>
                 <div class="session-type">
                     <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>
-                    Priority DM Â· a day reply
-                    <span class="session-rating">â˜… 4.5</span>
+                    Priority DM · a day reply
+                    <span class="session-rating">★ 4.5</span>
                 </div>
                 <h3>Have a Question?</h3>
                 <div class="session-subtitle">Quick Help</div>
                 <div class="session-pricing">
-                    <span class="session-price">â‚¹100</span>
+                    <span class="session-price">₹100</span>
                 </div>
-                <span class="session-book">Send DM â†’</span>
-            </div>
+                <span class="session-book">Send DM →</span>
+            </a>
 
         </div>
     </div>
@@ -1097,7 +1052,7 @@
         <div class="testimonials-grid">
 
             <div class="testimonial-card fade-up">
-                <div class="testimonial-stars">â˜…â˜…â˜…â˜…â˜…</div>
+                <div class="testimonial-stars">★★★★★</div>
                 <blockquote>"I had both my LLD and HLD rounds with Priyank, and it was a great experience. He explained the concepts very clearly, shared helpful resources, and guided me through the Microsoft interview process in detail. His approach made complex topics easy to understand and boosted my confidence for the actual rounds."</blockquote>
                 <div class="testimonial-author">
                     <div class="author-avatar">CU</div>
@@ -1109,7 +1064,7 @@
             </div>
 
             <div class="testimonial-card fade-up">
-                <div class="testimonial-stars">â˜…â˜…â˜…â˜…â˜…</div>
+                <div class="testimonial-stars">★★★★★</div>
                 <blockquote>"Had a very good discussion with Priyank. He cleared all my doubts and shared his experience which will definitely going to help me in taking career decisions."</blockquote>
                 <div class="testimonial-author">
                     <div class="author-avatar">SS</div>
@@ -1121,7 +1076,7 @@
             </div>
 
             <div class="testimonial-card fade-up">
-                <div class="testimonial-stars">â˜…â˜…â˜…â˜…â˜…</div>
+                <div class="testimonial-stars">★★★★★</div>
                 <blockquote>"Priyank is a great mentor who has guided me a lot. I can confidently say that if you need guidance or help, he is someone you can truly look up to."</blockquote>
                 <div class="testimonial-author">
                     <div class="author-avatar">AC</div>
@@ -1133,7 +1088,7 @@
             </div>
 
             <div class="testimonial-card fade-up">
-                <div class="testimonial-stars">â˜…â˜…â˜…â˜…â˜…</div>
+                <div class="testimonial-stars">★★★★★</div>
                 <blockquote>"Priyank was very helpful in understanding my situation and conveying his thoughts accordingly. He advised me according to the current market situation and gave industry insights. It was an insightful experience talking to him."</blockquote>
                 <div class="testimonial-author">
                     <div class="author-avatar">A</div>
@@ -1205,283 +1160,29 @@
     <p>&copy; 2026 Priyank Vyas. Built with passion for systems engineering.</p>
 </footer>
 
-<!-- Booking Modal -->
-<div class="topmate-overlay" id="bookingModal">
-    <div class="topmate-modal" style="max-width:720px;">
-        <button class="tm-close" id="modalClose" title="Close">Ã—</button>
-        <div style="padding:1.5rem;overflow-y:auto;height:100%;" id="modalBody"></div>
-    </div>
-</div>
-
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>
-    // â”€â”€ Nav & Scroll â”€â”€
+    // Mobile nav toggle
     document.getElementById('hamburger').addEventListener('click', () => {
         document.getElementById('navLinks').classList.toggle('open');
     });
+
+    // Close nav on link click
     document.querySelectorAll('.nav-links a').forEach(link => {
-        link.addEventListener('click', () => document.getElementById('navLinks').classList.remove('open'));
-    });
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-    }, { threshold: 0.1 });
-    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
-
-    // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-    //  CONFIG â€” Your backend server URL
-    //  Replace after deploying to Render
-    // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-    const API_BASE = 'https://booking-server-xxxx.onrender.com'; // â† UPDATE THIS
-
-    // â”€â”€ Session data â”€â”€
-    const SESSIONS = {
-        'mock-interview':  { title: 'Mock Interview', subtitle: 'Technical Interview', price: 500, original: 1500, duration: 60, type: 'Video Call' },
-        'career-guidance':  { title: '1:1 Call About Career', subtitle: 'Career Guidance', price: 200, original: 500, duration: 15, type: 'Video Call' },
-        'interview-prep':  { title: 'Interview Prep & Tips', subtitle: 'Interview Preparation', price: 500, original: 1500, duration: 30, type: 'Video Call' },
-        'quick-chat':      { title: 'Quick Chat', subtitle: 'Quick 1:1 Chat', price: 250, original: 400, duration: 20, type: 'Video Call' },
-        'resume-review':   { title: 'Resume Review', subtitle: 'Resume Guidance', price: 100, original: 150, duration: 15, type: 'Video Call' },
-        'priority-dm':     { title: 'Have a Question?', subtitle: 'Quick Help (Priority DM)', price: 100, original: null, duration: null, type: 'Priority DM' }
-    };
-
-    let currentStep = 1, currentSession = null, selectedDate = null, selectedTime = null, calendarOffset = 0, bookingData = {};
-    const VISIBLE_DATES = 5;
-    const DAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-    const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-
-    function openBooking(id) {
-        currentSession = { id, ...SESSIONS[id] };
-        currentStep = 1; calendarOffset = 0; selectedDate = null; selectedTime = null; bookingData = {};
-        document.getElementById('bookingModal').classList.add('active');
-        document.body.style.overflow = 'hidden';
-        renderStep();
-    }
-    function closeBooking() {
-        document.getElementById('bookingModal').classList.remove('active');
-        document.body.style.overflow = '';
-    }
-    document.getElementById('modalClose').addEventListener('click', closeBooking);
-    document.getElementById('bookingModal').addEventListener('click', e => { if (e.target === e.currentTarget) closeBooking(); });
-
-    function fmtDate(d) { return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
-    function getDates(off, cnt) { const a=[],t=new Date(); for(let i=0;i<cnt;i++){const d=new Date(t);d.setDate(t.getDate()+off+i);a.push(d);}return a; }
-    function getTimeSlots(dur) { const s=[]; for(let h=9;h<18;h++) for(let m=0;m<60;m+=15){ if(h===17&&m+(dur||15)>60)break; const hr=h>12?h-12:h; s.push({display:`${String(hr).padStart(2,'0')}:${String(m).padStart(2,'0')} ${h>=12?'PM':'AM'}`}); } return s; }
-    function selectDate(k){selectedDate=k;selectedTime=null;renderStep();}
-    function selectTime(t){selectedTime=t;renderStep();}
-    function navCal(d){calendarOffset=Math.max(0,calendarOffset+d);renderStep();}
-    function skipToForm(){currentStep=2;renderStep();}
-    function saveFormData(){
-        ['bookName','bookEmail','bookTopic','bookPhone'].forEach(id=>{
-            const el=document.getElementById(id);
-            if(el) bookingData[id.replace('book','').toLowerCase()]=el.value;
+        link.addEventListener('click', () => {
+            document.getElementById('navLinks').classList.remove('open');
         });
-    }
-    function goToStep(step){
-        if(step===3){
-            const n=document.getElementById('bookName'),e=document.getElementById('bookEmail');
-            if(!n||!n.value.trim()){n.focus();return alert('Please enter your name.');}
-            if(!e||!e.value.trim()||!e.value.includes('@')){e.focus();return alert('Please enter a valid email.');}
-            saveFormData();
-        }
-        currentStep=step; renderStep();
-    }
+    });
 
-    // â”€â”€ Render steps â”€â”€
-    function renderStep() {
-        const body = document.getElementById('modalBody');
-        const s = currentSession;
-        const bar = `<div style="display:flex;gap:6px;margin-bottom:1.5rem;">
-            <div style="flex:1;height:4px;border-radius:4px;background:${currentStep>1?'#22c55e':currentStep===1?'#1a1a1a':'#e5e5e5'}"></div>
-            <div style="flex:1;height:4px;border-radius:4px;background:${currentStep>2?'#22c55e':currentStep===2?'#1a1a1a':'#e5e5e5'}"></div>
-            <div style="flex:1;height:4px;border-radius:4px;background:${currentStep>3?'#22c55e':currentStep===3?'#1a1a1a':'#e5e5e5'}"></div>
-        </div>`;
-
-        if (currentStep === 1) {
-            const isDM = s.type === 'Priority DM';
-            const dates = getDates(calendarOffset, VISIBLE_DATES);
-            const datesH = dates.map(d=>{const k=fmtDate(d),sel=selectedDate===k;return `<div style="min-width:72px;padding:10px 8px;border-radius:10px;border:2px solid ${sel?'#1a1a1a':'#e5e5e5'};text-align:center;cursor:pointer;background:${sel?'#1a1a1a':'#fff'};color:${sel?'#fff':'#333'};flex-shrink:0;" onclick="selectDate('${k}')"><div style="font-size:11px;font-weight:600;">${DAYS[d.getDay()]}</div><div style="font-size:15px;font-weight:700;margin-top:2px;">${d.getDate()}</div><div style="font-size:10px;color:${sel?'#ccc':'#999'};margin-top:1px;">${MONTHS[d.getMonth()]}</div></div>`;}).join('');
-            const slots = getTimeSlots(s.duration||15);
-            const slotsH = slots.map(t=>{const sel=selectedTime===t.display;return `<div style="padding:8px;border-radius:8px;border:1.5px solid ${sel?'#1a1a1a':'#e5e5e5'};text-align:center;cursor:pointer;font-size:13px;font-weight:500;background:${sel?'#1a1a1a':'#fff'};color:${sel?'#fff':'#333'};" onclick="selectTime('${t.display}')">${t.display}</div>`;}).join('');
-
-            body.innerHTML = `${bar}
-                <h2 style="font-size:1.5rem;font-weight:800;color:#1a1a1a;">${s.title}</h2>
-                <p style="font-size:14px;color:#888;margin-bottom:16px;">${s.type}${s.duration?' | '+s.duration+'mins':' | ~1 day reply'}</p>
-                <div style="display:flex;align-items:baseline;gap:8px;padding-bottom:16px;border-bottom:1px solid #eee;margin-bottom:20px;">
-                    <span style="font-size:1.5rem;font-weight:800;">â‚¹${s.price}</span>
-                    ${s.original?`<span style="font-size:14px;color:#aaa;text-decoration:line-through;">â‚¹${s.original}</span>`:''}
-                </div>
-                ${isDM?`
-                    <div style="margin-bottom:16px;"><label style="display:block;font-size:14px;font-weight:600;margin-bottom:6px;">Your Question</label><textarea id="dmQuestion" placeholder="Type your question here..." rows="4" style="width:100%;padding:10px;border:1.5px solid #ddd;border-radius:10px;font-size:14px;font-family:inherit;resize:vertical;"></textarea></div>
-                    <button onclick="skipToForm()" style="width:100%;padding:14px;background:#1a1a1a;color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;">Continue</button>
-                `:`
-                    <p style="font-size:16px;font-weight:700;margin-bottom:12px;">When should we meet?</p>
-                    <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">
-                        <button onclick="navCal(-VISIBLE_DATES)" style="width:34px;height:34px;border-radius:50%;border:1px solid #ddd;background:#fff;cursor:pointer;font-size:14px;" ${calendarOffset===0?'disabled style="opacity:.4;pointer-events:none"':''}>â€¹</button>
-                        <div style="display:flex;gap:8px;overflow-x:auto;flex:1;scrollbar-width:none;">${datesH}</div>
-                        <button onclick="navCal(VISIBLE_DATES)" style="width:34px;height:34px;border-radius:50%;border:1px solid #ddd;background:#fff;cursor:pointer;font-size:14px;">â€º</button>
-                    </div>
-                    ${selectedDate?`
-                        <p style="font-size:16px;font-weight:700;margin:20px 0 8px;">Select time of day</p>
-                        <p style="font-size:12px;color:#999;margin-bottom:12px;">Timezone: (GMT+5:30) India</p>
-                        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:8px;margin-bottom:20px;">${slotsH}</div>
-                    `:''}
-                    <button onclick="goToStep(2)" ${!selectedDate||!selectedTime?'disabled style="background:#ccc;cursor:not-allowed;"':'style="background:#1a1a1a;cursor:pointer;"'} style="width:100%;padding:14px;color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;">Continue</button>
-                `}`;
-        }
-
-        else if (currentStep === 2) {
-            const isDM = s.type === 'Priority DM';
-            let preview = '';
-            if (!isDM && selectedDate && selectedTime) {
-                const d=new Date(selectedDate);
-                preview=`<div style="background:#f5f5f5;border-radius:10px;padding:12px;margin-bottom:20px;display:flex;align-items:center;gap:12px;"><div style="background:#fff;border:1px solid #ddd;border-radius:8px;padding:6px 10px;text-align:center;"><div style="font-size:10px;font-weight:600;color:#3b82f6;">${MONTHS[d.getMonth()]}</div><div style="font-size:16px;font-weight:800;">${d.getDate()}</div></div><div style="font-size:13px;color:#666;"><strong style="color:#1a1a1a;display:block;">${DAYS[d.getDay()]}, ${d.getDate()} ${MONTHS[d.getMonth()]}</strong>${selectedTime} (GMT +05:30)</div><button onclick="goToStep(1)" style="margin-left:auto;padding:6px 12px;border:1.5px solid #ddd;border-radius:8px;background:#fff;font-size:12px;font-weight:600;cursor:pointer;">Change</button></div>`;
+    // Scroll-triggered fade-in animations
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
             }
-            body.innerHTML = `${bar}
-                <h2 style="font-size:1.5rem;font-weight:800;color:#1a1a1a;margin-bottom:4px;">${s.title}</h2>
-                <p style="font-size:14px;color:#888;margin-bottom:16px;">${s.type}${s.duration?' | '+s.duration+'mins':''}</p>
-                ${preview}
-                <div style="margin-bottom:16px;"><label style="display:block;font-size:14px;font-weight:600;margin-bottom:6px;">Name</label><input id="bookName" placeholder="Enter your name" value="${bookingData.name||''}" style="width:100%;padding:10px;border:1.5px solid #ddd;border-radius:10px;font-size:14px;"></div>
-                <div style="margin-bottom:16px;"><label style="display:block;font-size:14px;font-weight:600;margin-bottom:6px;">Email</label><input id="bookEmail" type="email" placeholder="Enter your email" value="${bookingData.email||''}" style="width:100%;padding:10px;border:1.5px solid #ddd;border-radius:10px;font-size:14px;"></div>
-                <div style="margin-bottom:16px;"><label style="display:block;font-size:14px;font-weight:600;margin-bottom:6px;">${isDM?'Your Question':'What is the call about?'}</label><textarea id="bookTopic" placeholder="${isDM?'Type your question...':'Brief description...'}" style="width:100%;padding:10px;border:1.5px solid #ddd;border-radius:10px;font-size:14px;font-family:inherit;resize:vertical;min-height:80px;">${bookingData.topic||''}</textarea></div>
-                <div style="margin-bottom:20px;"><label style="display:block;font-size:14px;font-weight:600;margin-bottom:6px;">Phone number</label><div style="display:flex;gap:8px;"><input value="+91" readonly style="width:70px;padding:10px;border:1.5px solid #ddd;border-radius:10px;text-align:center;background:#f9f9f9;font-size:14px;"><input id="bookPhone" type="tel" placeholder="Enter phone number" value="${bookingData.phone||''}" style="flex:1;padding:10px;border:1.5px solid #ddd;border-radius:10px;font-size:14px;"></div></div>
-                <button onclick="goToStep(3)" style="width:100%;padding:14px;background:#1a1a1a;color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;">Continue to Payment</button>`;
-        }
+        });
+    }, { threshold: 0.1 });
 
-        else if (currentStep === 3) {
-            body.innerHTML = `${bar}
-                <h2 style="font-size:1.5rem;font-weight:800;color:#1a1a1a;">Pay â‚¹${s.price}</h2>
-                <p style="font-size:14px;color:#888;margin-bottom:20px;">${s.title} â€” ${s.type}</p>
-                <div style="background:#f9f9f9;border-radius:12px;padding:16px;margin-bottom:20px;">
-                    <div style="display:flex;justify-content:space-between;font-size:14px;color:#666;padding:4px 0;"><span>${s.title}</span><span>â‚¹${s.price}</span></div>
-                    <div style="display:flex;justify-content:space-between;font-size:16px;font-weight:700;border-top:1px solid #ddd;margin-top:8px;padding-top:10px;"><span>Total</span><span>â‚¹${s.price}</span></div>
-                </div>
-                <div style="text-align:center;padding:24px 0;">
-                    <div style="font-size:2rem;margin-bottom:8px;">ðŸ”’</div>
-                    <p style="font-size:14px;color:#666;margin-bottom:16px;">Click below to pay securely via Razorpay.<br>Supports UPI, Cards, Net Banking & Wallets.</p>
-                    <button id="payNowBtn" onclick="initiateRazorpay()" style="width:100%;padding:16px;background:#1a1a1a;color:#fff;border:none;border-radius:10px;font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;">
-                        Pay â‚¹${s.price} Now
-                    </button>
-                </div>
-                <p style="font-size:11px;color:#bbb;text-align:center;margin-top:8px;">Secured by Razorpay. All payment methods accepted.</p>`;
-        }
-
-        else if (currentStep === 4) {
-            body.innerHTML = `
-                <div style="text-align:center;padding:48px 24px;">
-                    <div style="width:64px;height:64px;border-radius:50%;background:#dcfce7;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;font-size:1.8rem;">âœ“</div>
-                    <h2 style="font-size:1.4rem;color:#1a1a1a;margin-bottom:8px;">Booking Confirmed!</h2>
-                    <p style="color:#666;font-size:14px;">Thank you, <strong>${bookingData.name||''}</strong>!</p>
-                    <p style="margin-top:8px;"><span style="background:#f0fdf4;border:1px solid #bbf7d0;padding:4px 12px;border-radius:6px;font-family:monospace;font-weight:700;font-size:14px;">${bookingData.bookingRef||''}</span></p>
-                    <p style="margin-top:8px;color:#666;font-size:14px;">Payment ID: <strong>${bookingData.paymentId||''}</strong></p>
-                    <p style="margin-top:16px;font-size:13px;color:#888;">Confirmation emails sent to <strong>${bookingData.email||''}</strong> and Priyank.</p>
-                    <button onclick="closeBooking()" style="margin-top:24px;padding:12px 32px;background:#1a1a1a;color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;">Done</button>
-                </div>`;
-        }
-    }
-
-    // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-    //  RAZORPAY PAYMENT FLOW
-    // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-    async function initiateRazorpay() {
-        const btn = document.getElementById('payNowBtn');
-        btn.disabled = true;
-        btn.innerHTML = 'Creating order... â³';
-
-        const s = currentSession;
-
-        try {
-            // Step 1: Create order on backend
-            const res = await fetch(API_BASE + '/api/create-order', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    amount: s.price,
-                    session_title: s.title,
-                    customer_name: bookingData.name,
-                    customer_email: bookingData.email
-                })
-            });
-
-            if (!res.ok) throw new Error('Order creation failed');
-            const order = await res.json();
-
-            // Step 2: Open Razorpay checkout
-            const options = {
-                key: order.key_id,
-                amount: order.amount,
-                currency: order.currency,
-                order_id: order.id,
-                name: 'Priyank Vyas',
-                description: s.title + (selectedDate ? ' â€” ' + selectedDate : ''),
-                prefill: {
-                    name: bookingData.name || '',
-                    email: bookingData.email || '',
-                    contact: bookingData.phone ? '+91' + bookingData.phone : ''
-                },
-                theme: { color: '#1a1a1a' },
-                handler: async function(response) {
-                    // Step 3: Verify payment on backend
-                    btn.innerHTML = 'Verifying payment... â³';
-                    try {
-                        const verifyRes = await fetch(API_BASE + '/api/verify-payment', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({
-                                razorpay_order_id: response.razorpay_order_id,
-                                razorpay_payment_id: response.razorpay_payment_id,
-                                razorpay_signature: response.razorpay_signature,
-                                booking: {
-                                    session: s.title,
-                                    date: selectedDate || 'N/A',
-                                    time: selectedTime || 'N/A',
-                                    name: bookingData.name,
-                                    email: bookingData.email,
-                                    phone: bookingData.phone,
-                                    topic: bookingData.topic
-                                }
-                            })
-                        });
-
-                        const result = await verifyRes.json();
-
-                        if (result.verified) {
-                            bookingData.bookingRef = result.bookingRef;
-                            bookingData.paymentId = result.paymentId;
-                            currentStep = 4;
-                            renderStep();
-                        } else {
-                            alert('Payment verification failed. Please contact priyankvyas001@gmail.com with your payment ID: ' + response.razorpay_payment_id);
-                        }
-                    } catch (err) {
-                        // Payment was successful but verification call failed
-                        bookingData.paymentId = response.razorpay_payment_id;
-                        bookingData.bookingRef = 'PENDING';
-                        currentStep = 4;
-                        renderStep();
-                    }
-                },
-                modal: {
-                    ondismiss: function() {
-                        btn.disabled = false;
-                        btn.innerHTML = 'Pay â‚¹' + s.price + ' Now';
-                    }
-                }
-            };
-
-            const rzp = new Razorpay(options);
-            rzp.on('payment.failed', function(response) {
-                alert('Payment failed: ' + response.error.description);
-                btn.disabled = false;
-                btn.innerHTML = 'Pay â‚¹' + s.price + ' Now';
-            });
-            rzp.open();
-
-        } catch (err) {
-            console.error(err);
-            alert('Could not connect to payment server. Please try again.');
-            btn.disabled = false;
-            btn.innerHTML = 'Pay â‚¹' + s.price + ' Now';
-        }
-    }
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 </script>
 
 </body>
