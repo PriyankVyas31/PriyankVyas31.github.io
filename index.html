@@ -1896,7 +1896,8 @@
                 <div class="payment-status waiting" id="paymentStatus">
                     <div class="status-icon">⏳</div>
                     <h4>Waiting for payment...</h4>
-                    <p>Complete the payment using QR code or a UPI app above.<br>This will update automatically when you return.</p>
+                    <p>Complete the payment using QR code or a UPI app above.</p>
+                    <button onclick="onPayClicked()" style="margin-top:0.75rem;padding:0.5rem 1.25rem;border-radius:8px;border:1.5px solid #22c55e;background:#f0fdf4;color:#166534;font-size:0.82rem;font-weight:600;cursor:pointer;">✓ I've completed the payment</button>
                 </div>
 
                 <button class="modal-pay-btn disabled" id="confirmPayBtn" onclick="confirmPayment()" disabled>
