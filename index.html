@@ -867,6 +867,67 @@
             margin-left: auto; display: flex; gap: 0.35rem;
             font-size: 0.7rem; color: #999;
         }
+        .pay-upi-section {
+            margin-top: 1rem; text-align: center;
+        }
+        .pay-upi-section .qr-container {
+            background: #fff; border: 2px solid #e5e5e5;
+            border-radius: 14px; padding: 1.25rem;
+            display: inline-block; margin-bottom: 1rem;
+        }
+        .pay-upi-section .qr-container img {
+            width: 200px; height: 200px; display: block;
+        }
+        .pay-upi-section .upi-id-row {
+            display: flex; align-items: center;
+            justify-content: center; gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        .pay-upi-section .upi-id-box {
+            background: #f5f5f5; border: 1.5px dashed #ccc;
+            border-radius: 8px; padding: 0.6rem 1rem;
+            font-family: monospace; font-size: 0.9rem;
+            color: #1a1a1a; font-weight: 600;
+        }
+        .pay-upi-section .copy-btn {
+            padding: 0.5rem 0.9rem; border-radius: 8px;
+            border: 1.5px solid #ddd; background: #fff;
+            font-size: 0.78rem; font-weight: 600;
+            cursor: pointer; color: #333; transition: 0.2s;
+        }
+        .pay-upi-section .copy-btn:hover { background: #f0f0f0; }
+        .pay-upi-section .or-divider {
+            display: flex; align-items: center;
+            gap: 0.75rem; margin: 1rem 0;
+            color: #bbb; font-size: 0.78rem;
+        }
+        .pay-upi-section .or-divider::before,
+        .pay-upi-section .or-divider::after {
+            content: ''; flex: 1; height: 1px; background: #e5e5e5;
+        }
+        .pay-upi-apps {
+            display: flex; justify-content: center;
+            gap: 0.75rem; margin-bottom: 1.25rem;
+            flex-wrap: wrap;
+        }
+        .pay-upi-apps a {
+            display: flex; align-items: center; gap: 0.4rem;
+            padding: 0.6rem 1rem; border: 1.5px solid #e5e5e5;
+            border-radius: 10px; text-decoration: none;
+            font-size: 0.82rem; font-weight: 600;
+            color: #1a1a1a; background: #fff;
+            transition: 0.2s;
+        }
+        .pay-upi-apps a:hover {
+            border-color: #1a1a1a; background: #fafafa;
+        }
+        .pay-upi-apps a .app-icon {
+            width: 22px; height: 22px; border-radius: 4px;
+        }
+        .pay-done-note {
+            font-size: 0.78rem; color: #999;
+            text-align: center; margin-bottom: 0.75rem;
+        }
         .modal-pay-btn {
             width: 100%; padding: 1rem;
             background: #1a1a1a; color: #fff;
@@ -1500,7 +1561,6 @@
     </div>
 </div>
 
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>
     // Mobile nav toggle
     document.getElementById('hamburger').addEventListener('click', () => {
@@ -1520,6 +1580,12 @@
     }, { threshold: 0.1 });
     document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 
+    // ═══════════════════════════════════════════
+    //  CONFIG — Update your UPI ID here
+    // ═══════════════════════════════════════════
+    const UPI_ID = 'priyankvyas001@oksbi';  // ← Replace with your actual UPI ID
+    const PAYEE_NAME = 'Priyank Vyas';
+
     // ── Session data ──
     const SESSIONS = {
         'mock-interview':  { title: 'Mock Interview', subtitle: 'Technical Interview', price: 500, original: 1500, duration: 60, type: 'Video Call', rating: 5 },
@@ -1530,12 +1596,12 @@
         'priority-dm':     { title: 'Have a Question?', subtitle: 'Quick Help (Priority DM)', price: 100, original: null, duration: null, type: 'Priority DM', rating: 4.5 }
     };
 
-    const TAX_RATE = 0.05;
     let currentStep = 1;
     let currentSession = null;
     let selectedDate = null;
     let selectedTime = null;
     let calendarOffset = 0;
+    let bookingData = {};
     const VISIBLE_DATES = 5;
 
     // ── Open / Close ──
@@ -1545,6 +1611,7 @@
         calendarOffset = 0;
         selectedDate = null;
         selectedTime = null;
+        bookingData = {};
         document.getElementById('bookingModal').classList.add('active');
         document.body.style.overflow = 'hidden';
         renderStep();
@@ -1592,6 +1659,31 @@
             }
         }
         return slots;
+    }
+
+    // ── UPI helpers ──
+    function buildUpiUrl(amount, note) {
+        const params = new URLSearchParams({
+            pa: UPI_ID,
+            pn: PAYEE_NAME,
+            am: amount.toString(),
+            cu: 'INR',
+            tn: note
+        });
+        return 'upi://pay?' + params.toString();
+    }
+
+    function getQrCodeUrl(amount, note) {
+        const upiUrl = buildUpiUrl(amount, note);
+        return 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=' + encodeURIComponent(upiUrl);
+    }
+
+    function copyUpiId() {
+        navigator.clipboard.writeText(UPI_ID).then(() => {
+            const btn = document.getElementById('copyUpiBtn');
+            btn.textContent = 'Copied!';
+            setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+        });
     }
 
     // ── Render ──
@@ -1682,70 +1774,77 @@
                 ${slotPreview}
                 <div class="book-form-group">
                     <label>Name</label>
-                    <input type="text" id="bookName" placeholder="Enter your name" required>
+                    <input type="text" id="bookName" placeholder="Enter your name" value="${bookingData.name || ''}" required>
                 </div>
                 <div class="book-form-group">
                     <label>Email</label>
-                    <input type="email" id="bookEmail" placeholder="Enter your email" required>
+                    <input type="email" id="bookEmail" placeholder="Enter your email" value="${bookingData.email || ''}" required>
                 </div>
                 <div class="book-form-group">
                     <label>${isDM ? 'Your Question' : 'What is the call about?'}</label>
-                    <textarea id="bookTopic" placeholder="${isDM ? 'Type your question...' : 'Brief description of what you want to discuss'}">${isDM && document.getElementById('dmQuestion') ? document.getElementById('dmQuestion').value : ''}</textarea>
+                    <textarea id="bookTopic" placeholder="${isDM ? 'Type your question...' : 'Brief description of what you want to discuss'}">${bookingData.topic || ''}</textarea>
                 </div>
                 <div class="book-form-group">
                     <label>Phone number</label>
                     <div class="phone-row">
                         <input class="phone-prefix" value="+91" readonly>
-                        <input type="tel" id="bookPhone" placeholder="Enter phone number" pattern="[0-9]{10}">
+                        <input type="tel" id="bookPhone" placeholder="Enter phone number" value="${bookingData.phone || ''}" pattern="[0-9]{10}">
                     </div>
                 </div>
-                <button class="modal-continue" onclick="goToStep(3)">Continue</button>
+                <button class="modal-continue" onclick="goToStep(3)">Continue to Payment</button>
             `;
         }
 
         else if (currentStep === 3) {
-            const subtotal = s.price;
-            const tax = Math.round(subtotal * TAX_RATE);
-            const total = subtotal + tax;
+            const total = s.price;
+            const note = s.title + (selectedDate ? ' on ' + selectedDate : '');
+            const upiUrl = buildUpiUrl(total, note);
+            const qrUrl = getQrCodeUrl(total, note);
 
             body.innerHTML = `
                 ${stepsHTML}
-                <h2>Confirm &amp; Pay</h2>
+                <h2>Pay ₹${total}</h2>
                 <div class="modal-session-meta">${s.title} — ${s.type}${s.duration ? ' | ' + s.duration + 'mins' : ''}</div>
 
                 <div class="order-summary">
                     <h3>Order Summary <span>₹${total}</span></h3>
-                    <div class="order-row"><span>${s.title}</span><span>₹${subtotal}</span></div>
-                    <div class="order-row"><span>Convenience fee (5%)</span><span>₹${tax}</span></div>
+                    <div class="order-row"><span>${s.title}</span><span>₹${s.price}</span></div>
                     <div class="order-row total"><span>Total Payable</span><span>₹${total}</span></div>
                 </div>
 
-                <div class="payment-methods">
-                    <h3>Payment Options</h3>
-                    <label class="pay-option selected" onclick="selectPay(this)">
-                        <input type="radio" name="payMethod" value="upi" checked>
-                        <span class="pay-label">UPI</span>
-                        <span class="pay-icons">GPay · PhonePe · BHIM</span>
-                    </label>
-                    <label class="pay-option" onclick="selectPay(this)">
-                        <input type="radio" name="payMethod" value="card">
-                        <span class="pay-label">Cards (Credit/Debit)</span>
-                        <span class="pay-icons">Visa · Mastercard · RuPay</span>
-                    </label>
-                    <label class="pay-option" onclick="selectPay(this)">
-                        <input type="radio" name="payMethod" value="netbanking">
-                        <span class="pay-label">Net Banking</span>
-                        <span class="pay-icons">SBI · HDFC · ICICI</span>
-                    </label>
-                    <label class="pay-option" onclick="selectPay(this)">
-                        <input type="radio" name="payMethod" value="wallet">
-                        <span class="pay-label">Wallet</span>
-                        <span class="pay-icons">Paytm · Mobikwik</span>
-                    </label>
+                <div class="pay-upi-section">
+                    <div class="qr-container">
+                        <img src="${qrUrl}" alt="Scan QR to pay ₹${total}" loading="lazy">
+                    </div>
+                    <p style="font-size:0.82rem;color:#666;margin-bottom:0.75rem;">Scan QR code with any UPI app to pay</p>
+
+                    <div class="upi-id-row">
+                        <span class="upi-id-box">${UPI_ID}</span>
+                        <button class="copy-btn" id="copyUpiBtn" onclick="copyUpiId()">Copy</button>
+                    </div>
+
+                    <div class="or-divider">or pay directly via</div>
+
+                    <div class="pay-upi-apps">
+                        <a href="${upiUrl}" target="_blank" rel="noopener noreferrer">
+                            <img class="app-icon" src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Google_Pay_Logo.svg/512px-Google_Pay_Logo.svg.png" alt="GPay">
+                            Google Pay
+                        </a>
+                        <a href="${upiUrl}" target="_blank" rel="noopener noreferrer">
+                            <img class="app-icon" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/PhonePe_Logo.svg/1024px-PhonePe_Logo.svg.png" alt="PhonePe">
+                            PhonePe
+                        </a>
+                        <a href="${upiUrl}" target="_blank" rel="noopener noreferrer">
+                            <img class="app-icon" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Paytm_Logo_%28standalone%29.svg/1200px-Paytm_Logo_%28standalone%29.svg.png" alt="Paytm">
+                            Paytm
+                        </a>
+                    </div>
+
+                    <div class="pay-done-note">After completing payment, click the button below to confirm your booking.</div>
                 </div>
 
-                <button class="modal-pay-btn" onclick="processPayment()">
-                    Confirm and Pay <span class="pay-amount">₹${total}</span>
+                <button class="modal-pay-btn" onclick="confirmPayment()">
+                    I've Completed the Payment <span class="pay-amount">₹${total}</span>
                 </button>
             `;
         }
@@ -1755,7 +1854,7 @@
                 <div class="booking-success">
                     <div class="success-icon">✓</div>
                     <h2>Booking Confirmed!</h2>
-                    <p>Thank you! A confirmation email has been sent to your email address. Priyank will connect with you at the scheduled time.</p>
+                    <p>Thank you, <strong>${bookingData.name || ''}</strong>! Your booking for <strong>${s.title}</strong>${selectedDate ? ' on <strong>' + selectedDate + '</strong> at <strong>' + selectedTime + '</strong>' : ''} has been received.<br><br>Priyank will reach out to you at <strong>${bookingData.email || ''}</strong> to confirm the session details.</p>
                     <button class="modal-continue" onclick="closeBooking()">Done</button>
                 </div>
             `;
@@ -1776,12 +1875,26 @@
         calendarOffset = Math.max(0, calendarOffset + dir);
         renderStep();
     }
+    function saveFormData() {
+        const n = document.getElementById('bookName');
+        const e = document.getElementById('bookEmail');
+        const t = document.getElementById('bookTopic');
+        const p = document.getElementById('bookPhone');
+        if (n) bookingData.name = n.value;
+        if (e) bookingData.email = e.value;
+        if (t) bookingData.topic = t.value;
+        if (p) bookingData.phone = p.value;
+    }
     function goToStep(step) {
         if (step === 3) {
             const name = document.getElementById('bookName');
             const email = document.getElementById('bookEmail');
             if (!name || !name.value.trim()) { name.focus(); return alert('Please enter your name.'); }
             if (!email || !email.value.trim() || !email.value.includes('@')) { email.focus(); return alert('Please enter a valid email.'); }
+            saveFormData();
+        }
+        if (step < currentStep && currentStep === 3) {
+            // Going back from payment — save nothing extra
         }
         currentStep = step;
         renderStep();
@@ -1790,56 +1903,30 @@
         currentStep = 2;
         renderStep();
     }
-    function selectPay(el) {
-        document.querySelectorAll('.pay-option').forEach(o => o.classList.remove('selected'));
-        el.classList.add('selected');
-        el.querySelector('input[type="radio"]').checked = true;
-    }
-
-    // ── Razorpay Payment ──
-    function processPayment() {
+    function confirmPayment() {
+        // Send booking details via email (mailto fallback)
         const s = currentSession;
-        const tax = Math.round(s.price * TAX_RATE);
-        const total = s.price + tax;
-        const name = document.getElementById('bookName') ? document.getElementById('bookName').value : '';
-        const email = document.getElementById('bookEmail') ? document.getElementById('bookEmail').value : '';
-        const phone = document.getElementById('bookPhone') ? document.getElementById('bookPhone').value : '';
-        const method = document.querySelector('input[name="payMethod"]:checked');
-        const preferredMethod = method ? method.value : 'upi';
+        const subject = encodeURIComponent('New Booking: ' + s.title);
+        const bodyText = encodeURIComponent(
+            'Session: ' + s.title +
+            '\nAmount: ₹' + s.price +
+            (selectedDate ? '\nDate: ' + selectedDate : '') +
+            (selectedTime ? '\nTime: ' + selectedTime : '') +
+            '\n\nCustomer Details:' +
+            '\nName: ' + (bookingData.name || 'N/A') +
+            '\nEmail: ' + (bookingData.email || 'N/A') +
+            '\nPhone: +91 ' + (bookingData.phone || 'N/A') +
+            '\nTopic: ' + (bookingData.topic || 'N/A')
+        );
 
-        const options = {
-            key: 'RAZORPAY_KEY_ID',  // ← Replace with your Razorpay Key ID
-            amount: total * 100,     // Razorpay expects paise
-            currency: 'INR',
-            name: 'Priyank Vyas',
-            description: s.title + (selectedDate ? ' — ' + selectedDate : ''),
-            image: '',
-            prefill: { name, email, contact: phone ? '+91' + phone : '' },
-            theme: { color: '#1a1a1a' },
-            method: {
-                upi: preferredMethod === 'upi',
-                card: preferredMethod === 'card',
-                netbanking: preferredMethod === 'netbanking',
-                wallet: preferredMethod === 'wallet',
-            },
-            handler: function(response) {
-                currentStep = 4;
-                renderStep();
-            },
-            modal: {
-                ondismiss: function() { /* user closed Razorpay modal */ }
-            }
-        };
+        // Silently send notification email (opens in background if supported)
+        const mailLink = document.createElement('a');
+        mailLink.href = 'mailto:priyankvyas001@gmail.com?subject=' + subject + '&body=' + bodyText;
+        mailLink.target = '_blank';
+        mailLink.click();
 
-        try {
-            const rzp = new Razorpay(options);
-            rzp.open();
-        } catch(e) {
-            // Fallback: if Razorpay key not configured, show success demo
-            alert('Payment gateway not configured yet. Showing confirmation demo.');
-            currentStep = 4;
-            renderStep();
-        }
+        currentStep = 4;
+        renderStep();
     }
 </script>
 
