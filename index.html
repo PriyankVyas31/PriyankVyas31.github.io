@@ -928,38 +928,39 @@
             font-size: 0.78rem; color: #999;
             text-align: center; margin-bottom: 0.75rem;
         }
-        .txn-id-section {
+        .payment-status {
             background: #f9f9f9; border-radius: 12px;
-            padding: 1.25rem; margin-bottom: 1rem;
+            padding: 1.25rem; margin: 1rem 0;
             border: 1.5px solid #e5e5e5;
+            text-align: center;
+            transition: all 0.3s;
         }
-        .txn-id-section.highlight {
-            border-color: #ef4444;
-            animation: shake 0.4s ease;
+        .payment-status.waiting {
+            border-color: #f59e0b;
+            background: #fffbeb;
         }
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-6px); }
-            75% { transform: translateX(6px); }
+        .payment-status.ready {
+            border-color: #22c55e;
+            background: #f0fdf4;
         }
-        .txn-id-section h4 {
+        .payment-status .status-icon {
+            font-size: 1.5rem; margin-bottom: 0.5rem;
+        }
+        .payment-status h4 {
             font-size: 0.88rem; font-weight: 700;
-            margin-bottom: 0.35rem; color: #1a1a1a;
+            margin-bottom: 0.25rem; color: #1a1a1a;
         }
-        .txn-id-section p {
+        .payment-status p {
             font-size: 0.75rem; color: #888;
-            margin-bottom: 0.75rem; line-height: 1.5;
+            line-height: 1.5;
         }
-        .txn-id-section input {
-            width: 100%; padding: 0.7rem 0.85rem;
-            border: 1.5px solid #ddd; border-radius: 10px;
-            font-size: 0.9rem; font-family: monospace;
-            color: #1a1a1a; letter-spacing: 0.5px;
+        .payment-status .booking-ref {
+            font-family: monospace; font-size: 0.85rem;
+            font-weight: 700; color: #1a1a1a;
+            background: #fff; border: 1px solid #ddd;
+            border-radius: 6px; padding: 0.3rem 0.75rem;
+            display: inline-block; margin-top: 0.5rem;
         }
-        .txn-id-section input:focus {
-            outline: none; border-color: #1a1a1a;
-        }
-        .txn-id-section input::placeholder { font-family: 'Inter', sans-serif; }
         .modal-pay-btn.disabled {
             background: #ccc; cursor: not-allowed;
         }
@@ -1877,31 +1878,31 @@
                     <div class="or-divider">or pay directly via</div>
 
                     <div class="pay-upi-apps">
-                        <a href="${gpayUrl}">
+                        <a href="${gpayUrl}" onclick="onPayClicked()">
                             <img class="app-icon" src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Google_Pay_Logo.svg/512px-Google_Pay_Logo.svg.png" alt="GPay">
                             Google Pay
                         </a>
-                        <a href="${phonepeUrl}">
+                        <a href="${phonepeUrl}" onclick="onPayClicked()">
                             <img class="app-icon" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/PhonePe_Logo.svg/1024px-PhonePe_Logo.svg.png" alt="PhonePe">
                             PhonePe
                         </a>
-                        <a href="${paytmUrl}">
+                        <a href="${paytmUrl}" onclick="onPayClicked()">
                             <img class="app-icon" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Paytm_Logo_%28standalone%29.svg/1200px-Paytm_Logo_%28standalone%29.svg.png" alt="Paytm">
                             Paytm
                         </a>
                     </div>
                 </div>
 
-                <div class="txn-id-section" id="txnSection">
-                    <h4>⚠️ Enter UPI Transaction ID to confirm</h4>
-                    <p>After completing payment, enter the 12-digit UPI Transaction Reference Number from your payment app (found in transaction details/receipt).</p>
-                    <input type="text" id="txnId" placeholder="e.g. 412345678901" oninput="validateTxnId()" maxlength="30" autocomplete="off">
+                <div class="payment-status waiting" id="paymentStatus">
+                    <div class="status-icon">⏳</div>
+                    <h4>Waiting for payment...</h4>
+                    <p>Complete the payment using QR code or a UPI app above.<br>This will update automatically when you return.</p>
                 </div>
 
                 <button class="modal-pay-btn disabled" id="confirmPayBtn" onclick="confirmPayment()" disabled>
                     Confirm Booking <span class="pay-amount">₹${total}</span>
                 </button>
-                <div class="pay-done-note" style="margin-top:0.5rem;">Booking will not be confirmed without a valid transaction ID.</div>
+                <div class="pay-done-note" style="margin-top:0.5rem;">Pay via any method above, then confirm your booking.</div>
             `;
         }
 
@@ -1910,7 +1911,9 @@
                 <div class="booking-success">
                     <div class="success-icon">✓</div>
                     <h2>Booking Confirmed!</h2>
-                    <p>Thank you, <strong>${bookingData.name || ''}</strong>! Your booking for <strong>${s.title}</strong>${selectedDate ? ' on <strong>' + selectedDate + '</strong> at <strong>' + selectedTime + '</strong>' : ''} has been received.<br><br>Priyank will reach out to you at <strong>${bookingData.email || ''}</strong> to confirm the session details.</p>
+                    <p>Thank you, <strong>${bookingData.name || ''}</strong>! Your booking for <strong>${s.title}</strong>${selectedDate ? ' on <strong>' + selectedDate + '</strong> at <strong>' + selectedTime + '</strong>' : ''} has been confirmed.</p>
+                    <p style="margin-top:0.5rem;"><span style="background:#f0fdf4;border:1px solid #bbf7d0;padding:0.3rem 0.75rem;border-radius:6px;font-family:monospace;font-weight:700;">${bookingData.bookingRef || ''}</span></p>
+                    <p style="margin-top:1rem;font-size:0.82rem;color:#888;">A confirmation email has been sent to <strong>${bookingData.email || ''}</strong>.<br>Priyank will reach out to you to confirm the session details.</p>
                     <button class="modal-continue" onclick="closeBooking()">Done</button>
                 </div>
             `;
@@ -1960,73 +1963,112 @@
         renderStep();
     }
 
-    // ── Transaction ID validation ──
-    function validateTxnId() {
-        const input = document.getElementById('txnId');
+    // ── Auto-generate booking reference ──
+    function generateBookingId() {
+        const now = new Date();
+        const y = String(now.getFullYear()).slice(-2);
+        const m = String(now.getMonth() + 1).padStart(2, '0');
+        const d = String(now.getDate()).padStart(2, '0');
+        const rand = String(Math.floor(Math.random() * 90000) + 10000);
+        return 'PV' + y + m + d + '-' + rand;
+    }
+
+    // ── Payment click tracking & auto-detect return ──
+    let paymentInitiated = false;
+
+    function onPayClicked() {
+        paymentInitiated = true;
+        // When user returns to page (from payment app), enable confirm
+        const statusEl = document.getElementById('paymentStatus');
+        if (statusEl) {
+            statusEl.classList.remove('waiting');
+            statusEl.classList.add('ready');
+            const bookingRef = generateBookingId();
+            bookingData.bookingRef = bookingRef;
+            statusEl.innerHTML = `
+                <div class="status-icon">✅</div>
+                <h4>Payment app opened!</h4>
+                <p>After completing payment, click the button below to confirm your booking.</p>
+                <span class="booking-ref">Booking Ref: ${bookingRef}</span>
+            `;
+        }
         const btn = document.getElementById('confirmPayBtn');
-        const section = document.getElementById('txnSection');
-        if (!input || !btn) return;
-        const val = input.value.replace(/\s/g, '');
-        // UPI transaction refs are typically 12+ alphanumeric characters
-        const isValid = val.length >= 10;
-        if (isValid) {
+        if (btn) {
             btn.classList.remove('disabled');
             btn.disabled = false;
-            section.classList.remove('highlight');
-        } else {
-            btn.classList.add('disabled');
-            btn.disabled = true;
         }
     }
 
-    // ── Confirm booking & send email notification ──
-    function confirmPayment() {
-        const txnInput = document.getElementById('txnId');
-        const txnId = txnInput ? txnInput.value.replace(/\s/g, '') : '';
-
-        if (txnId.length < 10) {
-            const section = document.getElementById('txnSection');
-            section.classList.add('highlight');
-            txnInput.focus();
-            return;
+    // Also detect via Page Visibility API (user switches back from payment app)
+    document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible' && paymentInitiated && currentStep === 3) {
+            onPayClicked();
         }
+    });
 
-        bookingData.txnId = txnId;
+    // ── Confirm booking & send dual email notifications ──
+    function confirmPayment() {
+        if (!paymentInitiated) return;
+
         const s = currentSession;
         const btn = document.getElementById('confirmPayBtn');
         btn.disabled = true;
-        btn.innerHTML = 'Confirming... ⏳';
+        btn.innerHTML = 'Confirming booking... ⏳';
 
-        // Send email notification via FormSubmit.co (free, no signup)
-        const formData = new FormData();
-        formData.append('Session', s.title);
-        formData.append('Amount', '₹' + s.price);
-        formData.append('UPI Transaction ID', txnId);
-        formData.append('Date', selectedDate || 'N/A (Priority DM)');
-        formData.append('Time', selectedTime || 'N/A (Priority DM)');
-        formData.append('Name', bookingData.name || 'N/A');
-        formData.append('Email', bookingData.email || 'N/A');
-        formData.append('Phone', '+91 ' + (bookingData.phone || 'N/A'));
-        formData.append('Topic', bookingData.topic || 'N/A');
-        formData.append('_subject', '💰 New Booking: ' + s.title + ' — ₹' + s.price + ' (Txn: ' + txnId + ')');
-        formData.append('_captcha', 'false');
-        formData.append('_template', 'table');
+        const bookingRef = bookingData.bookingRef || generateBookingId();
+        bookingData.bookingRef = bookingRef;
 
-        fetch('https://formsubmit.co/ajax/priyankvyas001@gmail.com', {
+        // 1. Send notification email to Priyank
+        const ownerData = new FormData();
+        ownerData.append('_subject', '💰 New Booking: ' + s.title + ' — ₹' + s.price + ' [' + bookingRef + ']');
+        ownerData.append('Booking Reference', bookingRef);
+        ownerData.append('Session', s.title);
+        ownerData.append('Amount', '₹' + s.price);
+        ownerData.append('Date', selectedDate || 'N/A (Priority DM)');
+        ownerData.append('Time', selectedTime || 'N/A (Priority DM)');
+        ownerData.append('Customer Name', bookingData.name || 'N/A');
+        ownerData.append('Customer Email', bookingData.email || 'N/A');
+        ownerData.append('Customer Phone', '+91 ' + (bookingData.phone || 'N/A'));
+        ownerData.append('Topic', bookingData.topic || 'N/A');
+        ownerData.append('_captcha', 'false');
+        ownerData.append('_template', 'table');
+
+        const ownerEmail = fetch('https://formsubmit.co/ajax/priyankvyas001@gmail.com', {
             method: 'POST',
-            body: formData
-        })
-        .then(r => r.json())
-        .then(data => {
-            currentStep = 4;
-            renderStep();
-        })
-        .catch(err => {
-            // Fallback: still confirm but notify about email issue
-            console.error('Email notification failed:', err);
-            currentStep = 4;
-            renderStep();
+            body: ownerData
         });
+
+        // 2. Send confirmation email to customer
+        const customerData = new FormData();
+        customerData.append('_subject', '✅ Booking Confirmed — ' + s.title + ' with Priyank Vyas [' + bookingRef + ']');
+        customerData.append('Booking Reference', bookingRef);
+        customerData.append('Session', s.title);
+        customerData.append('Type', s.type + (s.duration ? ' | ' + s.duration + ' mins' : ''));
+        customerData.append('Amount Paid', '₹' + s.price);
+        customerData.append('Date', selectedDate || 'N/A (Priority DM)');
+        customerData.append('Time', selectedTime || 'N/A');
+        customerData.append('Your Name', bookingData.name || '');
+        customerData.append('Message', 'Thank you for booking! Priyank will reach out to you to confirm the session details. If you have questions, email priyankvyas001@gmail.com');
+        customerData.append('_captcha', 'false');
+        customerData.append('_template', 'table');
+
+        const customerEmail = bookingData.email
+            ? fetch('https://formsubmit.co/ajax/' + bookingData.email, {
+                method: 'POST',
+                body: customerData
+              })
+            : Promise.resolve();
+
+        // Wait for both emails, then show success
+        Promise.allSettled([ownerEmail, customerEmail])
+            .then(() => {
+                currentStep = 4;
+                renderStep();
+            })
+            .catch(() => {
+                currentStep = 4;
+                renderStep();
+            });
     }
 </script>
 
