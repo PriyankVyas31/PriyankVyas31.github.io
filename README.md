@@ -32,6 +32,8 @@ This is a single-page portfolio website that showcases:
 | Hosting | GitHub Pages |
 | Version Control | Git + GitHub |
 | Booking/Payment | Topmate.io (external) |
+| CMS/Admin | Custom admin panel (admin.html + data.json + GitHub API) |
+| Theme | Dark/Light mode toggle with localStorage |
 | Icons | Inline SVGs |
 | Images | Local JPEGs (personal photos + company logos) |
 
@@ -41,25 +43,17 @@ This is a single-page portfolio website that showcases:
 
 ```
 portfolio/
-├── index.html              # Main (and only) HTML file — contains all CSS and JS
+├── index.html              # Main HTML file — contains all CSS and JS
+├── data.json               # Editable content (loaded dynamically by index.html)
+├── admin.html              # Password-protected admin panel to manage content
 ├── README.md               # This file
 ├── docs/
 │   ├── HLD.md              # High-Level Design document
-│   └── LLD.md              # Low-Level Design document
+│   ├── LLD.md              # Low-Level Design document
+│   └── BACKEND_DESIGN.md   # Backend payment server design (future)
 └── images/
-    ├── personal_photo/     # 7 personal photos (JPEG)
-    │   ├── priyank_1.jpeg
-    │   ├── priyank_3.jpeg
-    │   ├── priyank_5.jpeg
-    │   ├── priyank_6.jpeg
-    │   ├── priyank_7.jpeg
-    │   ├── priyank_8.jpeg
-    │   └── priyank_9.jpeg
-    └── comanies_logo/      # 18 company logo images (JPG)
-        ├── google_logo.jpg
-        ├── microsoft_logo.jpg
-        ├── amazon_logo.jpg
-        └── ... (15 more)
+    ├── personal_photo/     # Personal photos (JPEG)
+    └── comanies_logo/      # Company logo images (JPG)
 ```
 
 ---
@@ -109,7 +103,15 @@ Site updates within 1-2 minutes.
 
 ## How to Update Content
 
-### Add a new testimonial
+### Option 1: Admin Panel (Recommended)
+1. Visit the website and click the **PV.** logo in the top-left corner
+2. Log in with the admin password
+3. Edit Hero, About, Sessions, Testimonials, or YouTube content
+4. Click **Save & Deploy** — changes go live in ~1 minute
+
+### Option 2: Edit Files Directly
+
+#### Add a new testimonial
 Search for `testimonial-card` in `index.html` and duplicate an existing card block. The testimonials are inside a marquee — make sure to duplicate in both the original and the "seamless loop" copy.
 
 ### Add a new session
@@ -130,4 +132,3 @@ Replace/add files in `images/comanies_logo/` and update the marquee HTML.
 - [LinkedIn](https://www.linkedin.com/in/priyank-vyas-31march1999/)
 - [Topmate](https://topmate.io/priyank_vyas)
 - [GitHub](https://github.com/PriyankVyas31)
-- Email: priyankvyas001@gmail.com

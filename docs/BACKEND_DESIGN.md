@@ -211,11 +211,11 @@ These are set in the Render.com dashboard (never in code):
 
 | Variable | Example | Where to get it |
 |----------|---------|----------------|
-| `RAZORPAY_KEY_ID` | `rzp_live_abc123` | Razorpay Dashboard → Settings → API Keys |
-| `RAZORPAY_KEY_SECRET` | `secret_xyz789` | Same as above (shown once) |
-| `GMAIL_USER` | `priyankvyas001@gmail.com` | Your Gmail address |
-| `GMAIL_APP_PASSWORD` | `abcd efgh ijkl mnop` | Google Account → App Passwords |
-| `OWNER_EMAIL` | `priyankvyas001@gmail.com` | Where booking notifications go |
+| `RAZORPAY_KEY_ID` | `rzp_live_*****` | Razorpay Dashboard → Settings → API Keys |
+| `RAZORPAY_KEY_SECRET` | `*****` | Same as above (shown once, save securely) |
+| `GMAIL_USER` | `your_email@gmail.com` | Your Gmail address |
+| `GMAIL_APP_PASSWORD` | `**** **** **** ****` | Google Account → App Passwords |
+| `OWNER_EMAIL` | `your_email@gmail.com` | Where booking notifications go |
 
 ---
 
@@ -280,7 +280,7 @@ If you have any questions, reply to this email.
 
 ### Prerequisites
 1. **Razorpay Account** — Sign up at [dashboard.razorpay.com](https://dashboard.razorpay.com), complete KYC (PAN + bank account, takes 1-2 days), generate API keys
-2. **Gmail App Password** — Go to [myaccount.google.com/apppasswords](https://myaccount.google.com/apppasswords), enable 2FA if not already, create an app password for "Mail"
+2. **Gmail App Password** — Enable 2FA on your Google Account, then create an app password at Google Account → Security → App Passwords
 3. **Render Account** — Sign up at [render.com](https://render.com) with GitHub
 
 ### Deploy on Render

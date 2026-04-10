@@ -51,6 +51,8 @@ A static, single-page portfolio website for Priyank Vyas that serves as a person
 | **Booking** | Handles calendar, payment, emails | Topmate.io (external SaaS) |
 | **Video** | Embeds podcast content | YouTube iframe |
 | **Fonts** | Typography | Google Fonts API |
+| **CMS/Admin** | Content management panel | admin.html + data.json + GitHub API |
+| **Theme** | Dark/Light mode toggle | CSS variables + localStorage |
 | **Version Control** | Code management and deployment | Git + GitHub |
 
 ---
@@ -88,11 +90,11 @@ There is **no backend and no database**. All data is static HTML.
 | Data | Storage | How it's updated |
 |------|---------|-----------------|
 | Personal info, experience, skills | Hardcoded in `index.html` | Edit HTML and push to GitHub |
+| Dynamic content (about, sessions, testimonials) | `data.json` | Via admin panel or direct edit |
 | Photos | `images/personal_photo/` folder | Add/replace files + push |
 | Company logos | `images/comanies_logo/` folder | Add/replace files + push |
-| Testimonials | Hardcoded in `index.html` | Edit HTML and push |
-| Session pricing | Hardcoded in `index.html` + Topmate dashboard | Edit both |
 | Booking data | Managed entirely by Topmate | Topmate dashboard |
+| Theme preference | Browser localStorage | User toggles on site |
 
 ---
 
@@ -162,4 +164,3 @@ No CI/CD pipeline needed. GitHub Pages auto-builds on every push to `main`.
 | Razorpay direct payment | High | Yes (Node.js server) |
 | Analytics dashboard | Medium | No (Google Analytics tag) |
 | Custom domain | Low | No (GitHub Pages CNAME) |
-| Dark/Light mode toggle | Low | No (CSS variables + JS) |
