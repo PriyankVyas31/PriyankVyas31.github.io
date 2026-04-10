@@ -2,16 +2,28 @@
   "about": {
     "headline": "Building infrastructure that powers hyperscale data centers",
     "paragraphs": [
-      "I'm Priyank Vyas, a Software Engineer with ~5 years of experience at Cisco and Microsoft (Azure team).",
+      "I'm Priyank Vyas, a Software Engineer with 5+ years of experience at Cisco and Microsoft (Azure team).",
       "I've interviewed with 25+ top product companies (Google, Nvidia, Amazon, Qualcomm, Intel, Oracle, etc.) and cleared multiple rounds before joining Microsoft.",
       "I help engineers prepare for system-level interviews (C, OS, Networking), FAANG/Big Tech transitions, and career growth strategies. My sessions are practical, focused on real interview patterns, and designed to help you stand out.",
       "Let's work together to make your next big move happen."
     ],
     "stats": [
-      { "number": "5+", "label": "Years Experience" },
-      { "number": "25+", "label": "Companies Interviewed" },
-      { "number": "C/C++", "label": "Core Language" },
-      { "number": "Azure", "label": "Current Team" }
+      {
+        "number": "5+",
+        "label": "Years Experience"
+      },
+      {
+        "number": "25+",
+        "label": "Companies Interviewed"
+      },
+      {
+        "number": "C/C++",
+        "label": "Core Language"
+      },
+      {
+        "number": "Azure",
+        "label": "Current Team"
+      }
     ]
   },
   "sessions": [
@@ -138,6 +150,6 @@
   },
   "hero": {
     "badge": "Available for collaboration",
-    "tagline": "Software Engineer at <strong style='color:#00a4ef'>Microsoft Azure</strong> — building bare-metal storage infrastructure on DPUs & SmartNICs. 5+ years deep in systems programming, networking, and high-performance data planes."
+    "tagline": "Software Engineer at <strong style='color:#00a4ef'>Microsoft Azure</strong> building bare-metal storage infrastructure on DPUs & SmartNICs. 5+ years deep in systems programming, networking, and high-performance data planes."
   }
 }
