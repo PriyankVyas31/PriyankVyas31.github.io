@@ -523,23 +523,34 @@
         }
 
         /* --- Testimonials --- */
-        .testimonials-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        .testimonials-section {
+            overflow: hidden;
+        }
+        .testimonial-track {
+            display: flex;
             gap: 1.5rem;
+            animation: testimonialScroll 40s linear infinite;
+            width: max-content;
+        }
+        .testimonial-track:hover { animation-play-state: paused; }
+        @keyframes testimonialScroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
         }
         .testimonial-card {
             background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: 14px;
-            padding: 2rem;
-            transition: all 0.3s;
+            padding: 1.75rem;
+            min-width: 340px;
+            max-width: 380px;
+            flex-shrink: 0;
             display: flex;
             flex-direction: column;
+            transition: border-color 0.3s;
         }
         .testimonial-card:hover {
             border-color: var(--accent);
-            transform: translateY(-3px);
         }
         .testimonial-stars {
             color: #f59e0b;
@@ -795,7 +806,6 @@
             .stats-grid { grid-template-columns: 1fr 1fr; gap: 0.75rem; }
             .skills-grid { grid-template-columns: 1fr; }
             .sessions-grid { grid-template-columns: 1fr; }
-            .testimonials-grid { grid-template-columns: 1fr; }
             .edu-grid { grid-template-columns: 1fr; }
             .contact-grid { grid-template-columns: 1fr; }
             .timeline { padding-left: 1.5rem; }
@@ -1246,105 +1256,156 @@
 </section>
 
 <!-- Testimonials -->
-<section id="testimonials">
+<section id="testimonials" class="testimonials-section">
     <div class="container">
         <p class="section-label">Reviews</p>
         <h2 class="section-title">What People Say</h2>
-        <div class="testimonials-grid">
+    </div>
+    <div class="marquee-wrapper">
+        <div class="testimonial-track">
 
-            <div class="testimonial-card fade-up">
+            <div class="testimonial-card">
                 <div class="testimonial-stars">★★★★★</div>
-                <blockquote>"I had both my LLD and HLD rounds with Priyank, and it was a great experience. He explained the concepts very clearly, shared helpful resources, and guided me through the Microsoft interview process in detail. His approach made complex topics easy to understand and boosted my confidence for the actual rounds."</blockquote>
+                <blockquote>"I had both my LLD and HLD rounds with Priyank, and it was a great experience. He explained the concepts very clearly, shared helpful resources, and guided me through the Microsoft interview process in detail."</blockquote>
                 <div class="testimonial-author">
                     <div class="author-avatar">CU</div>
-                    <div>
-                        <div class="author-name">Charan Udayagiri</div>
-                        <div class="author-date">31st Aug, 2025</div>
-                    </div>
+                    <div><div class="author-name">Charan Udayagiri</div><div class="author-date">31st Aug, 2025</div></div>
                 </div>
             </div>
 
-            <div class="testimonial-card fade-up">
+            <div class="testimonial-card">
                 <div class="testimonial-stars">★★★★★</div>
                 <blockquote>"Had a very good discussion with Priyank. He cleared all my doubts and shared his experience which will definitely going to help me in taking career decisions."</blockquote>
                 <div class="testimonial-author">
                     <div class="author-avatar">SS</div>
-                    <div>
-                        <div class="author-name">Sameer Salunkhe</div>
-                        <div class="author-date">17th Aug, 2025</div>
-                    </div>
+                    <div><div class="author-name">Sameer Salunkhe</div><div class="author-date">17th Aug, 2025</div></div>
                 </div>
             </div>
 
-            <div class="testimonial-card fade-up">
+            <div class="testimonial-card">
                 <div class="testimonial-stars">★★★★★</div>
                 <blockquote>"Priyank is a great mentor who has guided me a lot. I can confidently say that if you need guidance or help, he is someone you can truly look up to."</blockquote>
                 <div class="testimonial-author">
                     <div class="author-avatar">AC</div>
-                    <div>
-                        <div class="author-name">Achintya Chavan</div>
-                        <div class="author-date">25th Aug, 2025</div>
-                    </div>
+                    <div><div class="author-name">Achintya Chavan</div><div class="author-date">25th Aug, 2025</div></div>
                 </div>
             </div>
 
-            <div class="testimonial-card fade-up">
+            <div class="testimonial-card">
                 <div class="testimonial-stars">★★★★★</div>
-                <blockquote>"Priyank was very helpful in understanding my situation and conveying his thoughts accordingly. He advised me according to the current market situation and gave industry insights. It was an insightful experience talking to him."</blockquote>
+                <blockquote>"Priyank was very helpful in understanding my situation and conveying his thoughts accordingly. He advised me according to the current market situation and gave industry insights."</blockquote>
                 <div class="testimonial-author">
                     <div class="author-avatar">A</div>
-                    <div>
-                        <div class="author-name">Aditya</div>
-                        <div class="author-date">11th Aug, 2025</div>
-                    </div>
+                    <div><div class="author-name">Aditya</div><div class="author-date">11th Aug, 2025</div></div>
                 </div>
             </div>
 
-            <div class="testimonial-card fade-up">
+            <div class="testimonial-card">
                 <div class="testimonial-stars">★★★★★</div>
-                <blockquote>"Had a wonderful and insightful conversation with Priyank Bhai through Topmate. He is extremely approachable, knowledgeable, and provides practical advice that truly helps in career planning and interview preparation. The session gave me great clarity and confidence about my next steps. I genuinely appreciate his guidance and would highly recommend connecting with him to anyone seeking professional growth and direction."</blockquote>
+                <blockquote>"Had a wonderful and insightful conversation with Priyank Bhai through Topmate. He is extremely approachable, knowledgeable, and provides practical advice that truly helps in career planning and interview preparation."</blockquote>
                 <div class="testimonial-author">
                     <div class="author-avatar">HM</div>
-                    <div>
-                        <div class="author-name">Harsh Mehta</div>
-                        <div class="author-date">12th Nov, 2025</div>
-                    </div>
+                    <div><div class="author-name">Harsh Mehta</div><div class="author-date">12th Nov, 2025</div></div>
                 </div>
             </div>
 
-            <div class="testimonial-card fade-up">
+            <div class="testimonial-card">
                 <div class="testimonial-stars">★★★★★</div>
                 <blockquote>"The advice helped me improve clarity, structure, and alignment with industry standards."</blockquote>
                 <div class="testimonial-author">
                     <div class="author-avatar">BV</div>
-                    <div>
-                        <div class="author-name">Bhupendra Vyas</div>
-                        <div class="author-date">31st Aug, 2025</div>
-                    </div>
+                    <div><div class="author-name">Bhupendra Vyas</div><div class="author-date">31st Aug, 2025</div></div>
                 </div>
             </div>
 
-            <div class="testimonial-card fade-up">
+            <div class="testimonial-card">
                 <div class="testimonial-stars">★★★★★</div>
                 <blockquote>"Priyank provided me with confidence, clearly addressed my doubts, and even extended a few extra minutes to resolve my queries. Thank you for the support."</blockquote>
                 <div class="testimonial-author">
                     <div class="author-avatar">AT</div>
-                    <div>
-                        <div class="author-name">Anjali Thakur</div>
-                        <div class="author-date">18th Dec, 2025</div>
-                    </div>
+                    <div><div class="author-name">Anjali Thakur</div><div class="author-date">18th Dec, 2025</div></div>
                 </div>
             </div>
 
-            <div class="testimonial-card fade-up">
+            <div class="testimonial-card">
                 <div class="testimonial-stars">★★★★★</div>
                 <blockquote>"Priyank is very helpful &amp; knowledgeable. Got a lot of clarity &amp; interview insights after having a discussion with him."</blockquote>
                 <div class="testimonial-author">
                     <div class="author-avatar">MS</div>
-                    <div>
-                        <div class="author-name">Mohit Sharma</div>
-                        <div class="author-date">22nd Nov, 2025</div>
-                    </div>
+                    <div><div class="author-name">Mohit Sharma</div><div class="author-date">22nd Nov, 2025</div></div>
+                </div>
+            </div>
+
+            <!-- Duplicate for seamless loop -->
+            <div class="testimonial-card">
+                <div class="testimonial-stars">★★★★★</div>
+                <blockquote>"I had both my LLD and HLD rounds with Priyank, and it was a great experience. He explained the concepts very clearly, shared helpful resources, and guided me through the Microsoft interview process in detail."</blockquote>
+                <div class="testimonial-author">
+                    <div class="author-avatar">CU</div>
+                    <div><div class="author-name">Charan Udayagiri</div><div class="author-date">31st Aug, 2025</div></div>
+                </div>
+            </div>
+
+            <div class="testimonial-card">
+                <div class="testimonial-stars">★★★★★</div>
+                <blockquote>"Had a very good discussion with Priyank. He cleared all my doubts and shared his experience which will definitely going to help me in taking career decisions."</blockquote>
+                <div class="testimonial-author">
+                    <div class="author-avatar">SS</div>
+                    <div><div class="author-name">Sameer Salunkhe</div><div class="author-date">17th Aug, 2025</div></div>
+                </div>
+            </div>
+
+            <div class="testimonial-card">
+                <div class="testimonial-stars">★★★★★</div>
+                <blockquote>"Priyank is a great mentor who has guided me a lot. I can confidently say that if you need guidance or help, he is someone you can truly look up to."</blockquote>
+                <div class="testimonial-author">
+                    <div class="author-avatar">AC</div>
+                    <div><div class="author-name">Achintya Chavan</div><div class="author-date">25th Aug, 2025</div></div>
+                </div>
+            </div>
+
+            <div class="testimonial-card">
+                <div class="testimonial-stars">★★★★★</div>
+                <blockquote>"Priyank was very helpful in understanding my situation and conveying his thoughts accordingly. He advised me according to the current market situation and gave industry insights."</blockquote>
+                <div class="testimonial-author">
+                    <div class="author-avatar">A</div>
+                    <div><div class="author-name">Aditya</div><div class="author-date">11th Aug, 2025</div></div>
+                </div>
+            </div>
+
+            <div class="testimonial-card">
+                <div class="testimonial-stars">★★★★★</div>
+                <blockquote>"Had a wonderful and insightful conversation with Priyank Bhai through Topmate. He is extremely approachable, knowledgeable, and provides practical advice that truly helps in career planning and interview preparation."</blockquote>
+                <div class="testimonial-author">
+                    <div class="author-avatar">HM</div>
+                    <div><div class="author-name">Harsh Mehta</div><div class="author-date">12th Nov, 2025</div></div>
+                </div>
+            </div>
+
+            <div class="testimonial-card">
+                <div class="testimonial-stars">★★★★★</div>
+                <blockquote>"The advice helped me improve clarity, structure, and alignment with industry standards."</blockquote>
+                <div class="testimonial-author">
+                    <div class="author-avatar">BV</div>
+                    <div><div class="author-name">Bhupendra Vyas</div><div class="author-date">31st Aug, 2025</div></div>
+                </div>
+            </div>
+
+            <div class="testimonial-card">
+                <div class="testimonial-stars">★★★★★</div>
+                <blockquote>"Priyank provided me with confidence, clearly addressed my doubts, and even extended a few extra minutes to resolve my queries. Thank you for the support."</blockquote>
+                <div class="testimonial-author">
+                    <div class="author-avatar">AT</div>
+                    <div><div class="author-name">Anjali Thakur</div><div class="author-date">18th Dec, 2025</div></div>
+                </div>
+            </div>
+
+            <div class="testimonial-card">
+                <div class="testimonial-stars">★★★★★</div>
+                <blockquote>"Priyank is very helpful &amp; knowledgeable. Got a lot of clarity &amp; interview insights after having a discussion with him."</blockquote>
+                <div class="testimonial-author">
+                    <div class="author-avatar">MS</div>
+                    <div><div class="author-name">Mohit Sharma</div><div class="author-date">22nd Nov, 2025</div></div>
                 </div>
             </div>
 
