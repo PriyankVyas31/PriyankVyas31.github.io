@@ -1,0 +1,143 @@
+{
+  "about": {
+    "headline": "Building infrastructure that powers hyperscale data centers",
+    "paragraphs": [
+      "I'm Priyank Vyas, a Software Engineer with ~5 years of experience at Cisco and Microsoft (Azure team).",
+      "I've interviewed with 25+ top product companies (Google, Nvidia, Amazon, Qualcomm, Intel, Oracle, etc.) and cleared multiple rounds before joining Microsoft.",
+      "I help engineers prepare for system-level interviews (C, OS, Networking), FAANG/Big Tech transitions, and career growth strategies. My sessions are practical, focused on real interview patterns, and designed to help you stand out.",
+      "Let's work together to make your next big move happen."
+    ],
+    "stats": [
+      { "number": "5+", "label": "Years Experience" },
+      { "number": "25+", "label": "Companies Interviewed" },
+      { "number": "C/C++", "label": "Core Language" },
+      { "number": "Azure", "label": "Current Team" }
+    ]
+  },
+  "sessions": [
+    {
+      "title": "Mock Interview",
+      "subtitle": "Technical Interview",
+      "price": 500,
+      "original": 1500,
+      "duration": "60 mins",
+      "type": "Video meeting",
+      "rating": "5",
+      "popular": true,
+      "link": "https://topmate.io/priyank_vyas"
+    },
+    {
+      "title": "1:1 Call About Career",
+      "subtitle": "Career Guidance",
+      "price": 200,
+      "original": 500,
+      "duration": "15 mins",
+      "type": "Video meeting",
+      "rating": "5",
+      "popular": true,
+      "link": "https://topmate.io/priyank_vyas"
+    },
+    {
+      "title": "Interview Prep & Tips",
+      "subtitle": "Interview Preparation",
+      "price": 500,
+      "original": 1500,
+      "duration": "30 mins",
+      "type": "Video meeting",
+      "rating": "5",
+      "popular": false,
+      "link": "https://topmate.io/priyank_vyas"
+    },
+    {
+      "title": "Quick Chat",
+      "subtitle": "Quick 1:1 Chat",
+      "price": 250,
+      "original": 400,
+      "duration": "20 mins",
+      "type": "Video meeting",
+      "rating": null,
+      "popular": false,
+      "link": "https://topmate.io/priyank_vyas"
+    },
+    {
+      "title": "Resume Review",
+      "subtitle": "Resume Guidance",
+      "price": 100,
+      "original": 150,
+      "duration": "15 mins",
+      "type": "Video meeting",
+      "rating": "5",
+      "popular": false,
+      "link": "https://topmate.io/priyank_vyas"
+    },
+    {
+      "title": "Have a Question?",
+      "subtitle": "Quick Help",
+      "price": 100,
+      "original": null,
+      "duration": "a day reply",
+      "type": "Priority DM",
+      "rating": "4.5",
+      "popular": true,
+      "link": "https://topmate.io/priyank_vyas"
+    }
+  ],
+  "testimonials": [
+    {
+      "text": "I had both my LLD and HLD rounds with Priyank, and it was a great experience. He explained the concepts very clearly, shared helpful resources, and guided me through the Microsoft interview process in detail.",
+      "name": "Charan Udayagiri",
+      "initials": "CU",
+      "date": "31st Aug, 2025"
+    },
+    {
+      "text": "Had a very good discussion with Priyank. He cleared all my doubts and shared his experience which will definitely going to help me in taking career decisions.",
+      "name": "Sameer Salunkhe",
+      "initials": "SS",
+      "date": "17th Aug, 2025"
+    },
+    {
+      "text": "Priyank is a great mentor who has guided me a lot. I can confidently say that if you need guidance or help, he is someone you can truly look up to.",
+      "name": "Achintya Chavan",
+      "initials": "AC",
+      "date": "25th Aug, 2025"
+    },
+    {
+      "text": "Priyank was very helpful in understanding my situation and conveying his thoughts accordingly. He advised me according to the current market situation and gave industry insights.",
+      "name": "Aditya",
+      "initials": "A",
+      "date": "11th Aug, 2025"
+    },
+    {
+      "text": "Had a wonderful and insightful conversation with Priyank Bhai through Topmate. He is extremely approachable, knowledgeable, and provides practical advice that truly helps in career planning and interview preparation.",
+      "name": "Harsh Mehta",
+      "initials": "HM",
+      "date": "12th Nov, 2025"
+    },
+    {
+      "text": "The advice helped me improve clarity, structure, and alignment with industry standards.",
+      "name": "Bhupendra Vyas",
+      "initials": "BV",
+      "date": "31st Aug, 2025"
+    },
+    {
+      "text": "Priyank provided me with confidence, clearly addressed my doubts, and even extended a few extra minutes to resolve my queries. Thank you for the support.",
+      "name": "Anjali Thakur",
+      "initials": "AT",
+      "date": "18th Dec, 2025"
+    },
+    {
+      "text": "Priyank is very helpful & knowledgeable. Got a lot of clarity & interview insights after having a discussion with him.",
+      "name": "Mohit Sharma",
+      "initials": "MS",
+      "date": "22nd Nov, 2025"
+    }
+  ],
+  "youtube": {
+    "embedUrl": "https://www.youtube.com/embed/S6SFVi6vwJc?si=8V5W3-mpTjoFDLCu",
+    "title": "Watch My Podcast"
+  },
+  "hero": {
+    "badge": "Available for collaboration",
+    "tagline": "Software Engineer at <strong style='color:#00a4ef'>Microsoft Azure</strong> — building bare-metal storage infrastructure on DPUs & SmartNICs. 5+ years deep in systems programming, networking, and high-performance data planes."
+  }
+}

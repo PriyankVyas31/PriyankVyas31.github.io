@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel — Priyank Vyas Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:'Inter',sans-serif; background:#f5f5f7; color:#1a1a1a; }
+
+        /* Login gate */
+        .login-screen { display:flex; align-items:center; justify-content:center; min-height:100vh; padding:2rem; }
+        .login-box { background:#fff; border-radius:16px; padding:2.5rem; max-width:400px; width:100%; box-shadow:0 4px 24px rgba(0,0,0,0.08); text-align:center; }
+        .login-box h1 { font-size:1.5rem; margin-bottom:0.5rem; }
+        .login-box p { color:#666; font-size:0.9rem; margin-bottom:1.5rem; }
+        .login-box input { width:100%; padding:12px 16px; border:1.5px solid #ddd; border-radius:10px; font-size:14px; margin-bottom:1rem; }
+        .login-box input:focus { outline:none; border-color:#2563eb; }
+        .login-box button { width:100%; padding:12px; background:#1a1a1a; color:#fff; border:none; border-radius:10px; font-size:15px; font-weight:700; cursor:pointer; }
+        .login-box button:hover { background:#333; }
+        .login-error { color:#ef4444; font-size:0.82rem; margin-bottom:1rem; display:none; }
+
+        /* Admin layout */
+        .admin-panel { display:none; }
+        .admin-header { background:#1a1a1a; color:#fff; padding:1rem 2rem; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:10; }
+        .admin-header h1 { font-size:1.1rem; font-weight:700; }
+        .admin-header .actions { display:flex; gap:0.75rem; }
+        .admin-header button { padding:8px 18px; border-radius:8px; font-size:13px; font-weight:600; cursor:pointer; border:none; }
+        .btn-save { background:#22c55e; color:#fff; }
+        .btn-save:hover { background:#16a34a; }
+        .btn-preview { background:#3b82f6; color:#fff; }
+        .btn-preview:hover { background:#2563eb; }
+        .btn-logout { background:transparent; color:#999; border:1px solid #555 !important; }
+        .btn-logout:hover { color:#fff; border-color:#999 !important; }
+
+        .admin-nav { background:#fff; border-bottom:1px solid #e5e5e5; padding:0 2rem; display:flex; gap:0; overflow-x:auto; }
+        .admin-nav button { padding:14px 20px; background:none; border:none; border-bottom:3px solid transparent; font-size:13px; font-weight:600; color:#666; cursor:pointer; white-space:nowrap; }
+        .admin-nav button.active { color:#1a1a1a; border-bottom-color:#2563eb; }
+        .admin-nav button:hover { color:#1a1a1a; }
+
+        .admin-body { max-width:900px; margin:2rem auto; padding:0 2rem; }
+        .tab-content { display:none; }
+        .tab-content.active { display:block; }
+
+        .card { background:#fff; border-radius:14px; padding:2rem; margin-bottom:1.5rem; box-shadow:0 2px 12px rgba(0,0,0,0.04); }
+        .card h2 { font-size:1.15rem; font-weight:700; margin-bottom:1.25rem; display:flex; align-items:center; justify-content:space-between; }
+        .card h2 .count { font-size:0.78rem; color:#999; font-weight:500; }
+
+        .form-group { margin-bottom:1.25rem; }
+        .form-group label { display:block; font-size:13px; font-weight:600; margin-bottom:6px; color:#444; }
+        .form-group input, .form-group textarea, .form-group select {
+            width:100%; padding:10px 14px; border:1.5px solid #e5e5e5; border-radius:10px;
+            font-size:14px; font-family:inherit; color:#1a1a1a; transition:border-color 0.2s;
+        }
+        .form-group input:focus, .form-group textarea:focus { outline:none; border-color:#2563eb; }
+        .form-group textarea { resize:vertical; min-height:80px; }
+
+        .item-card { background:#f9f9f9; border-radius:10px; padding:1.25rem; margin-bottom:1rem; border:1px solid #eee; position:relative; }
+        .item-card .item-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem; }
+        .item-card .item-title { font-weight:700; font-size:0.95rem; }
+        .item-card .item-meta { font-size:0.78rem; color:#888; }
+        .btn-delete { background:#fef2f2; color:#ef4444; border:1px solid #fecaca; border-radius:6px; padding:4px 12px; font-size:12px; font-weight:600; cursor:pointer; }
+        .btn-delete:hover { background:#fee2e2; }
+        .btn-add { display:inline-flex; align-items:center; gap:6px; padding:10px 20px; background:#f0f0f2; border:1.5px dashed #ccc; border-radius:10px; font-size:13px; font-weight:600; color:#666; cursor:pointer; margin-top:0.5rem; }
+        .btn-add:hover { border-color:#999; color:#333; }
+
+        .two-col { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+        .three-col { display:grid; grid-template-columns:1fr 1fr 1fr; gap:1rem; }
+
+        .status-bar { position:fixed; bottom:2rem; left:50%; transform:translateX(-50%); background:#1a1a1a; color:#fff; padding:12px 24px; border-radius:12px; font-size:14px; font-weight:600; display:none; z-index:100; box-shadow:0 4px 20px rgba(0,0,0,0.2); }
+        .status-bar.show { display:block; animation:slideUp 0.3s ease; }
+        @keyframes slideUp { from { transform:translateX(-50%) translateY(20px); opacity:0; } to { transform:translateX(-50%) translateY(0); opacity:1; } }
+
+        .checkbox-row { display:flex; align-items:center; gap:8px; }
+        .checkbox-row input[type="checkbox"] { width:18px; height:18px; accent-color:#2563eb; }
+
+        @media(max-width:768px) {
+            .two-col, .three-col { grid-template-columns:1fr; }
+            .admin-body { padding:0 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Login Screen -->
+<div class="login-screen" id="loginScreen">
+    <div class="login-box">
+        <h1>🔐 Admin Panel</h1>
+        <p>Enter your admin password to manage the website.</p>
+        <div class="login-error" id="loginError">Incorrect password. Try again.</div>
+        <input type="password" id="passwordInput" placeholder="Enter password" autofocus>
+        <button onclick="attemptLogin()">Login</button>
+    </div>
+</div>
+
+<!-- Admin Panel -->
+<div class="admin-panel" id="adminPanel">
+    <div class="admin-header">
+        <h1>📋 Portfolio Admin</h1>
+        <div class="actions">
+            <button class="btn-preview" onclick="window.open('index.html','_blank')">👁 Preview Site</button>
+            <button class="btn-save" id="saveBtn" onclick="saveChanges()">💾 Save & Deploy</button>
+            <button class="btn-logout" onclick="logout()">Logout</button>
+        </div>
+    </div>
+
+    <div class="admin-nav" id="adminNav">
+        <button class="active" data-tab="hero">Hero</button>
+        <button data-tab="about">About</button>
+        <button data-tab="sessions">Sessions</button>
+        <button data-tab="testimonials">Testimonials</button>
+        <button data-tab="youtube">YouTube</button>
+    </div>
+
+    <div class="admin-body">
+
+        <!-- Hero Tab -->
+        <div class="tab-content active" id="tab-hero">
+            <div class="card">
+                <h2>Hero Section</h2>
+                <div class="form-group">
+                    <label>Badge Text</label>
+                    <input type="text" id="heroBadge">
+                </div>
+                <div class="form-group">
+                    <label>Tagline (HTML allowed)</label>
+                    <textarea id="heroTagline" rows="3"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- About Tab -->
+        <div class="tab-content" id="tab-about">
+            <div class="card">
+                <h2>About Section</h2>
+                <div class="form-group">
+                    <label>Headline</label>
+                    <input type="text" id="aboutHeadline">
+                </div>
+                <div class="form-group">
+                    <label>Paragraph 1</label>
+                    <textarea id="aboutP1" rows="2"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Paragraph 2</label>
+                    <textarea id="aboutP2" rows="2"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Paragraph 3</label>
+                    <textarea id="aboutP3" rows="2"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Paragraph 4 (CTA line)</label>
+                    <textarea id="aboutP4" rows="2"></textarea>
+                </div>
+            </div>
+            <div class="card">
+                <h2>Stats</h2>
+                <div id="statsContainer"></div>
+            </div>
+        </div>
+
+        <!-- Sessions Tab -->
+        <div class="tab-content" id="tab-sessions">
+            <div class="card">
+                <h2>Sessions <span class="count" id="sessionCount"></span></h2>
+                <div id="sessionsContainer"></div>
+                <button class="btn-add" onclick="addSession()">+ Add Session</button>
+            </div>
+        </div>
+
+        <!-- Testimonials Tab -->
+        <div class="tab-content" id="tab-testimonials">
+            <div class="card">
+                <h2>Testimonials <span class="count" id="testimonialCount"></span></h2>
+                <div id="testimonialsContainer"></div>
+                <button class="btn-add" onclick="addTestimonial()">+ Add Testimonial</button>
+            </div>
+        </div>
+
+        <!-- YouTube Tab -->
+        <div class="tab-content" id="tab-youtube">
+            <div class="card">
+                <h2>YouTube Podcast</h2>
+                <div class="form-group">
+                    <label>Section Title</label>
+                    <input type="text" id="ytTitle">
+                </div>
+                <div class="form-group">
+                    <label>Embed URL (from YouTube share → Embed → copy src)</label>
+                    <input type="text" id="ytEmbed" placeholder="https://www.youtube.com/embed/XXXXX">
+                </div>
+                <div style="margin-top:1rem;background:#f0f0f2;border-radius:10px;padding:1rem;text-align:center;">
+                    <p style="font-size:13px;color:#888;margin-bottom:8px;">Preview:</p>
+                    <iframe id="ytPreview" width="100%" height="250" style="border:none;border-radius:8px;" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="status-bar" id="statusBar"></div>
+
+<script>
+    // ═══════════════════════════════════
+    //  CONFIG
+    // ═══════════════════════════════════
+    const ADMIN_PASSWORD_HASH = '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8'; // SHA-256 of "password" — CHANGE THIS
+    const REPO_OWNER = 'PriyankVyas31';
+    const REPO_NAME = 'PriyankVyas31.github.io';
+    const DATA_FILE = 'data.json';
+
+    let siteData = {};
+
+    // ═══════════════════════════════════
+    //  AUTH
+    // ═══════════════════════════════════
+    async function sha256(message) {
+        const msgBuffer = new TextEncoder().encode(message);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    async function attemptLogin() {
+        const pw = document.getElementById('passwordInput').value;
+        const hash = await sha256(pw);
+        if (hash === ADMIN_PASSWORD_HASH) {
+            sessionStorage.setItem('admin_auth', 'true');
+            showAdmin();
+        } else {
+            document.getElementById('loginError').style.display = 'block';
+            document.getElementById('passwordInput').value = '';
+            document.getElementById('passwordInput').focus();
+        }
+    }
+
+    document.getElementById('passwordInput').addEventListener('keydown', e => {
+        if (e.key === 'Enter') attemptLogin();
+    });
+
+    function logout() {
+        sessionStorage.removeItem('admin_auth');
+        sessionStorage.removeItem('gh_token');
+        location.reload();
+    }
+
+    function showAdmin() {
+        document.getElementById('loginScreen').style.display = 'none';
+        document.getElementById('adminPanel').style.display = 'block';
+        loadData();
+    }
+
+    // Check if already logged in
+    if (sessionStorage.getItem('admin_auth') === 'true') {
+        showAdmin();
+    }
+
+    // ═══════════════════════════════════
+    //  TAB NAVIGATION
+    // ═══════════════════════════════════
+    document.querySelectorAll('#adminNav button').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('#adminNav button').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+        });
+    });
+
+    // ═══════════════════════════════════
+    //  LOAD DATA
+    // ═══════════════════════════════════
+    async function loadData() {
+        try {
+            const res = await fetch('data.json?t=' + Date.now());
+            siteData = await res.json();
+            populateFields();
+        } catch (e) {
+            showStatus('❌ Failed to load data.json');
+        }
+    }
+
+    function populateFields() {
+        // Hero
+        document.getElementById('heroBadge').value = siteData.hero?.badge || '';
+        document.getElementById('heroTagline').value = siteData.hero?.tagline || '';
+
+        // About
+        document.getElementById('aboutHeadline').value = siteData.about?.headline || '';
+        const paras = siteData.about?.paragraphs || [];
+        document.getElementById('aboutP1').value = paras[0] || '';
+        document.getElementById('aboutP2').value = paras[1] || '';
+        document.getElementById('aboutP3').value = paras[2] || '';
+        document.getElementById('aboutP4').value = paras[3] || '';
+
+        // Stats
+        renderStats();
+
+        // Sessions
+        renderSessions();
+
+        // Testimonials
+        renderTestimonials();
+
+        // YouTube
+        document.getElementById('ytTitle').value = siteData.youtube?.title || '';
+        document.getElementById('ytEmbed').value = siteData.youtube?.embedUrl || '';
+        document.getElementById('ytPreview').src = siteData.youtube?.embedUrl || '';
+
+        document.getElementById('ytEmbed').addEventListener('input', e => {
+            document.getElementById('ytPreview').src = e.target.value;
+        });
+    }
+
+    // ═══════════════════════════════════
+    //  RENDER SECTIONS
+    // ═══════════════════════════════════
+    function renderStats() {
+        const c = document.getElementById('statsContainer');
+        c.innerHTML = (siteData.about?.stats || []).map((s, i) => `
+            <div class="item-card">
+                <div class="two-col">
+                    <div class="form-group"><label>Number</label><input type="text" value="${s.number}" data-stat="${i}" data-field="number"></div>
+                    <div class="form-group"><label>Label</label><input type="text" value="${s.label}" data-stat="${i}" data-field="label"></div>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function renderSessions() {
+        const c = document.getElementById('sessionsContainer');
+        document.getElementById('sessionCount').textContent = siteData.sessions?.length + ' sessions';
+        c.innerHTML = (siteData.sessions || []).map((s, i) => `
+            <div class="item-card">
+                <div class="item-header">
+                    <span class="item-title">${s.title}</span>
+                    <button class="btn-delete" onclick="deleteSession(${i})">Delete</button>
+                </div>
+                <div class="two-col">
+                    <div class="form-group"><label>Title</label><input type="text" value="${s.title}" data-session="${i}" data-field="title"></div>
+                    <div class="form-group"><label>Subtitle</label><input type="text" value="${s.subtitle}" data-session="${i}" data-field="subtitle"></div>
+                </div>
+                <div class="three-col">
+                    <div class="form-group"><label>Price (₹)</label><input type="number" value="${s.price}" data-session="${i}" data-field="price"></div>
+                    <div class="form-group"><label>Original Price (₹)</label><input type="number" value="${s.original || ''}" data-session="${i}" data-field="original"></div>
+                    <div class="form-group"><label>Duration</label><input type="text" value="${s.duration}" data-session="${i}" data-field="duration"></div>
+                </div>
+                <div class="two-col">
+                    <div class="form-group"><label>Type</label><select data-session="${i}" data-field="type"><option ${s.type==='Video meeting'?'selected':''}>Video meeting</option><option ${s.type==='Priority DM'?'selected':''}>Priority DM</option></select></div>
+                    <div class="form-group"><label>Rating</label><input type="text" value="${s.rating || ''}" data-session="${i}" data-field="rating" placeholder="e.g. 5"></div>
+                </div>
+                <div class="two-col">
+                    <div class="form-group"><label>Topmate Link</label><input type="text" value="${s.link}" data-session="${i}" data-field="link"></div>
+                    <div class="form-group"><label>&nbsp;</label><div class="checkbox-row"><input type="checkbox" ${s.popular?'checked':''} data-session="${i}" data-field="popular"><label>Popular badge</label></div></div>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function renderTestimonials() {
+        const c = document.getElementById('testimonialsContainer');
+        document.getElementById('testimonialCount').textContent = siteData.testimonials?.length + ' reviews';
+        c.innerHTML = (siteData.testimonials || []).map((t, i) => `
+            <div class="item-card">
+                <div class="item-header">
+                    <span class="item-title">${t.name}</span>
+                    <button class="btn-delete" onclick="deleteTestimonial(${i})">Delete</button>
+                </div>
+                <div class="form-group"><label>Review Text</label><textarea data-testimonial="${i}" data-field="text" rows="3">${t.text}</textarea></div>
+                <div class="three-col">
+                    <div class="form-group"><label>Name</label><input type="text" value="${t.name}" data-testimonial="${i}" data-field="name"></div>
+                    <div class="form-group"><label>Initials</label><input type="text" value="${t.initials}" data-testimonial="${i}" data-field="initials" maxlength="3"></div>
+                    <div class="form-group"><label>Date</label><input type="text" value="${t.date}" data-testimonial="${i}" data-field="date"></div>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    // ═══════════════════════════════════
+    //  ADD / DELETE
+    // ═══════════════════════════════════
+    function addSession() {
+        siteData.sessions.push({ title:'New Session', subtitle:'Category', price:100, original:200, duration:'15 mins', type:'Video meeting', rating:'5', popular:false, link:'https://topmate.io/priyank_vyas' });
+        renderSessions();
+        showStatus('✅ Session added. Edit details above.');
+    }
+
+    function deleteSession(i) {
+        if (confirm('Delete "' + siteData.sessions[i].title + '"?')) {
+            siteData.sessions.splice(i, 1);
+            renderSessions();
+            showStatus('🗑 Session deleted.');
+        }
+    }
+
+    function addTestimonial() {
+        siteData.testimonials.push({ text:'Enter review text here...', name:'Name', initials:'N', date:'1st Jan, 2026' });
+        renderTestimonials();
+        showStatus('✅ Testimonial added. Edit details above.');
+    }
+
+    function deleteTestimonial(i) {
+        if (confirm('Delete review by "' + siteData.testimonials[i].name + '"?')) {
+            siteData.testimonials.splice(i, 1);
+            renderTestimonials();
+            showStatus('🗑 Testimonial deleted.');
+        }
+    }
+
+    // ═══════════════════════════════════
+    //  COLLECT DATA FROM FIELDS
+    // ═══════════════════════════════════
+    function collectData() {
+        siteData.hero.badge = document.getElementById('heroBadge').value;
+        siteData.hero.tagline = document.getElementById('heroTagline').value;
+
+        siteData.about.headline = document.getElementById('aboutHeadline').value;
+        siteData.about.paragraphs = [
+            document.getElementById('aboutP1').value,
+            document.getElementById('aboutP2').value,
+            document.getElementById('aboutP3').value,
+            document.getElementById('aboutP4').value
+        ];
+
+        // Stats
+        document.querySelectorAll('[data-stat]').forEach(el => {
+            const i = parseInt(el.dataset.stat);
+            siteData.about.stats[i][el.dataset.field] = el.value;
+        });
+
+        // Sessions
+        document.querySelectorAll('[data-session]').forEach(el => {
+            const i = parseInt(el.dataset.session);
+            const field = el.dataset.field;
+            if (field === 'popular') {
+                siteData.sessions[i][field] = el.checked;
+            } else if (field === 'price' || field === 'original') {
+                siteData.sessions[i][field] = el.value ? parseInt(el.value) : null;
+            } else {
+                siteData.sessions[i][field] = el.value || null;
+            }
+        });
+
+        // Testimonials
+        document.querySelectorAll('[data-testimonial]').forEach(el => {
+            const i = parseInt(el.dataset.testimonial);
+            siteData.testimonials[i][el.dataset.field] = el.value;
+        });
+
+        // YouTube
+        siteData.youtube.title = document.getElementById('ytTitle').value;
+        siteData.youtube.embedUrl = document.getElementById('ytEmbed').value;
+
+        return siteData;
+    }
+
+    // ═══════════════════════════════════
+    //  SAVE TO GITHUB
+    // ═══════════════════════════════════
+    async function saveChanges() {
+        const btn = document.getElementById('saveBtn');
+        btn.disabled = true;
+        btn.textContent = '⏳ Saving...';
+
+        collectData();
+
+        let token = sessionStorage.getItem('gh_token');
+        if (!token) {
+            token = prompt('Enter your GitHub Personal Access Token (fine-grained, with repo contents write access):');
+            if (!token) { btn.disabled = false; btn.textContent = '💾 Save & Deploy'; return; }
+            sessionStorage.setItem('gh_token', token);
+        }
+
+        try {
+            // Get current file SHA
+            const fileRes = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${DATA_FILE}`, {
+                headers: { 'Authorization': 'Bearer ' + token }
+            });
+            const fileData = await fileRes.json();
+
+            // Update file
+            const content = btoa(unescape(encodeURIComponent(JSON.stringify(siteData, null, 2))));
+            const updateRes = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${DATA_FILE}`, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    message: 'Update content via admin panel',
+                    content: content,
+                    sha: fileData.sha
+                })
+            });
+
+            if (updateRes.ok) {
+                showStatus('✅ Saved & deployed! Site will update in ~1 minute.');
+            } else {
+                const err = await updateRes.json();
+                sessionStorage.removeItem('gh_token');
+                showStatus('❌ Save failed: ' + (err.message || 'Check your token.'));
+            }
+        } catch (e) {
+            sessionStorage.removeItem('gh_token');
+            showStatus('❌ Error: ' + e.message);
+        }
+
+        btn.disabled = false;
+        btn.textContent = '💾 Save & Deploy';
+    }
+
+    // ═══════════════════════════════════
+    //  STATUS BAR
+    // ═══════════════════════════════════
+    function showStatus(msg) {
+        const bar = document.getElementById('statusBar');
+        bar.textContent = msg;
+        bar.classList.add('show');
+        setTimeout(() => bar.classList.remove('show'), 3000);
+    }
+</script>
+
+</body>
+</html>

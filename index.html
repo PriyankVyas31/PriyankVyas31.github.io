@@ -928,9 +928,9 @@
 <!-- Hero -->
 <section class="hero" id="hero">
     <div class="hero-content">
-        <div class="hero-badge"><span class="dot"></span> Available for collaboration</div>
+        <div class="hero-badge"><span class="dot"></span> <span id="heroBadgeText">Available for collaboration</span></div>
         <h1>Hi, I'm <span class="gradient">Priyank Vyas</span></h1>
-        <p>Software Engineer at <strong style="color:#00a4ef">Microsoft Azure</strong> — building bare-metal storage infrastructure on DPUs &amp; SmartNICs. 5+ years deep in systems programming, networking, and high-performance data planes.</p>
+        <p id="heroTaglineText">Software Engineer at <strong style="color:#00a4ef">Microsoft Azure</strong> — building bare-metal storage infrastructure on DPUs &amp; SmartNICs. 5+ years deep in systems programming, networking, and high-performance data planes.</p>
         <div class="hero-cta">
             <a href="#sessions" class="btn btn-primary">Book a Session</a>
             <a href="#experience" class="btn btn-outline">View Experience</a>
@@ -951,15 +951,17 @@
         <div class="about-grid fade-up">
             <div class="about-text">
                 <p class="section-label">About Me</p>
-                <h2 class="section-title" style="margin-bottom:1.5rem;">Building infrastructure that powers hyperscale data centers</h2>
+                <h2 class="section-title" style="margin-bottom:1.5rem;" id="aboutHeadline">Building infrastructure that powers hyperscale data centers</h2>
+                <div id="aboutParagraphs">
                 <p>I'm Priyank Vyas, a Software Engineer with ~5 years of experience at Cisco and Microsoft (Azure team).</p>
                 <p>I've interviewed with 25+ top product companies (Google, Nvidia, Amazon, Qualcomm, Intel, Oracle, etc.) and cleared multiple rounds before joining Microsoft.</p>
                 <p>I help engineers prepare for system-level interviews (C, OS, Networking), FAANG/Big Tech transitions, and career growth strategies. My sessions are practical, focused on real interview patterns, and designed to help you stand out.</p>
                 <p style="color:var(--accent);font-weight:500;">Let's work together to make your next big move happen.</p>
+                </div>
             </div>
             <div style="display:flex;flex-direction:column;gap:1.5rem;align-items:center;">
                 <img src="images/personal_photo/priyank_5.jpeg" alt="Priyank at Microsoft" style="width:100%;max-width:320px;border-radius:16px;border:2px solid var(--border);object-fit:cover;aspect-ratio:3/4;">
-                <div class="stats-grid" style="width:100%;">
+                <div class="stats-grid" style="width:100%;" id="statsGrid">
                 <div class="stat-card">
                     <span class="stat-number">5+</span>
                     <div class="stat-label">Years Experience</div>
@@ -1235,7 +1237,7 @@
     <div class="container">
         <p class="section-label">Mentorship</p>
         <h2 class="section-title">Book a Session</h2>
-        <div class="sessions-grid">
+        <div class="sessions-grid" id="sessionsGrid">
 
             <a href="https://topmate.io/priyank_vyas" target="_blank" rel="noopener noreferrer" class="session-card fade-up">
                 <span class="session-popular">Popular</span>
@@ -1339,7 +1341,7 @@
         <h2 class="section-title">What People Say</h2>
     </div>
     <div class="marquee-wrapper">
-        <div class="testimonial-track">
+        <div class="testimonial-track" id="testimonialTrack">
 
             <div class="testimonial-card">
                 <div class="testimonial-stars">★★★★★</div>
@@ -1610,6 +1612,95 @@
     }, { threshold: 0.1 });
 
     document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    // ── Load dynamic content from data.json ──
+    fetch('data.json?v=' + Date.now())
+        .then(r => r.json())
+        .then(data => {
+            // Hero
+            if (data.hero) {
+                const badge = document.getElementById('heroBadgeText');
+                const tagline = document.getElementById('heroTaglineText');
+                if (badge && data.hero.badge) badge.textContent = data.hero.badge;
+                if (tagline && data.hero.tagline) tagline.innerHTML = data.hero.tagline;
+            }
+
+            // About
+            if (data.about) {
+                const headline = document.getElementById('aboutHeadline');
+                if (headline && data.about.headline) headline.textContent = data.about.headline;
+
+                const parasDiv = document.getElementById('aboutParagraphs');
+                if (parasDiv && data.about.paragraphs) {
+                    parasDiv.innerHTML = data.about.paragraphs.map((p, i) =>
+                        i === data.about.paragraphs.length - 1
+                            ? `<p style="color:var(--accent);font-weight:500;">${p}</p>`
+                            : `<p>${p}</p>`
+                    ).join('');
+                }
+
+                const statsGrid = document.getElementById('statsGrid');
+                if (statsGrid && data.about.stats) {
+                    statsGrid.innerHTML = data.about.stats.map(s =>
+                        `<div class="stat-card"><span class="stat-number">${s.number}</span><div class="stat-label">${s.label}</div></div>`
+                    ).join('');
+                }
+            }
+
+            // Sessions
+            if (data.sessions) {
+                const grid = document.getElementById('sessionsGrid');
+                if (grid) {
+                    grid.innerHTML = data.sessions.map(s => `
+                        <a href="${s.link}" target="_blank" rel="noopener noreferrer" class="session-card fade-up">
+                            ${s.popular ? '<span class="session-popular">Popular</span>' : ''}
+                            <div class="session-type">
+                                <svg viewBox="0 0 24 24">${s.type === 'Priority DM'
+                                    ? '<path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/>'
+                                    : '<path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/>'
+                                }</svg>
+                                ${s.type} · ${s.duration}
+                                ${s.rating ? '<span class="session-rating">★ ' + s.rating + '</span>' : ''}
+                            </div>
+                            <h3>${s.title}</h3>
+                            <div class="session-subtitle">${s.subtitle}</div>
+                            <div class="session-pricing">
+                                <span class="session-price">₹${s.price}</span>
+                                ${s.original ? '<span class="session-original">₹' + s.original.toLocaleString('en-IN') + '</span>' : ''}
+                            </div>
+                            <span class="session-book">${s.type === 'Priority DM' ? 'Send DM →' : 'Book Now →'}</span>
+                        </a>
+                    `).join('');
+                    grid.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+                }
+            }
+
+            // Testimonials
+            if (data.testimonials) {
+                const track = document.getElementById('testimonialTrack');
+                if (track) {
+                    const cardHTML = t => `
+                        <div class="testimonial-card">
+                            <div class="testimonial-stars">★★★★★</div>
+                            <blockquote>"${t.text}"</blockquote>
+                            <div class="testimonial-author">
+                                <div class="author-avatar">${t.initials}</div>
+                                <div><div class="author-name">${t.name}</div><div class="author-date">${t.date}</div></div>
+                            </div>
+                        </div>`;
+                    track.innerHTML = data.testimonials.map(cardHTML).join('') + data.testimonials.map(cardHTML).join('');
+                }
+            }
+
+            // YouTube
+            if (data.youtube) {
+                const ytTitle = document.querySelector('#youtube .section-title');
+                const ytIframe = document.querySelector('#youtube iframe');
+                if (ytTitle && data.youtube.title) ytTitle.textContent = data.youtube.title;
+                if (ytIframe && data.youtube.embedUrl) ytIframe.src = data.youtube.embedUrl;
+            }
+        })
+        .catch(e => console.log('data.json not loaded, using static content'));
 </script>
 
 </body>
