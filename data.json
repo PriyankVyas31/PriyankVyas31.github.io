@@ -150,6 +150,6 @@
   },
   "hero": {
     "badge": "Available for collaboration",
-    "tagline": "Software Engineer at <strong style='color:#00a4ef'>Microsoft Azure</strong>  building bare-metal storage infrastructure on DPUs & SmartNICs. 5+ years deep in systems programming, networking, and high-performance data planes."
+    "tagline": "Software Engineer at <strong style='color:#00a4ef'>Microsoft Azure</strong> — building bare-metal storage infrastructure on DPUs & SmartNICs. 5+ years deep in systems programming, networking, and high-performance data planes."
   }
 }
