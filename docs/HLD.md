@@ -29,56 +29,79 @@ A static, single-page portfolio website for Priyank Vyas that serves as a person
                        ▼
 ┌─────────────────────────────────────────────────┐
 │              GitHub Pages (CDN)                  │
-│  Serves: index.html + images/                   │
+│  Serves: index.html + data.json + images/       │
 │  Domain: priyankvyas31.github.io                │
-└──────────────────────┬──────────────────────────┘
-                       │
-          ┌────────────┼────────────┐
-          ▼            ▼            ▼
-   ┌──────────┐ ┌──────────┐ ┌──────────┐
-   │ Google   │ │ Topmate  │ │ YouTube  │
-   │ Fonts    │ │ Booking  │ │ Embed    │
-   │ (CDN)    │ │ Platform │ │ (iframe) │
-   └──────────┘ └──────────┘ └──────────┘
+└──────────────┬──────────────────────────────────┘
+               │
+    ┌──────────┼──────────┬────────────┐
+    ▼          ▼          ▼            ▼
+┌────────┐ ┌────────┐ ┌──────────┐ ┌──────────┐
+│ Google │ │ YouTube│ │ Backend  │ │ Razorpay │
+│ Fonts  │ │ Embed  │ │ Server   │ │ Checkout │
+│ (CDN)  │ │(iframe)│ │(GCP Cloud│ │ (Payment │
+│        │ │        │ │  Run)    │ │  popup)  │
+└────────┘ └────────┘ └────┬─────┘ └──────────┘
+                           │
+                    ┌──────┼──────┐
+                    ▼      ▼      ▼
+              ┌────────┐┌──────┐┌──────┐
+              │Razorpay││Gmail ││Jitsi │
+              │  API   ││ SMTP ││ Meet │
+              │(orders)││(email││(video)│
+              └────────┘└──────┘└──────┘
 ```
 
 ### Components
 
-| Component | Role | Technology |
-|-----------|------|-----------|
-| **Frontend** | Renders entire website | HTML + CSS + JS (single file) |
-| **Hosting** | Serves static files globally | GitHub Pages (free CDN) |
-| **Booking** | Handles calendar, payment, emails | Topmate.io (external SaaS) |
-| **Video** | Embeds podcast content | YouTube iframe |
-| **Fonts** | Typography | Google Fonts API |
-| **CMS/Admin** | Content management panel | admin.html + data.json + GitHub API |
-| **Theme** | Dark/Light mode toggle | CSS variables + localStorage |
-| **Version Control** | Code management and deployment | Git + GitHub |
+| Component | Role | Technology | Location |
+|-----------|------|-----------|---------|
+| **Frontend** | Renders website + booking modal | HTML + CSS + JS | GitHub Pages |
+| **Backend** | Payment orders + verification + emails | Node.js + Express | GCP Cloud Run (Mumbai) |
+| **Payment** | Processes actual money transfers | Razorpay | Razorpay servers |
+| **Video** | Meeting rooms for sessions | Jitsi Meet | Jitsi servers |
+| **Email** | Sends booking confirmations | Gmail SMTP | Google servers |
+| **Admin** | Content management panel | admin.html + GitHub API | GitHub Pages |
+| **Theme** | Dark/Light mode toggle | CSS variables + localStorage | Browser |
 
 ---
 
 ## 4. User Flow
 
 ```
-User visits site
+User visits priyankvyas31.github.io
     │
     ├── Scrolls through sections (About, Skills, Experience, Education)
     │
-    ├── Sees company logos → builds trust
+    ├── Sees company logos marquee → builds trust
     │
-    ├── Reads testimonials → builds confidence
+    ├── Reads scrolling testimonials → builds confidence
     │
     ├── Clicks "Book a Session" card
     │       │
-    │       └── Redirected to Topmate.io
-    │               ├── Selects date/time
-    │               ├── Fills form (name, email, phone)
-    │               ├── Makes payment (UPI, cards, etc.)
-    │               └── Gets confirmation email
+    │       ├── Step 1: Calendar modal opens
+    │       │       ├── Selects a date (next 7+ days)
+    │       │       └── Selects a time slot (9AM–6PM, 15-min intervals)
+    │       │
+    │       ├── Step 2: Details form
+    │       │       ├── Enters name, email, phone
+    │       │       └── Describes what they want to discuss
+    │       │
+    │       ├── Step 3: Payment
+    │       │       ├── Frontend calls backend → creates Razorpay order
+    │       │       ├── Razorpay popup opens
+    │       │       ├── User pays via UPI/Cards/NetBanking/Wallets
+    │       │       ├── Backend verifies payment (HMAC-SHA256)
+    │       │       ├── Backend generates meeting link
+    │       │       └── Backend sends emails to BOTH user and owner
+    │       │
+    │       └── Step 4: Confirmation
+    │               ├── Shows booking ref + payment ID
+    │               ├── Shows "Join Meeting" button
+    │               └── Emails already sent
     │
     ├── Watches YouTube podcast
     │
-    └── Clicks Contact links (LinkedIn, Email, GitHub)
+    └── Clicks Contact links (LinkedIn, Email, Topmate)
 ```
 
 ---
@@ -125,10 +148,13 @@ No CI/CD pipeline needed. GitHub Pages auto-builds on every push to `main`.
 
 | Service | Purpose | Cost | Failure Impact |
 |---------|---------|------|---------------|
-| GitHub Pages | Hosting | Free | Site goes down |
+| GitHub Pages | Frontend hosting | Free | Website goes down |
+| GCP Cloud Run | Backend server | Free (2M reqs/mo) | Payments stop working |
+| Razorpay | Payment processing | 2% per transaction | Can't accept payments |
+| Gmail SMTP | Email notifications | Free (500/day) | No confirmation emails |
+| Jitsi Meet | Video meeting rooms | Free | No meeting links |
 | Google Fonts | Typography | Free | Falls back to system fonts |
-| Topmate.io | Booking + Payment | Free (they take commission) | Booking links broken |
-| YouTube | Video embed | Free | Video section shows error |
+| YouTube | Video embed | Free | Podcast section shows error |
 
 ---
 
@@ -136,12 +162,13 @@ No CI/CD pipeline needed. GitHub Pages auto-builds on every push to `main`.
 
 | Concern | Mitigation |
 |---------|-----------|
-| No user input on site | No XSS/injection risk |
-| No backend | No server-side vulnerabilities |
-| No database | No SQL injection, no data breach |
-| HTTPS | Enforced by GitHub Pages |
+| Payment fraud | HMAC-SHA256 signature verification on backend |
+| API key exposure | Key Secret only on server, never in frontend code |
+| CORS abuse | Backend only allows requests from priyankvyas31.github.io |
+| Environment secrets | Stored in GCP env variables, not in code or Git |
+| Admin access | Password-protected with SHA-256 hashed password |
+| HTTPS | Enforced by both GitHub Pages and GCP Cloud Run |
 | External links | All use `rel="noopener noreferrer"` |
-| Payments | Handled by Topmate (PCI compliant) |
 
 ---
 
