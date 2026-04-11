@@ -898,6 +898,53 @@
             .stats-grid { gap: 0.5rem; }
             .stat-card { padding: 1rem; }
         }
+
+        /* --- Booking Modal --- */
+        .book-overlay { display:none; position:fixed; inset:0; z-index:200; background:rgba(0,0,0,0.7); backdrop-filter:blur(6px); align-items:center; justify-content:center; padding:1rem; }
+        .book-overlay.active { display:flex; }
+        .book-modal { background:#fff; border-radius:18px; max-width:500px; width:100%; max-height:92vh; overflow-y:auto; color:#1a1a1a; position:relative; }
+        .book-modal-head { display:flex; align-items:center; gap:0.75rem; padding:1.25rem 1.5rem; border-bottom:1px solid #e5e5e5; position:sticky; top:0; background:#fff; border-radius:18px 18px 0 0; z-index:2; }
+        .book-modal-head h3 { font-size:1rem; font-weight:700; flex:1; }
+        .book-close { background:none; border:none; font-size:1.5rem; cursor:pointer; color:#999; line-height:1; }
+        .book-close:hover { color:#333; }
+        .book-body { padding:1.5rem; }
+        .book-body h2 { font-size:1.4rem; font-weight:800; margin-bottom:4px; }
+        .book-meta { font-size:13px; color:#888; margin-bottom:16px; }
+        .book-price-row { display:flex; align-items:baseline; gap:8px; padding-bottom:16px; border-bottom:1px solid #eee; margin-bottom:20px; }
+        .book-price-row .price { font-size:1.4rem; font-weight:800; }
+        .book-price-row .orig { font-size:14px; color:#aaa; text-decoration:line-through; }
+        .book-label { font-size:15px; font-weight:700; margin-bottom:10px; color:#1a1a1a; }
+        .book-dates { display:flex; gap:8px; overflow-x:auto; scrollbar-width:none; margin-bottom:16px; }
+        .book-dates::-webkit-scrollbar { display:none; }
+        .book-date { min-width:68px; padding:10px 8px; border-radius:10px; border:2px solid #e5e5e5; text-align:center; cursor:pointer; background:#fff; flex-shrink:0; transition:0.2s; }
+        .book-date:hover { border-color:#bbb; }
+        .book-date.sel { border-color:#1a1a1a; background:#1a1a1a; color:#fff; }
+        .book-date .dn { font-size:10px; font-weight:600; text-transform:uppercase; }
+        .book-date .dd { font-size:15px; font-weight:700; margin-top:2px; }
+        .book-date .dm { font-size:10px; color:#999; margin-top:1px; }
+        .book-date.sel .dm { color:#ccc; }
+        .book-times { display:grid; grid-template-columns:repeat(auto-fill,minmax(95px,1fr)); gap:6px; margin-bottom:20px; max-height:200px; overflow-y:auto; }
+        .book-time { padding:8px; border-radius:8px; border:1.5px solid #e5e5e5; text-align:center; cursor:pointer; font-size:12px; font-weight:500; background:#fff; color:#333; transition:0.2s; }
+        .book-time:hover { border-color:#bbb; }
+        .book-time.sel { border-color:#1a1a1a; background:#1a1a1a; color:#fff; }
+        .book-fg { margin-bottom:14px; }
+        .book-fg label { display:block; font-size:13px; font-weight:600; margin-bottom:5px; color:#444; }
+        .book-fg input, .book-fg textarea { width:100%; padding:10px 12px; border:1.5px solid #ddd; border-radius:10px; font-size:14px; font-family:inherit; }
+        .book-fg input:focus, .book-fg textarea:focus { outline:none; border-color:#1a1a1a; }
+        .book-fg textarea { resize:vertical; min-height:70px; }
+        .book-btn { width:100%; padding:14px; background:#1a1a1a; color:#fff; border:none; border-radius:10px; font-size:15px; font-weight:700; cursor:pointer; transition:0.2s; }
+        .book-btn:hover { background:#333; }
+        .book-btn:disabled { background:#ccc; cursor:not-allowed; }
+        .book-nav-row { display:flex; gap:8px; margin-bottom:16px; }
+        .book-nav-btn { width:34px; height:34px; border-radius:50%; border:1px solid #ddd; background:#fff; cursor:pointer; font-size:14px; display:flex; align-items:center; justify-content:center; }
+        .book-nav-btn:hover { background:#f5f5f5; }
+        .book-tz { font-size:11px; color:#999; margin-bottom:10px; }
+        .book-success { text-align:center; padding:2rem; }
+        .book-success .tick { width:60px; height:60px; border-radius:50%; background:#dcfce7; margin:0 auto 16px; display:flex; align-items:center; justify-content:center; font-size:1.6rem; }
+        .book-success h2 { margin-bottom:8px; }
+        .book-success p { color:#666; font-size:14px; line-height:1.6; }
+        .book-success .meet-btn { display:inline-block; margin-top:16px; padding:12px 28px; background:#1a1a1a; color:#fff; text-decoration:none; border-radius:10px; font-weight:700; font-size:14px; }
+        @media(max-width:520px) { .book-modal { border-radius:14px; } .book-body { padding:1rem; } .book-times { grid-template-columns:repeat(3,1fr); } }
     </style>
 </head>
 <body>
@@ -1544,6 +1591,17 @@
 </section>
 
 <!-- Footer -->
+<!-- Booking Modal -->
+<div class="book-overlay" id="bookOverlay">
+    <div class="book-modal">
+        <div class="book-modal-head">
+            <h3 id="bookModalTitle">Book a Session</h3>
+            <button class="book-close" onclick="closeBook()">×</button>
+        </div>
+        <div class="book-body" id="bookBody"></div>
+    </div>
+</div>
+
 <footer>
     <div class="footer-links">
         <a href="https://www.linkedin.com/in/priyank-vyas-31march1999/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
@@ -1696,39 +1754,159 @@
         })
         .catch(e => console.log('data.json not loaded, using static content'));
 
-    // ── Razorpay Booking Flow ──
-    async function bookSession(index) {
-        const s = window._sessions[index];
+    // ═══════════════════════════════════════
+    //  BOOKING FLOW
+    // ═══════════════════════════════════════
+    let bk = { step:1, session:null, date:null, time:null, offset:0, name:'', email:'', phone:'', topic:'' };
+    const BK_DAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+    const BK_MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+    function bookSession(i) {
+        bk = { step:1, session:window._sessions[i], date:null, time:null, offset:0, name:'', email:'', phone:'', topic:'' };
+        document.getElementById('bookOverlay').classList.add('active');
+        document.body.style.overflow = 'hidden';
+        renderBook();
+    }
+    function closeBook() {
+        document.getElementById('bookOverlay').classList.remove('active');
+        document.body.style.overflow = '';
+    }
+    document.getElementById('bookOverlay').addEventListener('click', e => { if(e.target===e.currentTarget) closeBook(); });
+
+    function fmtD(d) { return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+    function getDts(off,n) { const a=[],t=new Date(); for(let i=0;i<n;i++){const d=new Date(t);d.setDate(t.getDate()+off+i);a.push(d);}return a; }
+    function getSlots(dur) {
+        const s=[],step=15;
+        for(let h=9;h<18;h++) for(let m=0;m<60;m+=step) {
+            if(h>=17&&m+(dur||15)>60) break;
+            const hr=h>12?h-12:(h===0?12:h);
+            s.push(`${String(hr).padStart(2,'0')}:${String(m).padStart(2,'0')} ${h>=12?'PM':'AM'}`);
+        }
+        return s;
+    }
+
+    function renderBook() {
+        const body = document.getElementById('bookBody');
+        const s = bk.session;
         if (!s) return;
 
-        const name = prompt('Your Name:');
-        if (!name) return;
-        const email = prompt('Your Email:');
-        if (!email || !email.includes('@')) { alert('Please enter a valid email.'); return; }
-        const phone = prompt('Phone Number (optional):') || '';
+        if (bk.step === 1) {
+            // Calendar + Time slots
+            const dates = getDts(bk.offset, 7);
+            const dH = dates.map(d => {
+                const k=fmtD(d), sel=bk.date===k;
+                return `<div class="book-date ${sel?'sel':''}" onclick="bk.date='${k}';bk.time=null;renderBook()"><div class="dn">${BK_DAYS[d.getDay()]}</div><div class="dd">${d.getDate()}</div><div class="dm">${BK_MONTHS[d.getMonth()]}</div></div>`;
+            }).join('');
+            const dur = parseInt(s.duration) || 15;
+            const slots = getSlots(dur);
+            const tH = bk.date ? slots.map(t => `<div class="book-time ${bk.time===t?'sel':''}" onclick="bk.time='${t}';renderBook()">${t}</div>`).join('') : '';
+
+            body.innerHTML = `
+                <h2>${s.title}</h2>
+                <div class="book-meta">${s.type} · ${s.duration}</div>
+                <div class="book-price-row"><span class="price">₹${s.price}</span>${s.original?`<span class="orig">₹${s.original}</span>`:''}</div>
+                <div class="book-label">When should we meet?</div>
+                <div class="book-nav-row">
+                    <button class="book-nav-btn" onclick="bk.offset=Math.max(0,bk.offset-7);renderBook()" ${bk.offset===0?'disabled style="opacity:.3"':''}>‹</button>
+                    <div class="book-dates" style="flex:1">${dH}</div>
+                    <button class="book-nav-btn" onclick="bk.offset+=7;renderBook()">›</button>
+                </div>
+                ${bk.date ? `
+                    <div class="book-label">Select time</div>
+                    <div class="book-tz">Timezone: (GMT+5:30) India</div>
+                    <div class="book-times">${tH}</div>
+                ` : ''}
+                <button class="book-btn" onclick="bk.step=2;renderBook()" ${!bk.date||!bk.time?'disabled':''}>Continue</button>
+            `;
+        }
+
+        else if (bk.step === 2) {
+            // User details form
+            const d = new Date(bk.date);
+            body.innerHTML = `
+                <h2>${s.title}</h2>
+                <div class="book-meta">${BK_DAYS[d.getDay()]}, ${d.getDate()} ${BK_MONTHS[d.getMonth()]} · ${bk.time} (IST) · ${s.duration}</div>
+                <div style="background:#f5f5f5;border-radius:10px;padding:10px 14px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;">
+                    <span style="font-size:13px;color:#666;">📅 ${bk.date} at ${bk.time}</span>
+                    <button onclick="bk.step=1;renderBook()" style="font-size:12px;font-weight:600;border:1px solid #ddd;border-radius:6px;padding:4px 12px;background:#fff;cursor:pointer;">Change</button>
+                </div>
+                <div class="book-fg"><label>Name *</label><input id="bkName" placeholder="Enter your name" value="${bk.name}"></div>
+                <div class="book-fg"><label>Email *</label><input id="bkEmail" type="email" placeholder="Enter your email" value="${bk.email}"></div>
+                <div class="book-fg"><label>Phone</label><div style="display:flex;gap:6px"><input value="+91" readonly style="width:60px;text-align:center;background:#f9f9f9"><input id="bkPhone" type="tel" placeholder="Phone number" value="${bk.phone}" style="flex:1"></div></div>
+                <div class="book-fg"><label>What would you like to discuss?</label><textarea id="bkTopic" placeholder="Brief description...">${bk.topic}</textarea></div>
+                <button class="book-btn" onclick="goToPay()">Continue to Payment · ₹${s.price}</button>
+            `;
+        }
+
+        else if (bk.step === 3) {
+            body.innerHTML = `
+                <h2>Pay ₹${s.price}</h2>
+                <div class="book-meta">${s.title} · ${bk.date} at ${bk.time}</div>
+                <div style="background:#f9f9f9;border-radius:10px;padding:16px;margin:16px 0;">
+                    <div style="display:flex;justify-content:space-between;font-size:14px;color:#666;padding:4px 0;"><span>${s.title}</span><span>₹${s.price}</span></div>
+                    <div style="display:flex;justify-content:space-between;font-size:16px;font-weight:700;border-top:1px solid #ddd;margin-top:8px;padding-top:10px;"><span>Total</span><span>₹${s.price}</span></div>
+                </div>
+                <div style="text-align:center;padding:16px 0;">
+                    <p style="font-size:14px;color:#666;margin-bottom:12px;">🔒 Pay securely via UPI, Cards, Net Banking or Wallets</p>
+                    <button class="book-btn" id="payBtn" onclick="startRzp()">Pay ₹${s.price} Now</button>
+                </div>
+            `;
+        }
+
+        else if (bk.step === 4) {
+            body.innerHTML = `
+                <div class="book-success">
+                    <div class="tick">✓</div>
+                    <h2>Booking Confirmed!</h2>
+                    <p>Thank you, <strong>${bk.name}</strong>!</p>
+                    <p style="margin-top:8px;">📅 <strong>${bk.date}</strong> at <strong>${bk.time}</strong> (IST)<br>🔖 Ref: <strong>${bk.bookingRef||''}</strong><br>💳 Payment ID: <strong>${bk.paymentId||''}</strong></p>
+                    ${bk.meetLink ? `<a href="${bk.meetLink}" target="_blank" class="meet-btn">🎥 Join Meeting</a><p style="font-size:12px;color:#999;margin-top:8px;">${bk.meetLink}</p>` : ''}
+                    <p style="margin-top:16px;font-size:13px;color:#888;">Confirmation emails sent to <strong>${bk.email}</strong></p>
+                    <button class="book-btn" style="margin-top:16px;" onclick="closeBook()">Done</button>
+                </div>
+            `;
+        }
+    }
+
+    function goToPay() {
+        const name = document.getElementById('bkName');
+        const email = document.getElementById('bkEmail');
+        if (!name.value.trim()) { name.focus(); return alert('Please enter your name.'); }
+        if (!email.value.trim() || !email.value.includes('@')) { email.focus(); return alert('Please enter a valid email.'); }
+        bk.name = name.value.trim();
+        bk.email = email.value.trim();
+        bk.phone = (document.getElementById('bkPhone')?.value || '').trim();
+        bk.topic = (document.getElementById('bkTopic')?.value || '').trim();
+        bk.step = 3;
+        renderBook();
+    }
+
+    async function startRzp() {
+        const btn = document.getElementById('payBtn');
+        btn.disabled = true;
+        btn.textContent = 'Creating order...';
+        const s = bk.session;
 
         try {
-            // Create order on backend
             const res = await fetch(API_BASE + '/api/create-order', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ amount: s.price, session_title: s.title, customer_name: name, customer_email: email })
+                body: JSON.stringify({ amount: s.price, session_title: s.title, customer_name: bk.name, customer_email: bk.email })
             });
             if (!res.ok) throw new Error('Order creation failed');
             const order = await res.json();
 
-            // Open Razorpay checkout
             const rzp = new Razorpay({
                 key: order.key_id,
                 amount: order.amount,
                 currency: order.currency,
                 order_id: order.id,
                 name: 'Priyank Vyas',
-                description: s.title,
-                prefill: { name, email, contact: phone ? '+91' + phone : '' },
+                description: s.title + ' — ' + bk.date + ' ' + bk.time,
+                prefill: { name: bk.name, email: bk.email, contact: bk.phone ? '+91' + bk.phone : '' },
                 theme: { color: '#1a1a1a' },
                 handler: async function(response) {
-                    // Verify payment on backend
+                    btn.textContent = 'Verifying payment...';
                     try {
                         const vRes = await fetch(API_BASE + '/api/verify-payment', {
                             method: 'POST',
@@ -1737,25 +1915,33 @@
                                 razorpay_order_id: response.razorpay_order_id,
                                 razorpay_payment_id: response.razorpay_payment_id,
                                 razorpay_signature: response.razorpay_signature,
-                                booking: { session: s.title, name, email, phone, date: 'TBD', time: 'TBD', topic: '' }
+                                booking: { session: s.title, duration: s.duration, date: bk.date, time: bk.time, name: bk.name, email: bk.email, phone: bk.phone, topic: bk.topic }
                             })
                         });
                         const result = await vRes.json();
                         if (result.verified) {
-                            alert('✅ Booking Confirmed!\n\nRef: ' + result.bookingRef + '\nPayment ID: ' + result.paymentId + '\n\nConfirmation emails sent to ' + email);
+                            bk.bookingRef = result.bookingRef;
+                            bk.paymentId = result.paymentId;
+                            bk.meetLink = result.meetLink;
+                            bk.step = 4;
+                            renderBook();
                         } else {
                             alert('Payment verification failed. Contact priyankvyas001@gmail.com with Payment ID: ' + response.razorpay_payment_id);
                         }
                     } catch(e) {
-                        alert('✅ Payment successful!\nPayment ID: ' + response.razorpay_payment_id + '\n\nPriyank will reach out to confirm the session.');
+                        bk.paymentId = response.razorpay_payment_id;
+                        bk.step = 4;
+                        renderBook();
                     }
                 },
-                modal: { ondismiss: function() {} }
+                modal: { ondismiss: function() { btn.disabled = false; btn.textContent = 'Pay ₹' + s.price + ' Now'; } }
             });
-            rzp.on('payment.failed', function(r) { alert('Payment failed: ' + r.error.description); });
+            rzp.on('payment.failed', function(r) { alert('Payment failed: ' + r.error.description); btn.disabled = false; btn.textContent = 'Pay ₹' + s.price + ' Now'; });
             rzp.open();
         } catch(e) {
             alert('Could not connect to payment server. Please try again.');
+            btn.disabled = false;
+            btn.textContent = 'Pay ₹' + s.price + ' Now';
         }
     }
 </script>
