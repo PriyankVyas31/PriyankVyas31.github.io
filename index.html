@@ -1553,7 +1553,10 @@
     <p>&copy; 2026 <a href="admin.html" style="color:var(--text-dim);text-decoration:none;">Priyank Vyas</a>. Built with passion for systems engineering.</p>
 </footer>
 
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>
+    const API_BASE = 'https://booking-server-412807327472.asia-south1.run.app';
+
     // Theme toggle
     const themeToggle = document.getElementById('themeToggle');
     const toggleIcon = document.getElementById('toggleIcon');
@@ -1641,8 +1644,8 @@
             if (data.sessions) {
                 const grid = document.getElementById('sessionsGrid');
                 if (grid) {
-                    grid.innerHTML = data.sessions.map(s => `
-                        <a href="${s.link}" target="_blank" rel="noopener noreferrer" class="session-card fade-up">
+                    grid.innerHTML = data.sessions.map((s, i) => `
+                        <div class="session-card fade-up" onclick="bookSession(${i})" style="cursor:pointer;">
                             ${s.popular ? '<span class="session-popular">Popular</span>' : ''}
                             <div class="session-type">
                                 <svg viewBox="0 0 24 24">${s.type === 'Priority DM'
@@ -1659,9 +1662,10 @@
                                 ${s.original ? '<span class="session-original">₹' + s.original.toLocaleString('en-IN') + '</span>' : ''}
                             </div>
                             <span class="session-book">${s.type === 'Priority DM' ? 'Send DM →' : 'Book Now →'}</span>
-                        </a>
+                        </div>
                     `).join('');
                     grid.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+                    window._sessions = data.sessions;
                 }
             }
 
@@ -1691,6 +1695,69 @@
             }
         })
         .catch(e => console.log('data.json not loaded, using static content'));
+
+    // ── Razorpay Booking Flow ──
+    async function bookSession(index) {
+        const s = window._sessions[index];
+        if (!s) return;
+
+        const name = prompt('Your Name:');
+        if (!name) return;
+        const email = prompt('Your Email:');
+        if (!email || !email.includes('@')) { alert('Please enter a valid email.'); return; }
+        const phone = prompt('Phone Number (optional):') || '';
+
+        try {
+            // Create order on backend
+            const res = await fetch(API_BASE + '/api/create-order', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ amount: s.price, session_title: s.title, customer_name: name, customer_email: email })
+            });
+            if (!res.ok) throw new Error('Order creation failed');
+            const order = await res.json();
+
+            // Open Razorpay checkout
+            const rzp = new Razorpay({
+                key: order.key_id,
+                amount: order.amount,
+                currency: order.currency,
+                order_id: order.id,
+                name: 'Priyank Vyas',
+                description: s.title,
+                prefill: { name, email, contact: phone ? '+91' + phone : '' },
+                theme: { color: '#1a1a1a' },
+                handler: async function(response) {
+                    // Verify payment on backend
+                    try {
+                        const vRes = await fetch(API_BASE + '/api/verify-payment', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                razorpay_order_id: response.razorpay_order_id,
+                                razorpay_payment_id: response.razorpay_payment_id,
+                                razorpay_signature: response.razorpay_signature,
+                                booking: { session: s.title, name, email, phone, date: 'TBD', time: 'TBD', topic: '' }
+                            })
+                        });
+                        const result = await vRes.json();
+                        if (result.verified) {
+                            alert('✅ Booking Confirmed!\n\nRef: ' + result.bookingRef + '\nPayment ID: ' + result.paymentId + '\n\nConfirmation emails sent to ' + email);
+                        } else {
+                            alert('Payment verification failed. Contact priyankvyas001@gmail.com with Payment ID: ' + response.razorpay_payment_id);
+                        }
+                    } catch(e) {
+                        alert('✅ Payment successful!\nPayment ID: ' + response.razorpay_payment_id + '\n\nPriyank will reach out to confirm the session.');
+                    }
+                },
+                modal: { ondismiss: function() {} }
+            });
+            rzp.on('payment.failed', function(r) { alert('Payment failed: ' + r.error.description); });
+            rzp.open();
+        } catch(e) {
+            alert('Could not connect to payment server. Please try again.');
+        }
+    }
 </script>
 
 </body>
