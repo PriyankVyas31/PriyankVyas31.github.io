@@ -110,6 +110,7 @@
         <button data-tab="sessions">Sessions</button>
         <button data-tab="testimonials">Testimonials</button>
         <button data-tab="youtube">YouTube</button>
+        <button data-tab="settings">⚙️ Settings</button>
     </div>
 
     <div class="admin-body">
@@ -193,6 +194,47 @@
                 <div style="margin-top:1rem;background:#f0f0f2;border-radius:10px;padding:1rem;text-align:center;">
                     <p style="font-size:13px;color:#888;margin-bottom:8px;">Preview:</p>
                     <iframe id="ytPreview" width="100%" height="250" style="border:none;border-radius:8px;" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Tab -->
+        <div class="tab-content" id="tab-settings">
+            <div class="card">
+                <h2>Booking Mode</h2>
+                <p style="font-size:13px;color:#888;margin-bottom:16px;">Choose how users book sessions when they click "Book Now"</p>
+                <div class="form-group">
+                    <label>Booking Method</label>
+                    <select id="settingsBookingMode" style="padding:10px 14px;border:1.5px solid #e5e5e5;border-radius:10px;font-size:14px;width:100%;">
+                        <option value="razorpay">🔒 Custom Payment (Razorpay + Calendar + Meeting Link)</option>
+                        <option value="topmate">🔗 Redirect to Topmate (Topmate handles everything)</option>
+                    </select>
+                </div>
+                <div id="settingsRazorpayInfo" style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:16px;margin-top:12px;">
+                    <p style="font-size:13px;color:#166534;"><strong>Custom Payment mode:</strong> Users see a calendar → pick date/time → fill form → pay via Razorpay (UPI, Cards, Net Banking) → get meeting link + confirmation email.</p>
+                </div>
+                <div id="settingsTopmateInfo" style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:16px;margin-top:12px;display:none;">
+                    <p style="font-size:13px;color:#1e40af;"><strong>Topmate mode:</strong> Clicking "Book Now" opens your Topmate profile. Topmate handles calendar, payment, and emails. No backend needed.</p>
+                </div>
+            </div>
+            <div class="card">
+                <h2>Backend Server URL</h2>
+                <p style="font-size:13px;color:#888;margin-bottom:16px;">Only used when Booking Mode is "Custom Payment". This is your GCP Cloud Run or Render server URL.</p>
+                <div class="form-group">
+                    <label>Backend API URL</label>
+                    <input type="text" id="settingsBackendUrl" placeholder="https://booking-server-xxx.asia-south1.run.app">
+                </div>
+                <div style="margin-top:8px;">
+                    <button onclick="testBackend()" style="padding:8px 16px;background:#f0f0f2;border:1.5px solid #ddd;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;">🔍 Test Connection</button>
+                    <span id="backendTestResult" style="font-size:13px;margin-left:8px;"></span>
+                </div>
+            </div>
+            <div class="card">
+                <h2>Topmate URL</h2>
+                <p style="font-size:13px;color:#888;margin-bottom:16px;">Your Topmate profile URL. Used when Booking Mode is "Topmate".</p>
+                <div class="form-group">
+                    <label>Topmate Profile URL</label>
+                    <input type="text" id="settingsTopmateUrl" placeholder="https://topmate.io/your_username">
                 </div>
             </div>
         </div>
@@ -312,6 +354,14 @@
         document.getElementById('ytEmbed').addEventListener('input', e => {
             document.getElementById('ytPreview').src = e.target.value;
         });
+
+        // Settings
+        if (!siteData.settings) siteData.settings = { bookingMode: 'razorpay', backendUrl: '', topmateUrl: 'https://topmate.io/priyank_vyas' };
+        document.getElementById('settingsBookingMode').value = siteData.settings.bookingMode || 'razorpay';
+        document.getElementById('settingsBackendUrl').value = siteData.settings.backendUrl || '';
+        document.getElementById('settingsTopmateUrl').value = siteData.settings.topmateUrl || '';
+        toggleSettingsInfo();
+        document.getElementById('settingsBookingMode').addEventListener('change', toggleSettingsInfo);
     }
 
     // ═══════════════════════════════════
@@ -376,6 +426,34 @@
                 </div>
             </div>
         `).join('');
+    }
+
+    function toggleSettingsInfo() {
+        const mode = document.getElementById('settingsBookingMode').value;
+        document.getElementById('settingsRazorpayInfo').style.display = mode === 'razorpay' ? 'block' : 'none';
+        document.getElementById('settingsTopmateInfo').style.display = mode === 'topmate' ? 'block' : 'none';
+    }
+
+    async function testBackend() {
+        const url = document.getElementById('settingsBackendUrl').value.trim();
+        const result = document.getElementById('backendTestResult');
+        if (!url) { result.textContent = 'Enter a URL first'; result.style.color = '#ef4444'; return; }
+        result.textContent = 'Testing...';
+        result.style.color = '#888';
+        try {
+            const res = await fetch(url, { mode: 'cors' });
+            const data = await res.json();
+            if (data.status === 'ok') {
+                result.textContent = 'Connected! Server is running.';
+                result.style.color = '#22c55e';
+            } else {
+                result.textContent = 'Server responded but status is not ok';
+                result.style.color = '#f59e0b';
+            }
+        } catch(e) {
+            result.textContent = 'Cannot connect: ' + e.message;
+            result.style.color = '#ef4444';
+        }
     }
 
     // ═══════════════════════════════════
@@ -452,6 +530,12 @@
         // YouTube
         siteData.youtube.title = document.getElementById('ytTitle').value;
         siteData.youtube.embedUrl = document.getElementById('ytEmbed').value;
+
+        // Settings
+        if (!siteData.settings) siteData.settings = {};
+        siteData.settings.bookingMode = document.getElementById('settingsBookingMode').value;
+        siteData.settings.backendUrl = document.getElementById('settingsBackendUrl').value.trim();
+        siteData.settings.topmateUrl = document.getElementById('settingsTopmateUrl').value.trim();
 
         return siteData;
     }

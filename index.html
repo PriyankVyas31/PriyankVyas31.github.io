@@ -1613,7 +1613,9 @@
 
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>
-    const API_BASE = 'https://booking-server-412807327472.asia-south1.run.app';
+    let API_BASE = 'https://booking-server-412807327472.asia-south1.run.app';
+    let BOOKING_MODE = 'razorpay';
+    let TOPMATE_URL = 'https://topmate.io/priyank_vyas';
 
     // Theme toggle
     const themeToggle = document.getElementById('themeToggle');
@@ -1751,6 +1753,13 @@
                 if (ytTitle && data.youtube.title) ytTitle.textContent = data.youtube.title;
                 if (ytIframe && data.youtube.embedUrl) ytIframe.src = data.youtube.embedUrl;
             }
+
+            // Settings
+            if (data.settings) {
+                BOOKING_MODE = data.settings.bookingMode || 'razorpay';
+                if (data.settings.backendUrl) API_BASE = data.settings.backendUrl;
+                if (data.settings.topmateUrl) TOPMATE_URL = data.settings.topmateUrl;
+            }
         })
         .catch(e => console.log('data.json not loaded, using static content'));
 
@@ -1762,7 +1771,17 @@
     const BK_MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
     function bookSession(i) {
-        bk = { step:1, session:window._sessions[i], date:null, time:null, offset:0, name:'', email:'', phone:'', topic:'' };
+        const s = window._sessions[i];
+        if (!s) return;
+
+        // If topmate mode, redirect to topmate
+        if (BOOKING_MODE === 'topmate') {
+            window.open(s.link || TOPMATE_URL, '_blank');
+            return;
+        }
+
+        // Otherwise, open custom booking modal
+        bk = { step:1, session:s, date:null, time:null, offset:0, name:'', email:'', phone:'', topic:'' };
         document.getElementById('bookOverlay').classList.add('active');
         document.body.style.overflow = 'hidden';
         renderBook();
